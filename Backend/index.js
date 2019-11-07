@@ -6,6 +6,7 @@ const server = new Hapi.Server({
     port: 3001  
   })
 
+
 server.route({
     method: 'GET',
     path: '/',
@@ -29,12 +30,10 @@ server.route({
         var fs = require("fs");
         var content = fs.readFileSync("boardsList.json");
         var as = JSON.parse(content);
-        as.push("piaty");//dodajemy nowy element do jsona
+        as.push(request.payload.boardName);//dodajemy nowy element do jsona
         const jsonString = JSON.stringify(as)
         fs.writeFileSync("boardsList.json",jsonString);
-        console.log(as);
-        console.log("Output Content : \n"+ content);
-        console.log("\n *EXIT* \n");  
+      
         return(as);
     }
 })

@@ -4,21 +4,21 @@ const MySQL = require('mysql');
 
 const server = new Hapi.Server({  
     host: 'localhost',
-    port: 3000
+    port: 3001  
   })
 
   
-const connection = MySQL.createConnection({
-    connectionLimit : 100,
-    host: 'sql.teatr-fenixa.nazwa.pl',
-    user: 'teatr-fenix_PAW-DataBase',
-    password: '69696969xD',
-    database: 'teatr-fenix_PAW-DataBase',
-    //user: 'teatr-fenix_PKI',
-    //password: 'Qwerty12345',
-    //database:'teatr-fenix_PKI',
-    port: 3306
-});
+// const connection = MySQL.createConnection({
+//     connectionLimit : 100,
+//     host: 'sql.teatr-fenixa.nazwa.pl',
+//     user: 'teatr-fenix_PAW-DataBase',
+//     password: '69696969xD',
+//     database: 'teatr-fenix_PAW-DataBase',
+//     //user: 'teatr-fenix_PKI',
+//     //password: 'Qwerty12345',
+//     //database:'teatr-fenix_PKI',
+//     port: 3306
+// });
 
 
 server.route({

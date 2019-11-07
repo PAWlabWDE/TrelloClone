@@ -1,9 +1,14 @@
 'use strict';
 var Hapi = require('hapi');
 
-const server = new Hapi.Server({  
+const server = new Hapi.Server({ 
     host: 'localhost',
-    port: 3001  
+    port: 3001,
+    routes:{
+        cors: true
+    }
+  
+    
   })
 
 

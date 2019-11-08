@@ -43,6 +43,18 @@ server.route({
         return(as);
     }
 })
+server.route({
+    method:"POST",
+    path:"/chooseBoard",
+    handler: function(request,reply){
+        var fs = require("fs");
+        var content = fs.readFileSync("boardsList.json");
+        //znajdź odpowidnią tablice 
+      
+        return("ZWRACANA TABLICA I JEJ KLMNY I WGL ");//do implemtanacji
+    }
+})
+
 
 
 

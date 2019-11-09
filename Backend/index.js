@@ -77,7 +77,11 @@ server.route({
         });
         if (set.has(request.payload.boardName)) {
             //tablica istnieje czyli zwracamy jej kolumny
-            return ("DANE TABLICY");
+            //odczyt z pliku danych o tablicy
+            var fs2 = require("fs");
+            var dataBoard = fs2.readFileSync(request.payload.boardName+".json");
+            var boardsData=JSON.parse(dataBoard);
+            return (boardsData);
         }
         else {
 

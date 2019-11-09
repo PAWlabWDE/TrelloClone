@@ -1,0 +1,17 @@
+{
+    "nazwaTablicy": "testPliku",
+    "kolumny": [
+        {
+            "nazwaKolumny": "ToDo",
+            "listZadan":["Zrob cos", "zjedz cos"]
+        },
+        {
+            "nazwaKolumny": "In Progress",
+            "listZadan":["Robię coś", "Jem coś"]
+        },
+        {
+            "nazwaKolumny": "Done",
+            "listZadan":["Zrobiłem", "Zjadłem"]
+        }
+    ]
+}

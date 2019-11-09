@@ -145,6 +145,39 @@ server.route({
 
     }
 })
+//dodanie nowej kolumny //2 parametry boardName, columnName
+server.route({
+    method: "POST",
+    path: "/addColumn",
+    handler: function (request, reply) {
+        var fs = require("fs");
+        var content = fs.readFileSync("boardsList.json");
+        //znajdź odpowidnią tablice 
+        var as = JSON.parse(content);
+        var set = new Set();
+        as.forEach(element => {
+            set.add(element);
+        });
+        if (set.has(request.payload.boardName)) {
+            //tablica istnieje czyli zwracamy jej kolumny
+            //odczyt z pliku danych o tablicy
+            var fs2 = require("fs");
+            var dataBoard = fs2.readFileSync(request.payload.boardName+".json");
+            var as2 = JSON.parse(dataBoard);
+            console.log(as2);
+            as2['kolumny'].push({ "nazwaKolumny": request.payload.columnName,"listZadan": []})
+            const jsonString = JSON.stringify(as2)
+            fs.writeFileSync(request.payload.boardName+".json", jsonString);
+            return (as2);
+        }
+        else {
+
+            return ("Podana tablica nie istnieje: " + request.payload.boardName);
+        }
+
+    }
+
+})
 
 
 

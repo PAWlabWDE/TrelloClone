@@ -47,7 +47,7 @@ server.route({
             const jsonString = JSON.stringify(as)
             fs.writeFileSync("boardsList.json", jsonString);
             //dodanie oddzielnego pliku na dane dla tablicy             //TODO trzeba jeszcze do jsona zapisać odpowiendie dane, bo na razie SSIE xd
-            var doPliku="{\"nazwaTablicy\": \""+request.payload.boardName+"\",\"kolumny\": [{\"nazwaKolumny\": \"\",\"listZadan\": []}]}"
+            var doPliku="{\"nazwaTablicy\": \""+request.payload.boardName+"\",\"kolumny\": []}"
             var fs2 = require('fs');
             fs2.writeFile(request.payload.boardName+".json", doPliku, function (err) {
                 if (err) {

@@ -35,8 +35,6 @@ server.route({
         var fs = require("fs");
         var content = fs.readFileSync("boardsList.json");
         var as = JSON.parse(content);
-
-        console.log("COS PRZYSZŁO: " + request.payload.boardName);
         var set = new Set();
         as.forEach(element => {
             set.add(element);
@@ -48,7 +46,7 @@ server.route({
             as.push(request.payload.boardName);//dodajemy nowy element do jsona
             const jsonString = JSON.stringify(as)
             fs.writeFileSync("boardsList.json", jsonString);
-            //dodanie oddzielnego pliku na dane dla tablicy
+            //dodanie oddzielnego pliku na dane dla tablicy             //TODO trzeba jeszcze do jsona zapisać odpowiendie dane, bo na razie SSIE xd
             var fs2 = require('fs');
             fs2.writeFile(request.payload.boardName+".json", "", function (err) {
                 if (err) {
@@ -91,6 +89,62 @@ server.route({
 
     }
 })
+function clearArray(array) {
+    while (array.length) {
+      array.pop();
+    }
+  }
+//edytuj nazwe tablicy  //2 paramtery newBoardName, oldBoardName
+server.route({
+    method: "POST",
+    path: "/editBoardName",
+    handler: function (request, reply) {
+        var fs = require("fs");
+        var content = fs.readFileSync("boardsList.json");
+        var as = JSON.parse(content);
+        var set = new Set();
+        as.forEach(element => {
+            set.add(element);
+        });
+        if (set.has(request.payload.oldBoardName)) {
+            clearArray(as);//wyczyszczenie naszje tablicy danych
+            set.delete(request.payload.oldBoardName);
+            set.add(request.payload.newBoardName)
+            set.forEach(e=>as.push(e));//dodanie do tablic do zapisu
+            const jsonString = JSON.stringify(as)
+            fs.writeFileSync("boardsList.json", jsonString);
+            //tutaj edycja konkretnego pliku danej tablicy
+            var fs2 = require("fs");
+            var data = fs2.readFileSync(request.payload.oldBoardName+".json");
+            var as2 = JSON.parse(data);
+            as2.nazwaTablicy = request.payload.newBoardName;
+            const jsonString2 = JSON.stringify(as2)
+            var fs3 = require('fs');
+            fs3.writeFile(request.payload.newBoardName+".json", jsonString2, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+            //usuń stary plik
+            try {
+                fs2.unlinkSync(request.payload.oldBoardName+".json")
+                //file removed
+              } catch(err) {
+                console.error(err)
+              }
+
+            return ("Zmieniono nazwe tablicy: "+request.payload.oldBoardName+" na: "+request.payload.newBoardName);
+        }
+        else {
+         
+            return ("Tablica nie istnieje: " + request.payload.boardName+"\nCzyli nie zmienisz nazwy");
+        }
+
+
+
+    }
+})
+
 
 
 

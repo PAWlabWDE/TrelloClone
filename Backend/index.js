@@ -138,7 +138,7 @@ server.route({
         }
         else {
          
-            return ("Tablica nie istnieje: " + request.payload.boardName+"\nCzyli nie zmienisz nazwy");
+            return ("Tablica nie istnieje: " + request.payload.oldBoardName+"\nCzyli nie zmienisz nazwy");
         }
 
 

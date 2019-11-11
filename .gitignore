@@ -21,3 +21,49 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+#BACKEND
+# dependencies
+/Backend/node_modules
+/Backend/.pnp
+/Backend/.pnp.js
+
+# testing
+/Backend/coverage
+
+# production
+/Backend/build
+
+# misc
+/Backend/.DS_Store
+/Backend/.env.local
+/Backend/.env.development.local
+/Backend/.env.test.local
+/Backend/.env.production.local
+
+/Backend/npm-debug.log*
+/Backend/yarn-debug.log*
+/Backend/yarn-error.log*
+
+#FRONTEND
+# dependencies
+/Frontend/node_modules
+/Frontend/.pnp
+/Frontend/.pnp.js
+
+# testing
+/Frontend/coverage
+
+# production
+/Frontend/build
+
+# misc
+/Frontend/.DS_Store
+/Frontend/.env.local
+/Frontend/.env.development.local
+/Frontend/.env.test.local
+/Frontend/.env.production.local
+
+/Frontend/npm-debug.log*
+/Frontend/yarn-debug.log*
+/Frontend/yarn-error.log*

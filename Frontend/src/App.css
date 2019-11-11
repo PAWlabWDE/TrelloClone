@@ -1,10 +1,12 @@
 html,
 body {
     height: 100%;
+    text-align: center;
+    background-image: url("img/dark-honeycomb.png");
 }
 
 
-.container {
+/* .container {
     display: grid;
     grid-template-rows: 10% 20% 700% ;
     grid-template-areas: "header" "nav" "section";
@@ -46,7 +48,7 @@ body {
 
 
 
-/*Small screen*/
+
 
 .header,
 .nav,
@@ -57,14 +59,14 @@ body {
 }
 
 
-/*Second width*/
+
 
 @media (min-width: 768px) {
     .container {
         display: grid;
         grid-template-columns: 150px auto 150px;
-        grid-template-rows: 20% 80% ;
-        grid-template-areas: "header header header" "nav section section" ;
+        grid-template-rows: 20% 80%;
+        grid-template-areas: "header header header" "nav section section";
         align-content: stretch;
         height: 100%;
     }
@@ -73,4 +75,4 @@ body {
     }
 }
 
-
+*/

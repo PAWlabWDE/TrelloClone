@@ -1,9 +1,1 @@
-{
-    "nazwaTablicy": "test1234",
-    "kolumny": [
-        {
-            "nazwaKolumny": "nowaKolumna",
-            "listZadan": []
-        }
-    ]
-}
+{"nazwaTablicy": "test1234","kolumny": []}

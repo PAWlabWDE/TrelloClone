@@ -56,6 +56,8 @@ Paramatery: "newBoardName" : nowaNazwa
             "oldBoardName" : staraNazawa
 Retrun: "Tablica nie istnieje: " + jejNazwa;
 lub 
+"Inna tablica ma taką samę nazwę. \nZmiana nazwy nie została dokonana"
+lub 
 "Zmieniono nazwe tablicy: "+oldBoardName+" na: "+ newBoardName
 
 ```

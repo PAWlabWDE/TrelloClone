@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import BoardLink from "./BoardLink";
 import "./Todo.css";
 
@@ -9,17 +9,15 @@ chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security
 i tam localhost:3000
 */
 
-
-const API = 'http://localhost:3001';
-const DEFAULT_QUERY = '/getAllBoards';
+const API = "http://localhost:3001";
+const DEFAULT_QUERY = "/getAllBoards";
 export default class Todo extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       list: [],
-      text: ''
-    }
+      text: ""
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.chooseBoard = this.chooseBoard.bind(this);
@@ -28,7 +26,10 @@ export default class Todo extends Component {
     console.log("wywyoalja siie TODO");
     fetch(API + DEFAULT_QUERY)
       .then(response => response.json())
-      .then(data => { this.setState({ list: data }); console.log(data); });
+      .then(data => {
+        this.setState({ list: data });
+        console.log(data);
+      });
   }
   handleSubmit(e) {
     e.preventDefault();
@@ -36,60 +37,55 @@ export default class Todo extends Component {
     if (this.state.text !== "") {
       this.setState(prevState => ({
         list: prevState.list.concat(this.state.text),
-        text: ''
-      }))
+        text: ""
+      }));
       //tutaj wyślij do serwera nową tablicę
       fetch(API + "/addBoard", {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          Accept: "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           boardName: this.state.text
         })
-      })
+      });
     }
-
-
   }
 
   handleChange(e) {
     //console.log("handleChange");
     this.setState({
       text: e.target.value
-    })
+    });
   }
 
   chooseBoard(index) {
     console.log("chooseBoard");
-
-
   }
 
   render() {
-
     return (
       <div class="center">
-        <h4>BOARD LIST</h4>
+        <h4 className="text-white"> BOARD LIST </h4>
         <form onSubmit={this.handleSubmit}>
           <input value={this.state.text} onChange={e => this.handleChange(e)} />
           <p />
-          <button class="btn btn-success">Add Board</button>
-          <p /><p />
+          <button class="btn btn-success"> Add Board </button> <p /> <p />
           <ol>
             {this.state.list.map((item, index) => {
               return (
-                <ul >
+                <ul>
                   <p />
                   <div class="center">
-                    <BoardLink name={item}></BoardLink>
+                    <BoardLink name={item}> </BoardLink>
                   </div>
-                </ul>)
+                </ul>
+              );
             })}
           </ol>
         </form>
       </div>
-    )
+    );
   }
 }

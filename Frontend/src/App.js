@@ -19,7 +19,7 @@ class App extends Component {
       <Router>
         <container className="container" role="main">
           <div clsssName="row">
-            <header className="col-md-12 text-center text-reset">
+            <header className="col-md-12 text-center text-white">
               <h1>Trello clone</h1>
             </header>
             <nav className="col-md-3">

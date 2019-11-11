@@ -19,7 +19,9 @@ class App extends Component {
       <Router>
         <container className="container" role="main">
           <div clsssName="row">
-            <header className="col-md-12">Trello clone</header>
+            <header className="col-md-12 text-center text-reset">
+              <h1>Trello clone</h1>
+            </header>
             <nav className="col-md-3">
               <Todo />
             </nav>

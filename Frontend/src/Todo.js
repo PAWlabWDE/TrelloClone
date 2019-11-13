@@ -66,17 +66,17 @@ export default class Todo extends Component {
 
   render() {
     return (
-      <div class="center">
+      <div className="center">
         <h4 className="text-white"> BOARD LIST </h4>
         <form onSubmit={this.handleSubmit}>
           <input value={this.state.text} onChange={e => this.handleChange(e)} />
           <p />
-          <button class="btn btn-success"> Add Board </button> <p /> <p />
+          <button className="btn btn-success"> Add Board </button> <p /> <p />
           {this.state.list.map((item, index) => {
-            return (            
-                <div class="center" class="p">
-                  <BoardLink name={item}> </BoardLink>
-                </div>              
+            return (
+              <div className="center" class="p">
+                <BoardLink name={item}> </BoardLink>
+              </div>
             );
           })}
         </form>

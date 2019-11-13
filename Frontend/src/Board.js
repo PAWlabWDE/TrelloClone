@@ -79,6 +79,9 @@ class Board extends Component {
         {
           this.setState({ name: val });
         }
+        else{
+          console.log("nie powiodło się")//przydałoby się jakieś wykakujące okienko
+        }
     });
 
   }

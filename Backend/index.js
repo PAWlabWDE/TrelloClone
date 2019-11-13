@@ -115,7 +115,7 @@ var handlers = {
                     console.error(err)
                 }
 
-                return ("Zmieniono nazwe tablicy: " + request.payload.oldBoardName + " na: " + request.payload.newBoardName);
+                return ("Zmieniono nazwe tablicy");
             }
 
         }

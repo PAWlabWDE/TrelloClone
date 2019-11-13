@@ -1,0 +1,13 @@
+{
+    "nazwaTablicy": "testing",
+    "kolumny": [
+        {
+            "nazwaKolumny": "druga",
+            "listZadan": []
+        },
+        {
+            "nazwaKolumny": "trzecia",
+            "listZadan": []
+        }
+    ]
+}

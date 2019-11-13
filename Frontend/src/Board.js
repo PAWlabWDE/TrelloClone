@@ -62,6 +62,25 @@ class Board extends Component {
   }
   onSave = val => {
     console.log('Edited Value -> ', val)
+    fetch(API + "/editBoardName", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        newBoardName: val,
+        oldBoardName: this.props.name
+      })
+    }).then(response=>response.json())
+    .then(data=>{
+      console.log(Object.values(data))
+        if("Zmieniono nazwe tablicy"===Object.values(data))
+        {
+          this.setState({ name: val });
+        }
+    });
+
   }
 
   render() {

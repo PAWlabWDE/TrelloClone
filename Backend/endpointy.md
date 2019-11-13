@@ -58,7 +58,7 @@ Retrun: "Tablica nie istnieje: " + jejNazwa;
 lub 
 "Inna tablica ma taką samę nazwę. \nZmiana nazwy nie została dokonana"
 lub 
-"Zmieniono nazwe tablicy: "+oldBoardName+" na: "+ newBoardName
+"Zmieniono nazwe tablicy"
 
 ```
 ## Dodaj nową kolumne do tablicy

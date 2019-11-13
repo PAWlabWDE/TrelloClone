@@ -72,18 +72,15 @@ export default class Todo extends Component {
           <input value={this.state.text} onChange={e => this.handleChange(e)} />
           <p />
           <button class="btn btn-success"> Add Board </button> <p /> <p />
-          <ol>
-            {this.state.list.map((item, index) => {
-              return (
-                <ul>
-                  <p />
-                  <div class="center">
-                    <BoardLink name={item}> </BoardLink>
-                  </div>
-                </ul>
-              );
-            })}
-          </ol>
+          {this.state.list.map((item, index) => {
+            return (
+              <p >
+                <div class="center">
+                  <BoardLink name={item}> </BoardLink>
+                </div>
+              </p>
+            );
+          })}
         </form>
       </div>
     );

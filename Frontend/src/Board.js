@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+const API = "http://localhost:3001";
+const DEFAULT_QUERY = "/chooseBoard";
+
 class Board extends Component {
   constructor(props) {
     super(props);
@@ -7,6 +10,34 @@ class Board extends Component {
     this.props = {
       name: props.name
     };
+  }
+
+  componentDidMount() {
+   // fetch(API + "/chooseBoard", {
+      //       method: "POST",
+      //       headers: {
+      //         Accept: "application/json",
+      //         "Content-Type": "application/json"
+      //       },
+      //       body: JSON.stringify({
+      //         boardName: this.state.text
+      //       })
+      //     });
+    fetch(API + DEFAULT_QUERY,{
+      method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              boardName: this.state.name
+            })
+    }
+      .then(response => response.json())
+      .then(data => {
+        //this.setState({ list: data });
+        console.log(data);
+      }));
   }
   render() {
 

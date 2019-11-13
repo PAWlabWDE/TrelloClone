@@ -48,7 +48,6 @@ export default class Todo extends Component {
   }
 
   handleChange(e) {
-    //console.log("handleChange");
     this.setState({
       text: e.target.value
     });

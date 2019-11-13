@@ -69,10 +69,10 @@ export default class Todo extends Component {
           {this.state.list.map((item, index) => {
             return (
               <div className="center" class="p">
-                
+
                 <div className="center">
                   <p>
-                    <a href={"/"+item}>
+                    <a href={"/" + item}>
                       <Button bsStyle="primary"> {item} </Button>
                     </a>
                   </p>

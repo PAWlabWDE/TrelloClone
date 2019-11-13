@@ -6,39 +6,30 @@ const DEFAULT_QUERY = "/chooseBoard";
 class Board extends Component {
   constructor(props) {
     super(props);
-
     this.props = {
       name: props.name
     };
   }
 
   componentDidMount() {
-   // fetch(API + "/chooseBoard", {
-      //       method: "POST",
-      //       headers: {
-      //         Accept: "application/json",
-      //         "Content-Type": "application/json"
-      //       },
-      //       body: JSON.stringify({
-      //         boardName: this.state.text
-      //       })
-      //     });
-    fetch(API + DEFAULT_QUERY,{
+    fetch(API + DEFAULT_QUERY, {
       method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              boardName: this.state.name
-            })
-    }
-      .then(response => response.json())
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        boardName: this.props.name
+      })
+    }).then(response => response.json())
       .then(data => {
-        //this.setState({ list: data });
+
         console.log(data);
-      }));
+      });
+
   }
+
+
   render() {
 
     console.log("Board : " + this.props.name);

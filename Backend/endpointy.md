@@ -67,7 +67,7 @@ POST
 "/addColumn"
 Paramatery: "boardName" : nazawaTAblicy
             "columnName" : dodawanaKolumna //(nazwy mogą się duplikować)
-Retrun:("Podana tablica nie istnieje: " +  + jejNazwa;
+Retrun:("Podana tablica nie istnieje");
 lub JSON z danymi tablicy:
 np:
 {

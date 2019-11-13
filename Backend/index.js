@@ -146,7 +146,7 @@ var handlers = {
         }
         else {
 
-            return ("Podana tablica nie istnieje: " + request.payload.boardName);
+            return ("Podana tablica nie istnieje");
         }
     }
 }

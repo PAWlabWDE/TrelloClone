@@ -1,15 +1,22 @@
 import React, { Component } from "react";
 import EdiText from 'react-editext'
+import { Button } from "react-bootstrap";
+import Column from "./Column";
 
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/chooseBoard";
+
+const divStyle = {
+  display: 'flex',
+  alignItems: 'center'
+};
 
 class Board extends Component {
   constructor(props) {
     super(props);
     this.props = {
       name: props.name,
-      columnList: []
+      columnList: ["adsadsad","asdasdasd","adasdasd","dsadasdas","asdasdas"]
     };
   }
 
@@ -27,15 +34,15 @@ class Board extends Component {
       .then(data => {
         console.log(JSON.stringify(data));
         var obj = JSON.stringify(data);
-        console.log("Nazawa "+obj['nazwaTablicy']);
+        console.log("Nazawa " + obj['nazwaTablicy']);
         console.log(JSON.stringify(obj['kolumny']));
-        var obj2=JSON.stringify(obj['kolumny']);
+        var obj2 = JSON.stringify(obj['kolumny']);
 
 
-        console.log("data: "+data);
-        console.log("Object.values(data): "+Object.values(data));
-        var list  = Object.values(data);
-        list.map(i=>console.log("map: "+Object.values(i)))
+        console.log("data: " + data);
+        console.log("Object.values(data): " + Object.values(data));
+        var list = Object.values(data);
+        list.map(i => console.log("map: " + Object.values(i)))
         //var test =data['kolumny'].json();
         // Object.keys(data).map(id => {
         //   console.log("Data: " + id);
@@ -72,33 +79,41 @@ class Board extends Component {
         newBoardName: val,
         oldBoardName: this.props.name
       })
-    }).then(response=>response.json())
-    .then(data=>{
-      console.log(Object.values(data))
-        if("Zmieniono nazwe tablicy"===Object.values(data))
-        {
+    }).then(response => response.json())
+      .then(data => {
+        console.log(Object.values(data))
+        if ("Zmieniono nazwe tablicy" === Object.values(data)) {
           this.setState({ name: val });
         }
-        else{
+        else {
           console.log("nie powiodło się")//przydałoby się jakieś wykakujące okienko
         }
-    });
+      });
 
   }
 
   render() {
     // console.log(this.props.columnList);
+   // this.setState({columnList:["adsadsad","asdasdasd","adasdasd","dsadasdas","asdasdas"], name:""});
     return (
-      <div>
-        <h2 text-center text-white>{this.props.name}  {this.props.columnList}</h2>
-        <EdiText text-center text-white
-          type="text"
-          value={this.props.name}
-          onSave={this.onSave}
-          editOnViewClick	="true"
-          
-        />
+      <div style={divStyle}>
+      <div className="col-md-12">
+        <Button bsStyle="primary">
+          <EdiText text-center text-white
+            type="text"
+            value={this.props.name}
+            onSave={this.onSave}
+            editOnViewClick="true" />
+        </Button>
       </div>
+      <div>
+        {/* {this.props.columnList.map((item,index)=>
+        {
+          return <Column boardName={this.props.name} columnName={item}/> 
+        })}*/}
+        </div> 
+      </div>
+
     );
   }
 }

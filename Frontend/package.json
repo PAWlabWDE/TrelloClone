@@ -10,6 +10,7 @@
     "react-editext": "^3.9.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
+    "react-scrollbar-size": "^2.1.0",
     "recharts": "^1.8.5"
   },
   "scripts": {

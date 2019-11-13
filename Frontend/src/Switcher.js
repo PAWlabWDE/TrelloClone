@@ -2,6 +2,7 @@ import { BrowserRouter as Switch, Route } from "react-router-dom";
 import React, { Component } from 'react';
 const API = 'http://localhost:3001';
 const DEFAULT_QUERY = '/getAllBoards';
+
 export default class Switcher extends Component {
 
     constructor(props) {
@@ -28,6 +29,7 @@ export default class Switcher extends Component {
                         <Route exact path={linkAdddres} key={item}>
                             <div className="text-center text-white">
                                 <h1>{item}</h1>
+                                {/* <Board/> */}
                             </div>
                         </Route>
                     )

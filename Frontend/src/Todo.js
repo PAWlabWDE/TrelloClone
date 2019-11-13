@@ -1,13 +1,7 @@
 import React, { Component } from "react";
-import BoardLink from "./BoardLink";
 import "./Todo.css";
+import { Button } from "react-bootstrap";
 
-/*
-Jak chcesz zoabczyć czy działą to urhcom w nastepujacy sposób
-win+r
-chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security
-i tam localhost:3000
-*/
 
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/getAllBoards";
@@ -75,7 +69,14 @@ export default class Todo extends Component {
           {this.state.list.map((item, index) => {
             return (
               <div className="center" class="p">
-                <BoardLink name={item}> </BoardLink>
+                
+                <div className="center">
+                  <p>
+                    <a href={"/"+item}>
+                      <Button bsStyle="primary"> {item} </Button>
+                    </a>
+                  </p>
+                </div>
               </div>
             );
           })}

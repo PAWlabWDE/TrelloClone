@@ -1,49 +1,46 @@
-import React, { Component } from "react";
-import { BrowserRouter as Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
-import "./Todo.css";
-import "./App.css";
-const API = "http://localhost:3001";
+// import React, { Component } from "react";
+// import { BrowserRouter as Link } from "react-router-dom";
+// import { Button } from "react-bootstrap";
+// import "./Todo.css";
+// import "./App.css";
+// const API = "http://localhost:3001";
 
-class BoardLink extends Component {
-  constructor(props) {
-    super(props);
+// class BoardLink extends Component {
+//   constructor(props) {
+//     super(props);
 
-    this.props = {
-      name: ""
-    };
-  }
-  handleSubmit(e) {
-    e.preventDefault();
+//     this.props = {
+//       name: props.name
+//     };
+//   }
+//   handleSubmit(e) {
+//     e.preventDefault();
 
-    fetch(API + "/chooseBoard", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        boardName: this.state.text
-      })
-    });
-  }
-  render() {
-    var linkAdddres = "/".concat(this.props.name);
-    console.log("Board Link: " + linkAdddres);
+//     fetch(API + "/chooseBoard", {
+//       method: "POST",
+//       headers: {
+//         Accept: "application/json",
+//         "Content-Type": "application/json"
+//       },
+//       body: JSON.stringify({
+//         boardName: this.state.text
+//       })
+//     });
+//   }
+//   render() {
+//     var linkAdddres = "/".concat(this.props.name);
+//     console.log("Board Link: " + linkAdddres);
 
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="center">
-          {/* <Link to={linkAdddres}> */}
-          <a href={linkAdddres}>
-            <Button bsStyle="primary"> {this.props.name} </Button>
-          </a>
-          {/* </Link> */}
-        </div>
-        <section className="section"> {this.props.name} </section>
-      </form>
-    );
-  }
-}
+//     return (
+//         <div className="center">
+//           <p>
+//           <a href={linkAdddres}>
+//             <Button bsStyle="primary"> {this.props.name} </Button>
+//           </a>
+//           </p>     
+//         </div>  
+//     );
+//   }
+// }
 
-export default BoardLink;
+// export default BoardLink;

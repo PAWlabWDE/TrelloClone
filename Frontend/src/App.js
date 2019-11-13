@@ -26,7 +26,7 @@ class App extends Component {
               <Todo />
             </nav>
             <section className="col-md-9">
-              <Switcher />
+              <setList/>
             </section>
           </div>
         </container>
@@ -35,7 +35,10 @@ class App extends Component {
   }
 }
 export function setList(params) {
-  return 0;
+  console.log(params);
+  return (<div className="text-center text-white">
+      {params} 
+  </div>);
 }
 
 export default App;

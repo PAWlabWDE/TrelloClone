@@ -1,7 +1,7 @@
-import { BrowserRouter as  Switch, Route } from "react-router-dom";
+import { BrowserRouter as Switch, Route } from "react-router-dom";
 import React, { Component } from 'react';
 const API = 'http://localhost:3001';
-const DEFAULT_QUERY = '/getAllBoards';  
+const DEFAULT_QUERY = '/getAllBoards';
 export default class Switcher extends Component {
 
     constructor(props) {
@@ -15,9 +15,9 @@ export default class Switcher extends Component {
     componentDidMount() {
         console.log("wywyoalja siie SWITCHER");
         fetch(API + DEFAULT_QUERY)
-        .then(response => response.json())
-        .then(data => this.setState({ list: data }));
-      }
+            .then(response => response.json())
+            .then(data => this.setState({ list: data }));
+    }
     render() {
         return (
             <Switch>
@@ -25,8 +25,10 @@ export default class Switcher extends Component {
                     var linkAdddres = "/".concat(item);
                     console.log(linkAdddres);
                     return (
-                        <Route exact path={linkAdddres}>
-                            {item}
+                        <Route exact path={linkAdddres} key={item}>
+                            <div className="text-center text-white">
+                                <h1>{item}</h1>
+                            </div>
                         </Route>
                     )
                 })}

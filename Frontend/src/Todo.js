@@ -73,12 +73,10 @@ export default class Todo extends Component {
           <p />
           <button class="btn btn-success"> Add Board </button> <p /> <p />
           {this.state.list.map((item, index) => {
-            return (
-              <p >
-                <div class="center">
+            return (            
+                <div class="center" class="p">
                   <BoardLink name={item}> </BoardLink>
-                </div>
-              </p>
+                </div>              
             );
           })}
         </form>

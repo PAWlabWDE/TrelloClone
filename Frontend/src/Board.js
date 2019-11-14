@@ -18,6 +18,7 @@ class Board extends Component {
       name: props.name,
       columnList: ["adsadsad","asdasdasd","adasdasd","dsadasdas","asdasdas"]
     };
+    this.addColumnHandler = this.addColumnHandler.bind(this);
   }
 
   componentDidMount() {
@@ -67,6 +68,9 @@ class Board extends Component {
       });
 
   }
+  addColumnHandler(){
+
+  }
   onSave = val => {
     console.log('Edited Value -> ', val)
     fetch(API + "/editBoardName", {
@@ -87,6 +91,7 @@ class Board extends Component {
         }
         else {
           console.log("nie powiodło się")//przydałoby się jakieś wykakujące okienko
+          alert("no nie pykła zmiana nazwy");
         }
       });
 
@@ -97,7 +102,11 @@ class Board extends Component {
    // this.setState({columnList:["adsadsad","asdasdasd","adasdasd","dsadasdas","asdasdas"], name:""});
     return (
       <div style={divStyle}>
+        <div className="col-md-1">
+        <Button variant="info" alignItems="left" onClick={this.addColumnHandler}>Dodaj kolumnę</Button>
+        </div>
       <div className="col-md-12">
+       
         <Button bsStyle="primary">
           <EdiText text-center text-white
             type="text"

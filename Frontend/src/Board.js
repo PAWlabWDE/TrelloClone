@@ -15,11 +15,11 @@ class Board extends Component {
   constructor(props) {
     super(props);
     this.state={
-      textFieldValue: ''
+      textFieldValue: '',
+      columnList:[]
     }
     this.props = {
-      name: props.name,
-      columnList: ["adsadsad","asdasdasd","adasdasd","dsadasdas","asdasdas"]
+      name: props.name
 
     };
     this.addColumnHandler = this.addColumnHandler.bind(this);
@@ -40,15 +40,26 @@ class Board extends Component {
       .then(data => {
         console.log(JSON.stringify(data));
         var obj = JSON.stringify(data);
-        console.log("Nazawa " + obj['nazwaTablicy']);
-        console.log(JSON.stringify(obj['kolumny']));
-        var obj2 = JSON.stringify(obj['kolumny']);
+        var parsedJSON=JSON.parse(obj);
+        console.log("Nazawa " + parsedJSON['nazwaTablicy']);
+        this.setState({ name: parsedJSON['nazwaTablicy'] });
+        parsedJSON['kolumny'].map(el=>{
+         // this.setState({ this.props.columnList.push(id2); });
+         this.setState(state => {
+          const list = state.columnList.push(el);
+          return {
+            list
+          };
+        });
+          console.log(el['nazwaKolumny']);
+        });
+        console.log(this.props.name)
+        console.log(this.state.columnList)
 
-
-        console.log("data: " + data);
-        console.log("Object.values(data): " + Object.values(data));
-        var list = Object.values(data);
-        list.map(i => console.log("map: " + Object.values(i)))
+        // console.log("data: " + data);
+        // console.log("Object.values(data): " + Object.values(data));
+        // var list = Object.values(data);
+        // list.map(i => console.log("map: " + Object.values(i)))
         //var test =data['kolumny'].json();
         // Object.keys(data).map(id => {
         //   console.log("Data: " + id);
@@ -126,8 +137,7 @@ class Board extends Component {
         <div className="col-md-5">
         <Button variant="info" alignItems="left" onClick={this.addColumnHandler}>Dodaj kolumnę</Button>
         </div>
-      <div className="col-md-8">
-       
+      <div className="col-md-8">       
         <Button bsStyle="primary">
           <EdiText text-center text-white
             type="text"
@@ -136,12 +146,11 @@ class Board extends Component {
             editOnViewClick="true" />
         </Button>
       </div>
-      <div>
         {/* {this.props.columnList.map((item,index)=>
         {
           return <Column boardName={this.props.name} columnName={item}/> 
         })}*/}
-        </div> 
+       
       </div>
 
     );

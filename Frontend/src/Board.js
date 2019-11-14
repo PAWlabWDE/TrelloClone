@@ -14,11 +14,16 @@ const divStyle = {
 class Board extends Component {
   constructor(props) {
     super(props);
+    this.state={
+      textFieldValue: ''
+    }
     this.props = {
       name: props.name,
       columnList: ["adsadsad","asdasdasd","adasdasd","dsadasdas","asdasdas"]
+
     };
     this.addColumnHandler = this.addColumnHandler.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -69,7 +74,18 @@ class Board extends Component {
 
   }
   addColumnHandler(){
-
+    console.log("Dodaj kolumne "+this.state.textFieldValue);
+    fetch(API + "/addColumn", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        boardName: this.props.name,
+        columnName: this.state.textFieldValue
+      })
+    })
   }
   onSave = val => {
     console.log('Edited Value -> ', val)
@@ -85,7 +101,7 @@ class Board extends Component {
       })
     }).then(response => response.json())
       .then(data => {
-        console.log(Object.values(data))
+        console.log(JSON.stringify(data))
         if ("Zmieniono nazwe tablicy" === Object.values(data)) {
           this.setState({ name: val });
         }
@@ -96,16 +112,21 @@ class Board extends Component {
       });
 
   }
-
+  handleChange(event) {
+    this.setState({textFieldValue: event.target.value});
+  }
   render() {
     // console.log(this.props.columnList);
    // this.setState({columnList:["adsadsad","asdasdasd","adasdasd","dsadasdas","asdasdas"], name:""});
     return (
       <div style={divStyle}>
         <div className="col-md-1">
+        <input type="text" value={this.state.textFieldValue} onChange={this.handleChange} />
+        </div>
+        <div className="col-md-5">
         <Button variant="info" alignItems="left" onClick={this.addColumnHandler}>Dodaj kolumnę</Button>
         </div>
-      <div className="col-md-12">
+      <div className="col-md-8">
        
         <Button bsStyle="primary">
           <EdiText text-center text-white

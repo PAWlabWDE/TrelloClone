@@ -1,3 +1,5 @@
+## Jesli problem z bcrypt to powershell admina i komedna: npm install --global --production windows-build-tools
+
 # Nasze Endpointy
 localhost:3001
 

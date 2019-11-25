@@ -1,15 +1,15 @@
- 'use strict';
- const Hapi = require('hapi');
- const port        = process.env.PORT || 3001;
- const secret = require('./config');
- const JWT         = require('jsonwebtoken'); 
- const hapiAuthJWT = require('./lib/');
- const people = {
+'use strict';
+const Hapi = require('hapi');
+const port = process.env.PORT || 3001;
+const secret = require('./config');
+const JWT = require('jsonwebtoken');
+const hapiAuthJWT = require('./lib/');
+const people = {
     1: {
-      id: 1,
-      name: 'Anthony Valid User'
+        id: 1,
+        name: 'Anthony Valid User'
     },
-    2:{
+    2: {
         id: 2,
         name: 'Mateusz Baranski'
     }
@@ -26,18 +26,22 @@ const validate = async function (decoded, request, h) {
     console.log(request.info);
     console.log(" - - - - - - - user agent:");
     console.log(request.headers['user-agent']);
-  
+
     // do your checks to see if the person is valid
     if (!people[decoded.id]) {
-      return { isValid: false };
+        return { isValid: false };
     }
     else {
-      return { isValid : true };
+        return { isValid: true };
     }
-  };
-  const init = async() => {
+};
+
+
+const handlers = require('./handlers');
+
+const init = async () => {
     const server = new Hapi.Server({
-        port: port, 
+        port: port,
         routes: {
             cors: true
         }
@@ -45,40 +49,37 @@ const validate = async function (decoded, request, h) {
     await server.register(hapiAuthJWT);
     // see: http://hapijs.com/api#serverauthschemename-scheme
     server.auth.strategy('jwt', 'jwt',
-    { key: secret,
-      validate,
-      verifyOptions: { ignoreExpiration: true }
-    });
-  
+        {
+            key: secret,
+            validate,
+            verifyOptions: { ignoreExpiration: true }
+        });
+
     server.auth.default('jwt');
-  
+
     server.route([
-      {
-        method: "GET", path: "/", config: { auth: false },
-        handler: function(request, h) {
-          return {text: 'Token not required'};
-        }
-      },
-      {
-        method: 'GET', path: '/restricted', config: { auth: 'jwt' },
-        handler: function(request, h) {
-          const response = h.response({message: 'You used a Valid JWT Token to access /restricted endpoint!'});
-          response.header("Authorization", request.headers.authorization);
-          return response;
-        }
-      }
+        { path: '/login', method: 'POST', config: { auth: false }, handler: handlers.login },
+        { path: '/register', method: 'POST', config: { auth: false }, handler: handlers.register },
+        { path: '/', method: 'GET', config: { auth: 'jwt' }, handler: handlers.post },
+        { path: '/getAllBoards', method: 'GET', config: { auth: false }, handler: handlers.getAllBoards },
+        { path: '/addBoard', method: 'POST', config: { auth: 'jwt' }, handler: handlers.addBoard },
+        { path: '/chooseBoard', method: 'POST', config: { auth: 'jwt' }, handler: handlers.chooseBoard },
+        { path: '/editBoardName', method: 'POST', config: { auth: 'jwt' }, handler: handlers.editBoardName },
+        { path: '/addColumn', method: 'POST', config: { auth: 'jwt' }, handler: handlers.addColumn },
+        { path: '/restricted', method: 'GET', config: { auth: 'jwt' }, handler: handlers.restricted }
     ]);
+
     await server.start();
     return server;
-    
-    
-  };
-  
-  init().then(server => {
+
+
+};
+
+init().then(server => {
     console.log('Server running at:', server.info.uri);
-  }).catch(err => {
+}).catch(err => {
     console.log(err);
-  });
+});
 // const Mongoose = require("mongoose");
 // /**************************UWAGA*********************
 //  * do poprawnego działania musimy mieć plik boardsList.json w folerze ourDatabase
@@ -282,13 +283,13 @@ const validate = async function (decoded, request, h) {
 //************************************************************************************************************************ */
 // var Hapi = require('hapi');
 // var jwt = require('jsonwebtoken');
- 
+
 // // IMPORTANT: you must bring your own validation function
 // var validate = function (token, request, callback) {
- 
+
 //     var publicKey = 'someKey';
 //     jwt.verify(token, publicKey, function (err, decoded) {
- 
+
 //       if (err) {
 //         return callback(err)
 //       }
@@ -297,7 +298,7 @@ const validate = async function (decoded, request, h) {
 //       return callback(null, true, decoded);
 //     });
 // };
- 
+
 
 // const server = new Hapi.Server({
 //         host: 'localhost',
@@ -308,24 +309,24 @@ const validate = async function (decoded, request, h) {
 //     })
 //         // include our module here ↓↓
 // server.register(require('hapi-auth-jwt-simple'), function (err) {
- 
+
 //     if(err){
 //       console.log(err);
 //     }
- 
+
 //     server.auth.strategy('jwt', 'jwt', {
 //       validateFunc: validate
 //     });
- 
+
 //     server.auth.default('jwt');
- 
+
 //     server.route([
 //       {
 //         method: "GET", path: "/", config: { auth: false },
 //         handler: function(request, reply) {
 //           //reply({text: 'Token not required'} );
 //           return "HEllo";
-         
+
 //         }
 //       },
 //       {
@@ -337,7 +338,7 @@ const validate = async function (decoded, request, h) {
 //       }
 //     ]);
 // });
- 
+
 // server.start(function () {
 //   console.log('Server running at:', server.info.uri);
 // });

@@ -1,0 +1,15 @@
+{
+    "people" : [{
+        "email":"mateusz@gmail.com",
+        "login":"mateusz",
+        "password":"mateusz",
+        "boardList":[],
+        "boardListAccess":[]
+    }, {
+        "email":"admin@gmail.com",
+        "login":"admin",
+        "password":"admin",
+        "boardList":[],
+        "boardListAccess":[]
+    }]
+}

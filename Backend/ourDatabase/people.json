@@ -1,20 +1,8 @@
 {
     "people": [
         {
-            "email": "mateusz@gmail.com",
-            "password": "mateusz",
-            "boardList": [],
-            "boardListAccess": []
-        },
-        {
-            "email": "admin@gmail.com",
-            "password": "admin",
-            "boardList": [],
-            "boardListAccess": []
-        },
-        {
-            "email": "mateusz2@gmail.com",
-            "password": "test",
+            "email": "nowy21@gmail.com",
+            "password": "nowy21",
             "boardList": [],
             "boardListAccess": []
         }

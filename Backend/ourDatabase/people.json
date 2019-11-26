@@ -1,15 +1,22 @@
 {
-    "people" : [{
-        "email":"mateusz@gmail.com",
-        "login":"mateusz",
-        "password":"mateusz",
-        "boardList":[],
-        "boardListAccess":[]
-    }, {
-        "email":"admin@gmail.com",
-        "login":"admin",
-        "password":"admin",
-        "boardList":[],
-        "boardListAccess":[]
-    }]
+    "people": [
+        {
+            "email": "mateusz@gmail.com",
+            "password": "mateusz",
+            "boardList": [],
+            "boardListAccess": []
+        },
+        {
+            "email": "admin@gmail.com",
+            "password": "admin",
+            "boardList": [],
+            "boardListAccess": []
+        },
+        {
+            "email": "mateusz2@gmail.com",
+            "password": "test",
+            "boardList": [],
+            "boardListAccess": []
+        }
+    ]
 }

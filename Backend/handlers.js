@@ -145,7 +145,39 @@ const handlers = {
         return response;
     },
     login: function (request, reply) {
-        return "login";
+        var fs = require("fs");
+        var content = fs.readFileSync(peopleDataFile);
+        var as = JSON.parse(content);
+        var set = new Set();
+        as['people'].forEach(element => {
+            set.add(element.email);
+        });
+
+        console.log(set);
+        console.log(as);
+        if (set.has(request.payload.email)) {
+            return ("Gość istnieje");
+        }
+        else {
+            as['people'].push({
+                "email":request.payload.email,
+                "password":request.payload.password,
+                "boardList":[],
+                "boardListAccess":[]
+            })
+             const jsonString = JSON.stringify(as)
+             fs.writeFileSync(peopleDataFile, jsonString);
+            // //dodanie oddzielnego pliku na dane dla tablicy             
+            // var doPliku = "{\"nazwaTablicy\": \"" + request.payload.boardName + "\",\"kolumny\": []}"
+            // var fs2 = require('fs');
+            // fs2.writeFile(dataBaseFolder + request.payload.boardName + ".json", doPliku, function (err) {
+            //     if (err) {
+            //         console.log(err);
+            //     }
+            // });
+            return ("Dodano gościa");
+        }
+      
     },
     register: function (request, reply) {
         return "register";

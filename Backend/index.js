@@ -190,21 +190,19 @@ const handlers= {
         as['people'].forEach(element => {
             set.add(element.email);
         });
+        console.log("*************************************LOGIN********************************\n")
+        console.log(as);
+        console.log(set);
         if (set.has(request.payload.email)) {
-            as['people'].forEach(element => {
-                if(element.email===request.payload.email)
-                {
-                    return JWT.sign(people[2], secret);
-                }
-                else{
-                    return "no coś jebło";
-                }
-            });
+            //var a=as.find(request.payload.email===element.email)
+            //console.log(a);TUTAUAASDJASFSDAFSDAFDSAFASDF
+            return JWT.sign(people[1], secret);
         }
         else {
             
             return ("nie istneijesz ");
         }
+        return "fuck it";
 
     },
     register: function (request, reply) {

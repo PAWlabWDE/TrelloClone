@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+const API = "http://localhost:3001";
+const LOGIN_QUERY = "/login";
+const REGISTER_QUERY="/register";
+
 
 export default class Loginn extends Component {
   constructor(props) {
@@ -18,8 +22,29 @@ export default class Loginn extends Component {
   }
 
   submitHandler(e) {
+    console.log("TEZST");
     e.preventDefault();
     //oganij token od backu, zapisz go i używaj :D no i przekieruj na koniec na strone użytkownika
+    fetch(API + LOGIN_QUERY, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password      
+      })
+    }).then(response => response.json())
+      .then(data => {
+        console.log("TEZST");
+        console.log(JSON.stringify(data));
+      
+    
+    
+
+       
+      });
   }
 
   submitRegister() {

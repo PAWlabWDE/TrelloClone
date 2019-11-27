@@ -4,22 +4,31 @@ const port = process.env.PORT || 3001;
 const secret = require('./config');
 const JWT = require('jsonwebtoken');
 const hapiAuthJWT = require('./lib/');
+const peopleDataFile = "ourDatabase/people.json";
+const mainDataBaseFile = "ourDatabase/boardsList.json";
+const dataBaseFolder = "ourDatabase/";
 var people = {
     1: {
         id: 1,
         name: 'Anthony Valid User'
     }
 };
-const peopleDataFile = "ourDatabase/people.json";
-const mainDataBaseFile = "ourDatabase/boardsList.json";
-const dataBaseFolder = "ourDatabase/";
+// import jwt from 'jsonwebtoken';
+// export const generateJWTToken = (userData) =>{
+//     return jwt.sign(userData, secret);
+//  }
+//  export const verifyToken = (jwtToken) =>{
+//     try{
+//        return jwt.verify(jwtToken, secret);
+//     }catch(e){
+//        console.log('e:',e);
+//        return null;
+//     }
+//  }
 // use the token as the 'authorization' header in requests
 const token = JWT.sign(people[1], secret); // synchronous
 console.log(token);
-const token2 = JWT.sign(people[2], secret); // synchronous
-console.log(token2);
 
-var zalogowani = [];
 const validate = async function (decoded, request, h) {
     console.log(" - - - - - - - decoded token:");
     console.log(decoded);
@@ -27,37 +36,12 @@ const validate = async function (decoded, request, h) {
     console.log(request.info);
     console.log(" - - - - - - - user agent:");
     console.log(request.headers['user-agent']);
-    console.log(" - - -- - -- -- - zalogowanie")
-    console.log(zalogowani);
-    // console.log("fuck 1");
-    //     var fs = require("fs");
-    //     var content = fs.readFileSync(peopleDataFile);
-    //     var as = JSON.parse(content);
-    //     console.log("fuck 2");
-    //     var set = new Set();
-    //     console.log("fuck 3");
-    //     as.forEach(element => {
-    //         set.add(element.email);
-    //         console.log("fuck 4" +element.email);
-    //     });
-    //     console.log("fuck 5");
-    //     console.log("Co my tu mamy: " + as);
-    //     console.log("decode.emial: " + decoded.email)
-    // if (set.has(decoded.email)) {
-    //     return { isValid: false };
-    // }
-    // else {
-    //     return { isValid: true };
-    // }    //-1
-    zalogowani.forEach(function (item, index, array) {
-        console.log("item: "+item)
-        console.log("decoded.emial: "+decoded.email)
-        if (decoded.email === item) {
-            console.log("jest gitr");
-            return { isValid: true };
-        }
-    });
-    return { isValid: false };
+    if (!people[decoded.email]) {
+        return { isValid: false };
+    }
+    else {
+        return { isValid: true };
+    }
 
 };
 
@@ -68,7 +52,6 @@ function clearArray(array) {
 }
 
 
-//const mongoose = require("mongoose");
 const handlers = {
     post: function (request, reply) {
         return ('It is wokring');
@@ -213,27 +196,26 @@ const handlers = {
         as['people'].forEach(element => {
             set.add(element.email);
         });
-        console.log("*************************************LOGIN********************************\n")
-        console.log(as);
-        console.log(set);
+        // console.log("*************************************LOGIN********************************\n")
+        // console.log(as);
+        // console.log(set);
         var a;
         if (set.has(request.payload.email)) {
-            console.log("emial: " + request.payload.email + " hasło: " + request.payload.password)
+           // console.log("emial: " + request.payload.email + " hasło: " + request.payload.password)
             as.people.forEach(element => {
-                console.log(element);
-                console.log("element.emial: " + element.email + " element.password: " + element.password);
+                // console.log(element);
+                // console.log("element.emial: " + element.email + " element.password: " + element.password);
                 if (element.email === request.payload.email) {
-                    console.log("wchodzisz tu? ");
+                  //  console.log("wchodzisz tu? ");
                     if (element.password === request.payload.password) {
-                        console.log("a tutaj? ");
+                       // console.log("a tutaj? ");
                         a = JWT.sign(element, secret);
-                        console.log("Tokenik: " + a);
-                        zalogowani.push(element.email);
+                    
+                       // console.log("Tokenik: " + a);
                     }
 
                 }
             })
-            //return JWT.sign(people[1], secret);
         }
         else {
 
@@ -250,7 +232,7 @@ const handlers = {
         as['people'].forEach(element => {
             set.add(element.email);
         });
-        console.log(as);
+      //  console.log(as);
         if (set.has(request.payload.email)) {
             return ("Gość istnieje");
         }
@@ -279,33 +261,7 @@ const handlers = {
 }
 
 const init = async () => {
-    // mongoose.connect('mongodb+srv://test:test@cluster0-8ecx4.azure.mongodb.net/test?retryWrites=true&w=majority');
-    // const db = mongoose.connection;
-    // db.on('error', console.error.bind(console, 'connection error:'));
 
-    // db.once('open', function () {
-    //     console.log("Connection Successful!");
-
-    //     // define Schema
-    //     var BookSchema = mongoose.Schema({
-    //         name: String,
-    //         price: Number,
-    //         quantity: Number
-    //     });
-
-    //     // compile schema to model
-    //     var Book = mongoose.model('Book', BookSchema, 'bookstore');
-
-    //     // a document instance
-    //     var book1 = new Book({ name: 'Introduction to Mongoose', price: 10, quantity: 25 });
-
-    //     // save model to database
-    //     book1.save(function (err, book) {
-    //         if (err) return console.error(err);
-    //         console.log(book.name + " saved to bookstore collection.");
-    //     });
-
-    // });
 
     const server = new Hapi.Server({
         port: port,
@@ -314,7 +270,6 @@ const init = async () => {
         }
     });
     await server.register(hapiAuthJWT);
-    // see: http://hapijs.com/api#serverauthschemename-scheme
     server.auth.strategy('jwt', 'jwt',
         {
             key: secret,
@@ -341,12 +296,8 @@ const init = async () => {
 
 
 };
-
 init().then(server => {
     console.log('Server running at:', server.info.uri);
 }).catch(err => {
     console.log(err);
 });
-/**************************UWAGA*********************
-//  * do poprawnego działania musimy mieć plik boardsList.json w folerze ourDatabase
-//  * z zawartością startową:             "[]"              */

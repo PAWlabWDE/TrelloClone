@@ -47,7 +47,17 @@ export default class Loginn extends Component {
   }
 
   submitRegister() {
-    //obsluga ll;afsdjkf;jasdklfja;klfj wyjeb to
+    fetch(API + REGISTER_QUERY, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password      
+      })
+    })
   }
 
   render() {

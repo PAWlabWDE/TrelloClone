@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import "./Todo.css";
 import { Button } from "react-bootstrap";
 
-
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/getAllBoards";
-export default class Todo extends Component {
+export default class BoardList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -68,7 +67,6 @@ export default class Todo extends Component {
           {this.state.list.map((item, index) => {
             return (
               <div className="center" class="p">
-
                 <div className="center">
                   <p>
                     <a href={"/" + item}>

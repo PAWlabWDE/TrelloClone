@@ -209,7 +209,8 @@ internals.authenticate = async function(token, options, request, h) {
   try {
     let { isValid, credentials } = await options.verify(decoded, request);
     if (!isValid) {
-      return {
+      console.log("I think here we have a problem")
+            return {
         error: internals.raiseError(
           options,
           'unauthorized',

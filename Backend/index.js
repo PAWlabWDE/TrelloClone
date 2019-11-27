@@ -45,7 +45,16 @@ function clearArray(array) {
         array.pop();
     }
 }
-
+const verifyToken = (jwtToken) =>{
+    try{
+        var a=JWT.verify(jwtToken, secret);
+        
+       return a;
+    }catch(e){
+       console.log('e:',e);
+       return null;
+    }
+ }
 
 const handlers = {
     post: function (request, reply) {
@@ -53,8 +62,11 @@ const handlers = {
     },
 
     getAllBoards: function (request, reply) {
+        console.log(request.query);
+        console.log(verifyToken(request.query.token));
+        var a=verifyToken(request.query.token);
         var fs = require("fs");
-        var content = fs.readFileSync(mainDataBaseFile);
+        var content = fs.readFileSync(dataBaseFolder+a.name+'/boardsList.json');
         return (content);
     },
     addBoard: function (request, reply) {
@@ -250,7 +262,7 @@ const handlers = {
             })
             var doPliku = "[]"
             var fs2 = require('fs');
-            fs2.writeFile(dataBaseFolder + request.payload.email + "/boardsLisst.json", doPliku, function (err) {
+            fs2.writeFile(dataBaseFolder + request.payload.email + "/boardsList.json", doPliku, function (err) {
                 if (err) {
                     console.log(err);
                 }
@@ -283,7 +295,7 @@ const init = async () => {
         { path: '/login', method: 'POST', config: { auth: false }, handler: handlers.login },
         { path: '/register', method: 'POST', config: { auth: false }, handler: handlers.register },
         { path: '/', method: 'GET', config: { auth: 'jwt' }, handler: handlers.post },
-        { path: '/getAllBoards', method: 'GET', config: { auth: false }, handler: handlers.getAllBoards },
+        { path: '/getAllBoards', method: 'GET', config: { auth: 'jwt' }, handler: handlers.getAllBoards },
         { path: '/addBoard', method: 'POST', config: { auth: 'jwt' }, handler: handlers.addBoard },
         { path: '/chooseBoard', method: 'POST', config: { auth: 'jwt' }, handler: handlers.chooseBoard },
         { path: '/editBoardName', method: 'POST', config: { auth: 'jwt' }, handler: handlers.editBoardName },

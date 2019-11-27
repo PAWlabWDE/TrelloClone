@@ -36,16 +36,18 @@ export default class Loginn extends Component {
         email: this.state.email,
         password: this.state.password      
       })
-    }).then(response => response.json())
-      .then(data => {
-        console.log("TEZST2");
-        console.log(JSON.stringify(data));
-      
-    
-    
-
-       
-      });
+    }).then(function(response) {
+      console.log(response.status )    //=> number 100–599
+      console.log( response.statusText) //=> String
+        console.log( response.headers  )  //=> Headers
+          console.log( response.url     )   //=> String
+    console.log(response.text())
+     // return response.text()
+    })
+      // .then(data => {
+      //   console.log("TEZST2");
+      //   console.log(JSON.stringify(data));        
+      // });
   }
 
   submitRegister() {

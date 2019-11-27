@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 import "./BoardLink";
 import BoardList from "./BoardList";
 import "./Switcher";
-import Loginn from "./logowanie";
+import Loginn from "./LogIn";
 import Register from "./Register";
 import Switcher from "./Switcher";
 

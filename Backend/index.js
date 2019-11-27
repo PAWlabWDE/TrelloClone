@@ -70,8 +70,9 @@ const handlers = {
         return (content);
     },
     addBoard: function (request, reply) {
+        var a=verifyToken(request.query.token);
         var fs = require("fs");
-        var content = fs.readFileSync(mainDataBaseFile);
+        var content = fs.readFileSync(dataBaseFolder+a.name+'/boardsList.json');
         var as = JSON.parse(content);
         var set = new Set();
         as.forEach(element => {
@@ -83,11 +84,11 @@ const handlers = {
         else {
             as.push(request.payload.boardName);//dodajemy nowy element do jsona
             const jsonString = JSON.stringify(as)
-            fs.writeFileSync(mainDataBaseFile, jsonString);
+            fs.writeFileSync(dataBaseFolder+a.name+'/boardsList.json', jsonString);
             //dodanie oddzielnego pliku na dane dla tablicy             
             var doPliku = "{\"nazwaTablicy\": \"" + request.payload.boardName + "\",\"kolumny\": []}"
             var fs2 = require('fs');
-            fs2.writeFile(dataBaseFolder + request.payload.boardName + ".json", doPliku, function (err) {
+            fs2.writeFile(dataBaseFolder+a.name +'/'+ request.payload.boardName + ".json", doPliku, function (err) {
                 if (err) {
                     console.log(err);
                 }
@@ -96,8 +97,9 @@ const handlers = {
         }
     },
     chooseBoard: function (request, reply) {
+        var a=verifyToken(request.query.token);
         var fs = require("fs");
-        var content = fs.readFileSync(mainDataBaseFile);
+        var content = fs.readFileSync(dataBaseFolder+a.name+'/boardsList.json');
         //znajdź odpowidnią tablice 
         var as = JSON.parse(content);
         var set = new Set();
@@ -108,7 +110,7 @@ const handlers = {
             //tablica istnieje czyli zwracamy jej kolumny
             //odczyt z pliku danych o tablicy
             var fs2 = require("fs");
-            var dataBoard = fs2.readFileSync(dataBaseFolder + request.payload.boardName + ".json");
+            var dataBoard = fs2.readFileSync(dataBaseFolder+a.name +'/' + request.payload.boardName + ".json");
             var boardsData = JSON.parse(dataBoard);
             return (boardsData);
         }
@@ -118,8 +120,9 @@ const handlers = {
         }
     },
     editBoardName: function (request, reply) {
+        var a=verifyToken(request.query.token);
         var fs = require("fs");
-        var content = fs.readFileSync(mainDataBaseFile);
+        var content = fs.readFileSync(dataBaseFolder+a.name+'/boardsList.json');
         var as = JSON.parse(content);
         var set = new Set();
         as.forEach(element => {
@@ -135,22 +138,22 @@ const handlers = {
                 set.add(request.payload.newBoardName)
                 set.forEach(e => as.push(e));//dodanie do tablic do zapisu
                 const jsonString = JSON.stringify(as)
-                fs.writeFileSync(mainDataBaseFile, jsonString);
+                fs.writeFileSync(dataBaseFolder+a.name+'/boardsList.json', jsonString);
                 //tutaj edycja konkretnego pliku danej tablicy
                 var fs2 = require("fs");
-                var data = fs2.readFileSync(dataBaseFolder + request.payload.oldBoardName + ".json");
+                var data = fs2.readFileSync(dataBaseFolder +a.name+'/'+ request.payload.oldBoardName + ".json");
                 var as2 = JSON.parse(data);
                 as2.nazwaTablicy = request.payload.newBoardName;
                 const jsonString2 = JSON.stringify(as2)
                 var fs3 = require('fs');
-                fs3.writeFile(dataBaseFolder + request.payload.newBoardName + ".json", jsonString2, function (err) {
+                fs3.writeFile(dataBaseFolder+a.name+'/' + request.payload.newBoardName + ".json", jsonString2, function (err) {
                     if (err) {
                         console.log(err);
                     }
                 });
                 //usuń stary plik
                 try {
-                    fs2.unlinkSync(dataBaseFolder + request.payload.oldBoardName + ".json")
+                    fs2.unlinkSync(dataBaseFolder+a.name+'/' + request.payload.oldBoardName + ".json")
                     //file removed
                 } catch (err) {
                     console.error(err)
@@ -166,8 +169,9 @@ const handlers = {
         }
     },
     addColumn: function (request, reply) {
+        var a=verifyToken(request.query.token);
         var fs = require("fs");
-        var content = fs.readFileSync(mainDataBaseFile);
+        var content = fs.readFileSync(dataBaseFolder+a.name+'/boardsList.json');
         //znajdź odpowidnią tablice 
         var as = JSON.parse(content);
         var set = new Set();
@@ -178,11 +182,11 @@ const handlers = {
             //tablica istnieje czyli zwracamy jej kolumny
             //odczyt z pliku danych o tablicy
             var fs2 = require("fs");
-            var dataBoard = fs2.readFileSync(dataBaseFolder + request.payload.boardName + ".json");
+            var dataBoard = fs2.readFileSync(dataBaseFolder+a.name+'/' + request.payload.boardName + ".json");
             var as2 = JSON.parse(dataBoard);
             as2['kolumny'].push({ "nazwaKolumny": request.payload.columnName, "listZadan": [] })
             const jsonString = JSON.stringify(as2)
-            fs.writeFileSync(dataBaseFolder + request.payload.boardName + ".json", jsonString);
+            fs.writeFileSync(dataBaseFolder+a.name+'/' + request.payload.boardName + ".json", jsonString);
             return (as2);
         }
         else {

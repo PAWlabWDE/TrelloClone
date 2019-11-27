@@ -1,41 +1,28 @@
 'use strict';
-const JWT = require('jsonwebtoken');
- const generateJWTToken = (userData) =>{
-    var a =JWT.sign(userData, secret);
-    console.log(a);
-    return a;
- }
- const verifyToken = (jwtToken) =>{
-    try{
-
-        var a=JWT.verify(jwtToken, secret);
-        console.log(a);
-       return a;
-    }catch(e){
-       console.log('e:',e);
-       return null;
-    }
- }
-//import verifyToken from './auth.js'
 const Hapi = require('hapi');
 const port = process.env.PORT || 3001;
 const secret = require('./config');
+const JWT = require('jsonwebtoken');
 const hapiAuthJWT = require('./lib/');
 const peopleDataFile = "ourDatabase/people.json";
 const mainDataBaseFile = "ourDatabase/boardsList.json";
 const dataBaseFolder = "ourDatabase/";
-
 var people = {
     1: {
         id: 1,
         name: 'Anthony Valid User'
+    },
+    2:{
+        id:2,
+        name:'asd'
     }
 };
-
-
+var idFake =3;
 // use the token as the 'authorization' header in requests
 const token = JWT.sign(people[1], secret); // synchronous
 console.log(token);
+  //  people[3]={id:3,name:'nowy'};
+//console.log(people);
 
 const validate = async function (decoded, request, h) {
     console.log(" - - - - - - - decoded token:");
@@ -44,27 +31,12 @@ const validate = async function (decoded, request, h) {
     console.log(request.info);
     console.log(" - - - - - - - user agent:");
     console.log(request.headers['user-agent']);
-    var fs = require("fs");
-        var content = fs.readFileSync(peopleDataFile);
-        var as = JSON.parse(content);
-        var set = new Set();
-        as.forEach(element => {
-            set.add(element.email);
-        });
-        console.log("Co my tu mamy: "+as);
-        console.log("decode.emial: "+decoded.email)
-        if (set.has(decoded.email)) {
-            return { isValid: true };
-        }
-        else {
-            return { isValid: false };
-        }
-    // if (!people[decoded.email]) {
-    //     return { isValid: false };
-    // }
-    // else {
-    //     return { isValid: true };
-    // }
+    if (!people[decoded.id]) {
+        return { isValid: false };
+    }
+    else {
+        return { isValid: true };
+    }
 
 };
 
@@ -224,17 +196,22 @@ const handlers = {
         // console.log(set);
         var a;
         if (set.has(request.payload.email)) {
-           // console.log("emial: " + request.payload.email + " hasło: " + request.payload.password)
+            // console.log("emial: " + request.payload.email + " hasło: " + request.payload.password)
             as.people.forEach(element => {
                 // console.log(element);
                 // console.log("element.emial: " + element.email + " element.password: " + element.password);
                 if (element.email === request.payload.email) {
-                  //  console.log("wchodzisz tu? ");
+                    //  console.log("wchodzisz tu? ");
                     if (element.password === request.payload.password) {
-                       // console.log("a tutaj? ");
-                        a = JWT.sign(element, secret);
-                    
-                       // console.log("Tokenik: " + a);
+                        // console.log("a tutaj? ");
+                        a = JWT.sign( {
+                                id: idFake,
+                                name: request.payload.email
+                            }
+                        , secret);
+                        people[idFake]={id:idFake,name:request.payload.email};
+
+                        // console.log("Tokenik: " + a);
                     }
 
                 }
@@ -255,7 +232,7 @@ const handlers = {
         as['people'].forEach(element => {
             set.add(element.email);
         });
-      //  console.log(as);
+        //  console.log(as);
         if (set.has(request.payload.email)) {
             return ("Gość istnieje");
         }
@@ -301,12 +278,6 @@ const init = async () => {
         });
 
     server.auth.default('jwt');
-    console.log("first test: ");
-     verifyToken(   generateJWTToken(people[1]));
-     
-    // console.log("second test: ");
-    // verifyToken(   generateJWTToken(people[1]));
-
 
     server.route([
         { path: '/login', method: 'POST', config: { auth: false }, handler: handlers.login },

@@ -194,9 +194,24 @@ const handlers= {
         console.log(as);
         console.log(set);
         if (set.has(request.payload.email)) {
-            //var a=as.find(request.payload.email===element.email)
-            //console.log(a);TUTAUAASDJASFSDAFSDAFDSAFASDF
-            return JWT.sign(people[1], secret);
+            console.log("emial: "+request.payload.email +" hasło: "+request.payload.password)
+            as.people.forEach(element =>{
+                console.log(element);
+                console.log("element.emial: "+element.email + " element.password: "+element.password);
+                if(element.email=== request.payload.email)
+                {
+                    console.log("wchodzisz tu? ");
+                    if(element.password === request.payload.password)
+                    {
+                        console.log("a tutaj? ");
+                        var a= JWT.sign(element,secret);
+                        console.log("Tokenik: "+a);
+                        return a;  
+                    }
+                        
+                }
+            })
+            //return JWT.sign(people[1], secret);
         }
         else {
             

@@ -1,1 +1,16 @@
-{"people":[{"email":"nowy21@gmail.com","password":"nowy21","boardList":[],"boardListAccess":[]},{"email":"asd","password":"dsdsa","boardList":[],"boardListAccess":[]}]}
+{
+    "people": [
+        {
+            "email": "nowy21@gmail.com",
+            "password": "nowy21",
+            "boardList": [],
+            "boardListAccess": []
+        },
+        {
+            "email": "asd",
+            "password": "dsdsa",
+            "boardList": [],
+            "boardListAccess": []
+        }
+    ]
+}

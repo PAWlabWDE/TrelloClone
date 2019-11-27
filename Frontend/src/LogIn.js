@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Cookie from "js-cookie"
 const API = "http://localhost:3001";
 const LOGIN_QUERY = "/login";
+
+
+
+const token = Cookie.get("token") ? Cookie.get("token") : null;
 
 
 
@@ -12,7 +17,7 @@ export default class Loginn extends Component {
     this.state = { email: "", password: "" };
     this.emailWritten = this.emailWritten.bind(this);
     this.passwordWritten = this.passwordWritten.bind(this);
-    this.submitHandler=this.submitHandler.bind(this);
+    this.submitHandler = this.submitHandler.bind(this);
   }
   emailWritten(e) {
     this.setState({ email: e.target.value });
@@ -33,15 +38,17 @@ export default class Loginn extends Component {
       },
       body: JSON.stringify({
         email: this.state.email,
-        password: this.state.password      
+        password: this.state.password
       })
-    }).then(function(response) {
+    }).then(function (response) {
       return response.text();
     })
-    .then(function(text) { 
-      // <!DOCTYPE ....
-      console.log(text); //w tym text jest jebany token
-    });
+      .then(function (text) {
+        // <!DOCTYPE ....
+        console.log(text); //w tym text jest jebany token
+        //to set a cookie
+        Cookie.set("token", text);
+      });
 
   }
 

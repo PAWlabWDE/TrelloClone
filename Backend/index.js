@@ -193,6 +193,7 @@ const handlers= {
         console.log("*************************************LOGIN********************************\n")
         console.log(as);
         console.log(set);
+        var a;
         if (set.has(request.payload.email)) {
             console.log("emial: "+request.payload.email +" hasło: "+request.payload.password)
             as.people.forEach(element =>{
@@ -204,9 +205,8 @@ const handlers= {
                     if(element.password === request.payload.password)
                     {
                         console.log("a tutaj? ");
-                        var a= JWT.sign(element,secret);
-                        console.log("Tokenik: "+a);
-                        return a;  
+                        a= JWT.sign(element,secret);
+                        console.log("Tokenik: "+a); 
                     }
                         
                 }
@@ -217,7 +217,7 @@ const handlers= {
             
             return ("nie istneijesz ");
         }
-        return "fuck it";
+        return a;
 
     },
     register: function (request, reply) {

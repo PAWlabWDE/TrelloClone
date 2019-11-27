@@ -18,13 +18,20 @@ export default class Register extends Component {
     this.setState({ password: e.target.value });
   }
 
-  submitHandler(e) {
-    e.preventDefault();
-    //oganij token od backu, zapisz go i używaj :D no i przekieruj na koniec na strone użytkownika
-  }
+
 
   submitRegister() {
-    //obsluga ll;afsdjkf;jasdklfja;klfj wyjeb to
+    fetch(API + REGISTER_QUERY, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password      
+      })
+    })
   }
 
   render() {
@@ -60,7 +67,7 @@ export default class Register extends Component {
               onChange={this.passwordWritten}
             />
           </Form.Group>
-          <Button variant="primary" type="submit" onSubmit={this.submitHandler}>
+          <Button variant="primary" type="button" onClick={this.submitRegister}>
             Register
           </Button>
         </Form>

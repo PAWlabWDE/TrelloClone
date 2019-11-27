@@ -12,16 +12,16 @@ var people = {
         id: 1,
         name: 'Anthony Valid User'
     },
-    2:{
-        id:2,
-        name:'asd'
+    2: {
+        id: 2,
+        name: 'asd'
     }
 };
-var idFake =3;
+var idFake = 3;
 // use the token as the 'authorization' header in requests
 const token = JWT.sign(people[1], secret); // synchronous
 console.log(token);
-  //  people[3]={id:3,name:'nowy'};
+//  people[3]={id:3,name:'nowy'};
 //console.log(people);
 
 const validate = async function (decoded, request, h) {
@@ -204,12 +204,12 @@ const handlers = {
                     //  console.log("wchodzisz tu? ");
                     if (element.password === request.payload.password) {
                         // console.log("a tutaj? ");
-                        a = JWT.sign( {
-                                id: idFake,
-                                name: request.payload.email
-                            }
-                        , secret);
-                        people[idFake]={id:idFake,name:request.payload.email};
+                        a = JWT.sign({
+                            id: idFake,
+                            name: request.payload.email
+                        }
+                            , secret);
+                        people[idFake] = { id: idFake, name: request.payload.email };
 
                         // console.log("Tokenik: " + a);
                     }

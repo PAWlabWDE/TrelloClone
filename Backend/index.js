@@ -4,14 +4,10 @@ const port = process.env.PORT || 3001;
 const secret = require('./config');
 const JWT = require('jsonwebtoken');
 const hapiAuthJWT = require('./lib/');
-const people = {
+var people = {
     1: {
         id: 1,
         name: 'Anthony Valid User'
-    },
-    2: {
-        id: 2,
-        name: 'Mateusz Baranski'
     }
 };
 const peopleDataFile = "ourDatabase/people.json";
@@ -22,6 +18,8 @@ const token = JWT.sign(people[1], secret); // synchronous
 console.log(token);
 const token2 = JWT.sign(people[2], secret); // synchronous
 console.log(token2);
+
+var zalogowani = [];
 const validate = async function (decoded, request, h) {
     console.log(" - - - - - - - decoded token:");
     console.log(decoded);
@@ -29,23 +27,38 @@ const validate = async function (decoded, request, h) {
     console.log(request.info);
     console.log(" - - - - - - - user agent:");
     console.log(request.headers['user-agent']);
-
- var fs = require("fs");
-        var content = fs.readFileSync(peopleDataFile);
-        var as = JSON.parse(content);
-        var set = new Set();
-        as.forEach(element => {
-            set.add(element.email);
-        });
-        console.log("Co my tu mamy: "+as);
-        console.log("decode.emial: "+decoded.email)
-        if (set.has(decoded.email)) {
+    console.log(" - - -- - -- -- - zalogowanie")
+    console.log(zalogowani);
+    // console.log("fuck 1");
+    //     var fs = require("fs");
+    //     var content = fs.readFileSync(peopleDataFile);
+    //     var as = JSON.parse(content);
+    //     console.log("fuck 2");
+    //     var set = new Set();
+    //     console.log("fuck 3");
+    //     as.forEach(element => {
+    //         set.add(element.email);
+    //         console.log("fuck 4" +element.email);
+    //     });
+    //     console.log("fuck 5");
+    //     console.log("Co my tu mamy: " + as);
+    //     console.log("decode.emial: " + decoded.email)
+    // if (set.has(decoded.email)) {
+    //     return { isValid: false };
+    // }
+    // else {
+    //     return { isValid: true };
+    // }    //-1
+    zalogowani.forEach(function (item, index, array) {
+        console.log("item: "+item)
+        console.log("decoded.emial: "+decoded.email)
+        if (decoded.email === item) {
+            console.log("jest gitr");
             return { isValid: true };
         }
-        else {
-            return { isValid: false };
-        }
-   
+    });
+    return { isValid: false };
+
 };
 
 function clearArray(array) {
@@ -56,7 +69,7 @@ function clearArray(array) {
 
 
 //const mongoose = require("mongoose");
-const handlers= {
+const handlers = {
     post: function (request, reply) {
         return ('It is wokring');
     },
@@ -205,26 +218,25 @@ const handlers= {
         console.log(set);
         var a;
         if (set.has(request.payload.email)) {
-            console.log("emial: "+request.payload.email +" hasło: "+request.payload.password)
-            as.people.forEach(element =>{
+            console.log("emial: " + request.payload.email + " hasło: " + request.payload.password)
+            as.people.forEach(element => {
                 console.log(element);
-                console.log("element.emial: "+element.email + " element.password: "+element.password);
-                if(element.email=== request.payload.email)
-                {
+                console.log("element.emial: " + element.email + " element.password: " + element.password);
+                if (element.email === request.payload.email) {
                     console.log("wchodzisz tu? ");
-                    if(element.password === request.payload.password)
-                    {
+                    if (element.password === request.payload.password) {
                         console.log("a tutaj? ");
-                        a= JWT.sign(element,secret);
-                        console.log("Tokenik: "+a); 
+                        a = JWT.sign(element, secret);
+                        console.log("Tokenik: " + a);
+                        zalogowani.push(element.email);
                     }
-                        
+
                 }
             })
             //return JWT.sign(people[1], secret);
         }
         else {
-            
+
             return ("nie istneijesz ");
         }
         return a;
@@ -252,7 +264,7 @@ const handlers= {
             const jsonString = JSON.stringify(as)
             fs.writeFileSync(peopleDataFile, jsonString);
             // //dodanie oddzielnego katolgu na plik użytkownika  
-            fs.mkdir(__dirname + '/ourDatabase/' + request.payload.email, err => {              
+            fs.mkdir(__dirname + '/ourDatabase/' + request.payload.email, err => {
             })
             var doPliku = "[]"
             var fs2 = require('fs');
@@ -294,7 +306,7 @@ const init = async () => {
     //     });
 
     // });
- 
+
     const server = new Hapi.Server({
         port: port,
         routes: {

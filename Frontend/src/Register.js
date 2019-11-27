@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
+const API = "http://localhost:3001";
+const REGISTER_QUERY="/register";
 export default class Register extends Component {
   constructor(props) {
     super(props);

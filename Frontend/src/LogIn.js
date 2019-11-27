@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const API = "http://localhost:3001";
 const LOGIN_QUERY = "/login";
-const REGISTER_QUERY="/register";
+
 
 
 export default class Loginn extends Component {
@@ -12,7 +12,6 @@ export default class Loginn extends Component {
     this.state = { email: "", password: "" };
     this.emailWritten = this.emailWritten.bind(this);
     this.passwordWritten = this.passwordWritten.bind(this);
-    this.submitRegister = this.submitRegister.bind(this);
     this.submitHandler=this.submitHandler.bind(this);
   }
   emailWritten(e) {
@@ -46,19 +45,7 @@ export default class Loginn extends Component {
 
   }
 
-  submitRegister() {
-    fetch(API + REGISTER_QUERY, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password      
-      })
-    })
-  }
+
 
   render() {
     return (

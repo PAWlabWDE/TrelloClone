@@ -1,30 +1,38 @@
 'use strict';
+const JWT = require('jsonwebtoken');
+ const generateJWTToken = (userData) =>{
+    var a =JWT.sign(userData, secret);
+    console.log(a);
+    return a;
+ }
+ const verifyToken = (jwtToken) =>{
+    try{
+
+        var a=JWT.verify(jwtToken, secret);
+        console.log(a);
+       return a;
+    }catch(e){
+       console.log('e:',e);
+       return null;
+    }
+ }
+//import verifyToken from './auth.js'
 const Hapi = require('hapi');
 const port = process.env.PORT || 3001;
 const secret = require('./config');
-const JWT = require('jsonwebtoken');
 const hapiAuthJWT = require('./lib/');
 const peopleDataFile = "ourDatabase/people.json";
 const mainDataBaseFile = "ourDatabase/boardsList.json";
 const dataBaseFolder = "ourDatabase/";
+
 var people = {
     1: {
         id: 1,
         name: 'Anthony Valid User'
     }
 };
-// import jwt from 'jsonwebtoken';
-// export const generateJWTToken = (userData) =>{
-//     return jwt.sign(userData, secret);
-//  }
-//  export const verifyToken = (jwtToken) =>{
-//     try{
-//        return jwt.verify(jwtToken, secret);
-//     }catch(e){
-//        console.log('e:',e);
-//        return null;
-//     }
-//  }
+
+
 // use the token as the 'authorization' header in requests
 const token = JWT.sign(people[1], secret); // synchronous
 console.log(token);
@@ -36,12 +44,27 @@ const validate = async function (decoded, request, h) {
     console.log(request.info);
     console.log(" - - - - - - - user agent:");
     console.log(request.headers['user-agent']);
-    if (!people[decoded.email]) {
-        return { isValid: false };
-    }
-    else {
-        return { isValid: true };
-    }
+    var fs = require("fs");
+        var content = fs.readFileSync(peopleDataFile);
+        var as = JSON.parse(content);
+        var set = new Set();
+        as.forEach(element => {
+            set.add(element.email);
+        });
+        console.log("Co my tu mamy: "+as);
+        console.log("decode.emial: "+decoded.email)
+        if (set.has(decoded.email)) {
+            return { isValid: true };
+        }
+        else {
+            return { isValid: false };
+        }
+    // if (!people[decoded.email]) {
+    //     return { isValid: false };
+    // }
+    // else {
+    //     return { isValid: true };
+    // }
 
 };
 
@@ -278,6 +301,12 @@ const init = async () => {
         });
 
     server.auth.default('jwt');
+    console.log("first test: ");
+     verifyToken(   generateJWTToken(people[1]));
+     
+    // console.log("second test: ");
+    // verifyToken(   generateJWTToken(people[1]));
+
 
     server.route([
         { path: '/login', method: 'POST', config: { auth: false }, handler: handlers.login },

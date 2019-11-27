@@ -229,6 +229,9 @@ const handlers = {
 
                         // console.log("Tokenik: " + a);
                     }
+                    else{
+                        a="no chyba coś Cię..."
+                    }
 
                 }
             })

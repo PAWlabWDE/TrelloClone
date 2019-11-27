@@ -13,6 +13,7 @@ export default class Loginn extends Component {
     this.emailWritten = this.emailWritten.bind(this);
     this.passwordWritten = this.passwordWritten.bind(this);
     this.submitRegister = this.submitRegister.bind(this);
+    this.submitHandler=this.submitHandler.bind(this);
   }
   emailWritten(e) {
     this.setState({ email: e.target.value });
@@ -37,7 +38,7 @@ export default class Loginn extends Component {
       })
     }).then(response => response.json())
       .then(data => {
-        console.log("TEZST");
+        console.log("TEZST2");
         console.log(JSON.stringify(data));
       
     
@@ -76,7 +77,7 @@ export default class Loginn extends Component {
               onChange={this.passwordWritten}
             />
           </Form.Group>
-          <Button variant="primary" type="submit" onSubmit={this.submitHandler}>
+          <Button variant="primary" type="button" onClick={this.submitHandler}>
             Log in
           </Button>
           <label className="text-white m-3"> Don't have account? </label>

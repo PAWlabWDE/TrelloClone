@@ -34,7 +34,7 @@ export default class BoardList extends Component {
         text: ""
       }));
       //tutaj wyślij do serwera nową tablicę
-      fetch(API + "/addBoard", {
+      fetch(API + "/addBoard"+'?token='+Cookie.get('token'), {
         method: "POST",
         headers: {
           Accept: "application/json",

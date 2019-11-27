@@ -1,5 +1,5 @@
 'use strict';
-const peopleDataFile ="ourDatabase/people.json";
+const peopleDataFile = "ourDatabase/people.json";
 const mainDataBaseFile = "ourDatabase/boardsList.json";
 const dataBaseFolder = "ourDatabase/";
 function clearArray(array) {
@@ -145,10 +145,59 @@ const handlers = {
         return response;
     },
     login: function (request, reply) {
-        return "login";
+        var fs = require("fs");
+        var content = fs.readFileSync(peopleDataFile);
+        var as = JSON.parse(content);
+        var set = new Set();
+        as['people'].forEach(element => {
+            set.add(element.email);
+        });
+        if (set.has(request.payload.email)) {
+            as['people'].forEach(element => {
+                if(element.email===request.payload.email)
+                {
+                    
+                }
+            });
+        }
+        else {
+            
+            return ("Dodano gościa");
+        }
+
     },
     register: function (request, reply) {
-        return "register";
+        var fs = require("fs");
+        var content = fs.readFileSync(peopleDataFile);
+        var as = JSON.parse(content);
+        var set = new Set();
+        as['people'].forEach(element => {
+            set.add(element.email);
+        });
+        if (set.has(request.payload.email)) {
+            return ("Gość istnieje");
+        }
+        else {
+            as['people'].push({
+                "email": request.payload.email,
+                "password": request.payload.password,
+                "boardList": [],
+                "boardListAccess": []
+            })
+            const jsonString = JSON.stringify(as)
+            fs.writeFileSync(peopleDataFile, jsonString);
+            // //dodanie oddzielnego katolgu na plik użytkownika  
+            fs.mkdir(__dirname + '/ourDatabase/' + request.payload.email, err => {              
+            })
+            var doPliku = "[]"
+            var fs2 = require('fs');
+            fs2.writeFile(dataBaseFolder + request.payload.email + "/boardsLisst.json", doPliku, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+            return ("Dodano gościa");
+        }
     }
 }
 

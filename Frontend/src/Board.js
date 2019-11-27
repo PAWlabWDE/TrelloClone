@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import EdiText from 'react-editext'
 import { Button } from "react-bootstrap";
 import Column from "./Column";
+import Cookie from "js-cookie"
 
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/chooseBoard";
@@ -27,7 +28,7 @@ class Board extends Component {
   }
 
   componentDidMount() {
-    fetch(API + DEFAULT_QUERY, {
+    fetch(API + DEFAULT_QUERY+'?token='+Cookie.get('token'), {
       method: "POST",
       headers: {
         Accept: "application/json",

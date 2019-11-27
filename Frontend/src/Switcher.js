@@ -1,7 +1,7 @@
 import { BrowserRouter as Switch, Route } from "react-router-dom";
 import React, { Component } from "react";
 import Board from "./Board";
-
+import Cookie from "js-cookie"
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/getAllBoards";
 
@@ -14,7 +14,7 @@ export default class Switcher extends Component {
     };
   }
   componentDidMount() {
-    fetch(API + DEFAULT_QUERY)
+    fetch(API + DEFAULT_QUERY+'?token='+Cookie.get('token'))
       .then(response => response.json())
       .then(data => this.setState({ list: data }));
   }

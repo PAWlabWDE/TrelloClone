@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import "./BoardLink";
 import BoardList from "./BoardList";
 import "./Switcher";
 import Loginn from "./LogIn";

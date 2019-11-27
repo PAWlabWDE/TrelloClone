@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./Todo.css";
 import { Button } from "react-bootstrap";
-import Cookie from "js-cookie"
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Cookie from "js-cookie";
 
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/getAllBoards";
@@ -18,7 +19,7 @@ export default class BoardList extends Component {
   }
   componentDidMount() {
     console.log("wywyoalja siie TODO");
-    fetch(API + DEFAULT_QUERY+'?token='+Cookie.get('token'))
+    fetch(API + DEFAULT_QUERY + "?token=" + Cookie.get("token"))
       .then(response => response.json())
       .then(data => {
         this.setState({ list: data });
@@ -34,7 +35,7 @@ export default class BoardList extends Component {
         text: ""
       }));
       //tutaj wyślij do serwera nową tablicę
-      fetch(API + "/addBoard", {
+      fetch(API + "/addBoard" + "?token=" + Cookie.get("token"), {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -70,9 +71,11 @@ export default class BoardList extends Component {
               <div className="center" class="p">
                 <div className="center">
                   <p>
-                    <a href={"/" + item}>
+                    {/* <a href={"/" + item}> */}
+                    <Link to={"/" + item}>
                       <Button bsStyle="primary"> {item} </Button>
-                    </a>
+                    </Link>
+                    {/* </a> */}
                   </p>
                 </div>
               </div>

@@ -3,7 +3,6 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import BoardList from "./BoardList";
-import "./Switcher";
 import Loginn from "./LogIn";
 import Register from "./Register";
 import Switcher from "./Switcher";
@@ -12,13 +11,13 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Route exact path="/log">
+        <Route exact path="/">
           <Loginn />
         </Route>
         <Route exact path="/reg">
           <Register />
         </Route>
-        <Route exact path="/">
+        <Route exact path="/home">
           <container className="container" role="main">
             <div className="row">
               <header className="col-md-12 text-center text-white">
@@ -26,7 +25,7 @@ class App extends Component {
               </header>
               <div className="col-md-11"></div>
               <div className="col-md-1">
-                <Link to="/log">
+                <Link to="/">
                   <Button type="button" variant="primary">
                     Log in
                   </Button>
@@ -36,6 +35,7 @@ class App extends Component {
                 <BoardList />
               </nav>
               <section className="col-md-9">
+                {console.log("przed switcherem")}
                 <Switcher />
               </section>
             </div>

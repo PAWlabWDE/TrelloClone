@@ -24,7 +24,7 @@ console.log(token);
 //  people[3]={id:3,name:'nowy'};
 //console.log(people);
 
-const validate = async function (decoded, request, h) {
+const validate = async function(decoded, request, h) {
     console.log(" - - - - - - - decoded token:");
     console.log(decoded);
     console.log(" - - - - - - - request info:");
@@ -33,8 +33,7 @@ const validate = async function (decoded, request, h) {
     console.log(request.headers['user-agent']);
     if (!people[decoded.id]) {
         return { isValid: false };
-    }
-    else {
+    } else {
         return { isValid: true };
     }
 
@@ -45,34 +44,34 @@ function clearArray(array) {
         array.pop();
     }
 }
-const verifyToken = (jwtToken) =>{
-    try{
-        var a=JWT.verify(jwtToken, secret);
-        
-       return a;
-    }catch(e){
-       console.log('e:',e);
-       return null;
+const verifyToken = (jwtToken) => {
+    try {
+        var a = JWT.verify(jwtToken, secret);
+
+        return a;
+    } catch (e) {
+        console.log('e:', e);
+        return null;
     }
- }
+}
 
 const handlers = {
-    post: function (request, reply) {
+    post: function(request, reply) {
         return ('It is wokring');
     },
 
-    getAllBoards: function (request, reply) {
+    getAllBoards: function(request, reply) {
         console.log(request.query);
         console.log(verifyToken(request.query.token));
-        var a=verifyToken(request.query.token);
+        var a = verifyToken(request.query.token);
         var fs = require("fs");
-        var content = fs.readFileSync(dataBaseFolder+a.name+'/boardsList.json');
+        var content = fs.readFileSync(dataBaseFolder + a.name + '/boardsList.json');
         return (content);
     },
-    addBoard: function (request, reply) {
-        var a=verifyToken(request.query.token);
+    addBoard: function(request, reply) {
+        var a = verifyToken(request.query.token);
         var fs = require("fs");
-        var content = fs.readFileSync(dataBaseFolder+a.name+'/boardsList.json');
+        var content = fs.readFileSync(dataBaseFolder + a.name + '/boardsList.json');
         var as = JSON.parse(content);
         var set = new Set();
         as.forEach(element => {
@@ -80,15 +79,14 @@ const handlers = {
         });
         if (set.has(request.payload.boardName)) {
             return ("Tablica istnieje");
-        }
-        else {
-            as.push(request.payload.boardName);//dodajemy nowy element do jsona
+        } else {
+            as.push(request.payload.boardName); //dodajemy nowy element do jsona
             const jsonString = JSON.stringify(as)
-            fs.writeFileSync(dataBaseFolder+a.name+'/boardsList.json', jsonString);
+            fs.writeFileSync(dataBaseFolder + a.name + '/boardsList.json', jsonString);
             //dodanie oddzielnego pliku na dane dla tablicy             
             var doPliku = "{\"nazwaTablicy\": \"" + request.payload.boardName + "\",\"kolumny\": []}"
             var fs2 = require('fs');
-            fs2.writeFile(dataBaseFolder+a.name +'/'+ request.payload.boardName + ".json", doPliku, function (err) {
+            fs2.writeFile(dataBaseFolder + a.name + '/' + request.payload.boardName + ".json", doPliku, function(err) {
                 if (err) {
                     console.log(err);
                 }
@@ -96,10 +94,10 @@ const handlers = {
             return ("Dodano tablice: " + request.payload.boardName);
         }
     },
-    chooseBoard: function (request, reply) {
-        var a=verifyToken(request.query.token);
+    chooseBoard: function(request, reply) {
+        var a = verifyToken(request.query.token);
         var fs = require("fs");
-        var content = fs.readFileSync(dataBaseFolder+a.name+'/boardsList.json');
+        var content = fs.readFileSync(dataBaseFolder + a.name + '/boardsList.json');
         //znajdź odpowidnią tablice 
         var as = JSON.parse(content);
         var set = new Set();
@@ -110,19 +108,18 @@ const handlers = {
             //tablica istnieje czyli zwracamy jej kolumny
             //odczyt z pliku danych o tablicy
             var fs2 = require("fs");
-            var dataBoard = fs2.readFileSync(dataBaseFolder+a.name +'/' + request.payload.boardName + ".json");
+            var dataBoard = fs2.readFileSync(dataBaseFolder + a.name + '/' + request.payload.boardName + ".json");
             var boardsData = JSON.parse(dataBoard);
             return (boardsData);
-        }
-        else {
+        } else {
 
             return ("Podana tablica nie istnieje: " + request.payload.boardName);
         }
     },
-    editBoardName: function (request, reply) {
-        var a=verifyToken(request.query.token);
+    editBoardName: function(request, reply) {
+        var a = verifyToken(request.query.token);
         var fs = require("fs");
-        var content = fs.readFileSync(dataBaseFolder+a.name+'/boardsList.json');
+        var content = fs.readFileSync(dataBaseFolder + a.name + '/boardsList.json');
         var as = JSON.parse(content);
         var set = new Set();
         as.forEach(element => {
@@ -131,30 +128,29 @@ const handlers = {
         if (set.has(request.payload.oldBoardName)) {
             if (set.has(request.payload.newBoardName)) {
                 return ("Inna tablica ma taką samę nazwę. \nZmiana nazwy nie została dokonana");
-            }
-            else {
-                clearArray(as);//wyczyszczenie naszje tablicy danych
+            } else {
+                clearArray(as); //wyczyszczenie naszje tablicy danych
                 set.delete(request.payload.oldBoardName);
                 set.add(request.payload.newBoardName)
-                set.forEach(e => as.push(e));//dodanie do tablic do zapisu
+                set.forEach(e => as.push(e)); //dodanie do tablic do zapisu
                 const jsonString = JSON.stringify(as)
-                fs.writeFileSync(dataBaseFolder+a.name+'/boardsList.json', jsonString);
+                fs.writeFileSync(dataBaseFolder + a.name + '/boardsList.json', jsonString);
                 //tutaj edycja konkretnego pliku danej tablicy
                 var fs2 = require("fs");
-                var data = fs2.readFileSync(dataBaseFolder +a.name+'/'+ request.payload.oldBoardName + ".json");
+                var data = fs2.readFileSync(dataBaseFolder + a.name + '/' + request.payload.oldBoardName + ".json");
                 var as2 = JSON.parse(data);
                 as2.nazwaTablicy = request.payload.newBoardName;
                 const jsonString2 = JSON.stringify(as2)
                 var fs3 = require('fs');
-                fs3.writeFile(dataBaseFolder+a.name+'/' + request.payload.newBoardName + ".json", jsonString2, function (err) {
+                fs3.writeFile(dataBaseFolder + a.name + '/' + request.payload.newBoardName + ".json", jsonString2, function(err) {
                     if (err) {
                         console.log(err);
                     }
                 });
                 //usuń stary plik
                 try {
-                    fs2.unlinkSync(dataBaseFolder+a.name+'/' + request.payload.oldBoardName + ".json")
-                    //file removed
+                    fs2.unlinkSync(dataBaseFolder + a.name + '/' + request.payload.oldBoardName + ".json")
+                        //file removed
                 } catch (err) {
                     console.error(err)
                 }
@@ -162,16 +158,15 @@ const handlers = {
                 return ("Zmieniono nazwe tablicy");
             }
 
-        }
-        else {
+        } else {
 
             return ("Tablica nie istnieje: " + request.payload.oldBoardName + "\nCzyli nie zmienisz nazwy");
         }
     },
-    addColumn: function (request, reply) {
-        var a=verifyToken(request.query.token);
+    addColumn: function(request, reply) {
+        var a = verifyToken(request.query.token);
         var fs = require("fs");
-        var content = fs.readFileSync(dataBaseFolder+a.name+'/boardsList.json');
+        var content = fs.readFileSync(dataBaseFolder + a.name + '/boardsList.json');
         //znajdź odpowidnią tablice 
         var as = JSON.parse(content);
         var set = new Set();
@@ -182,24 +177,23 @@ const handlers = {
             //tablica istnieje czyli zwracamy jej kolumny
             //odczyt z pliku danych o tablicy
             var fs2 = require("fs");
-            var dataBoard = fs2.readFileSync(dataBaseFolder+a.name+'/' + request.payload.boardName + ".json");
+            var dataBoard = fs2.readFileSync(dataBaseFolder + a.name + '/' + request.payload.boardName + ".json");
             var as2 = JSON.parse(dataBoard);
             as2['kolumny'].push({ "nazwaKolumny": request.payload.columnName, "listZadan": [] })
             const jsonString = JSON.stringify(as2)
-            fs.writeFileSync(dataBaseFolder+a.name+'/' + request.payload.boardName + ".json", jsonString);
+            fs.writeFileSync(dataBaseFolder + a.name + '/' + request.payload.boardName + ".json", jsonString);
             return (as2);
-        }
-        else {
+        } else {
 
             return ("Podana tablica nie istnieje");
         }
     },
-    restricted: function (request, reply) {
+    restricted: function(request, reply) {
         const response = reply.response({ message: 'You used a Valid JWT Token to access /restricted endpoint!' });
         response.header("Authorization", request.headers.authorization);
         return response;
     },
-    login: function (request, reply) {
+    login: function(request, reply) {
         var fs = require("fs");
         var content = fs.readFileSync(peopleDataFile);
         var as = JSON.parse(content);
@@ -223,27 +217,24 @@ const handlers = {
                         a = JWT.sign({
                             id: idFake,
                             name: request.payload.email
-                        }
-                            , secret);
+                        }, secret);
                         people[idFake] = { id: idFake, name: request.payload.email };
 
                         // console.log("Tokenik: " + a);
-                    }
-                    else{
-                        a="no chyba coś Cię..."
+                    } else {
+                        a = "Access denied"
                     }
 
                 }
             })
-        }
-        else {
+        } else {
 
-            return ("nie istneijesz ");
+            return ("Access denied");
         }
         return a;
 
     },
-    register: function (request, reply) {
+    register: function(request, reply) {
         var fs = require("fs");
         var content = fs.readFileSync(peopleDataFile);
         var as = JSON.parse(content);
@@ -254,8 +245,7 @@ const handlers = {
         //  console.log(as);
         if (set.has(request.payload.email)) {
             return ("Gość istnieje");
-        }
-        else {
+        } else {
             as['people'].push({
                 "email": request.payload.email,
                 "password": request.payload.password,
@@ -265,21 +255,20 @@ const handlers = {
             const jsonString = JSON.stringify(as)
             fs.writeFileSync(peopleDataFile, jsonString);
             // //dodanie oddzielnego katolgu na plik użytkownika  
-            fs.mkdir(__dirname + '/ourDatabase/' + request.payload.email, err => {
-            })
+            fs.mkdir(__dirname + '/ourDatabase/' + request.payload.email, err => {})
             var doPliku = "[]"
             var fs2 = require('fs');
-            fs2.writeFile(dataBaseFolder + request.payload.email + "/boardsList.json", doPliku, function (err) {
+            fs2.writeFile(dataBaseFolder + request.payload.email + "/boardsList.json", doPliku, function(err) {
                 if (err) {
                     console.log(err);
                 }
             });
-            return ("Dodano gościa");
+            return ("Adding User");
         }
     }
 }
 
-const init = async () => {
+const init = async() => {
 
 
     const server = new Hapi.Server({
@@ -289,12 +278,11 @@ const init = async () => {
         }
     });
     await server.register(hapiAuthJWT);
-    server.auth.strategy('jwt', 'jwt',
-        {
-            key: secret,
-            validate,
-            verifyOptions: { ignoreExpiration: true }
-        });
+    server.auth.strategy('jwt', 'jwt', {
+        key: secret,
+        validate,
+        verifyOptions: { ignoreExpiration: true }
+    });
 
     server.auth.default('jwt');
 

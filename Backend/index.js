@@ -14,6 +14,9 @@ const people = {
         name: 'Mateusz Baranski'
     }
 };
+const peopleDataFile = "ourDatabase/people.json";
+const mainDataBaseFile = "ourDatabase/boardsList.json";
+const dataBaseFolder = "ourDatabase/";
 // use the token as the 'authorization' header in requests
 const token = JWT.sign(people[1], secret); // synchronous
 console.log(token);
@@ -27,17 +30,24 @@ const validate = async function (decoded, request, h) {
     console.log(" - - - - - - - user agent:");
     console.log(request.headers['user-agent']);
 
-    // do your checks to see if the person is valid
-    if (!people[decoded.id]) {
-        return { isValid: false };
-    }
-    else {
-        return { isValid: true };
-    }
+ var fs = require("fs");
+        var content = fs.readFileSync(peopleDataFile);
+        var as = JSON.parse(content);
+        var set = new Set();
+        as.forEach(element => {
+            set.add(element.email);
+        });
+        console.log("Co my tu mamy: "+as);
+        console.log("decode.emial: "+decoded.email)
+        if (set.has(decoded.email)) {
+            return { isValid: true };
+        }
+        else {
+            return { isValid: false };
+        }
+   
 };
-const peopleDataFile = "ourDatabase/people.json";
-const mainDataBaseFile = "ourDatabase/boardsList.json";
-const dataBaseFolder = "ourDatabase/";
+
 function clearArray(array) {
     while (array.length) {
         array.pop();

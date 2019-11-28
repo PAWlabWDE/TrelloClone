@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Cookie from "js-cookie"
+import App from "./App";
 const API = "http://localhost:3001";
 const LOGIN_QUERY = "/login";
 
@@ -47,7 +48,13 @@ export default class Loginn extends Component {
         // <!DOCTYPE ....
         console.log(text); //w tym text jest jebany token
         //to set a cookie
-        Cookie.set("token", text);
+        if(text !== "Access denied"){
+          Cookie.set("token", text);
+          window.location.href="/home"
+        }
+        else
+          alert("Something went wrong");
+
       });
 
   }

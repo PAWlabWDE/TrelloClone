@@ -166,6 +166,7 @@ const handlers = {
         as.forEach(element => {
             set.add(element);
         });
+        console.log(a.name+" "+request.payload.boardName+" "+request.payload.columnName);
         if (set.has(request.payload.boardName)) {
             //tablica istnieje czyli zwracamy jej kolumny
             //odczyt z pliku danych o tablicy

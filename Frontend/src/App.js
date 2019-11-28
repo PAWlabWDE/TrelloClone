@@ -3,6 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import Switcher from "./Switcher";
 import BoardList from "./BoardList";
+import Board from './Board';
 
 class App extends Component {
   render() {
@@ -17,7 +18,7 @@ class App extends Component {
               <BoardList />
             </nav>
             <section className="col-md-9">
-              <Switcher />
+              <Board name="pierwsza"/>
             </section>
           </div>
         </container>

@@ -31,7 +31,19 @@ export default class Register extends Component {
         email: this.state.email,
         password: this.state.password      
       })
+    }).then(function (response) {
+      return response.text();
     })
+      .then(function (text) {
+     
+        if(text !== "Gość istnieje"){
+         
+          window.location.href="/"
+        }
+        else
+          alert("Something went wrong");
+
+      });
   }
 
   render() {

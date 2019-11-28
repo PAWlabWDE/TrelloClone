@@ -5,7 +5,6 @@ const secret = require('./config');
 const JWT = require('jsonwebtoken');
 const hapiAuthJWT = require('./lib/');
 const peopleDataFile = "ourDatabase/people.json";
-const mainDataBaseFile = "ourDatabase/boardsList.json";
 const dataBaseFolder = "ourDatabase/";
 var people = {
     1: {
@@ -18,13 +17,8 @@ var people = {
     }
 };
 var idFake = 3;
-// use the token as the 'authorization' header in requests
-const token = JWT.sign(people[1], secret); // synchronous
-console.log(token);
-//  people[3]={id:3,name:'nowy'};
-//console.log(people);
 
-const validate = async function(decoded, request, h) {
+const validate = async function (decoded, request, h) {
     console.log(" - - - - - - - decoded token:");
     console.log(decoded);
     console.log(" - - - - - - - request info:");
@@ -47,7 +41,6 @@ function clearArray(array) {
 const verifyToken = (jwtToken) => {
     try {
         var a = JWT.verify(jwtToken, secret);
-
         return a;
     } catch (e) {
         console.log('e:', e);
@@ -56,11 +49,11 @@ const verifyToken = (jwtToken) => {
 }
 
 const handlers = {
-    post: function(request, reply) {
+    post: function (request, reply) {
         return ('It is wokring');
     },
 
-    getAllBoards: function(request, reply) {
+    getAllBoards: function (request, reply) {
         console.log(request.query);
         console.log(verifyToken(request.query.token));
         var a = verifyToken(request.query.token);
@@ -68,7 +61,7 @@ const handlers = {
         var content = fs.readFileSync(dataBaseFolder + a.name + '/boardsList.json');
         return (content);
     },
-    addBoard: function(request, reply) {
+    addBoard: function (request, reply) {
         var a = verifyToken(request.query.token);
         var fs = require("fs");
         var content = fs.readFileSync(dataBaseFolder + a.name + '/boardsList.json');
@@ -86,7 +79,7 @@ const handlers = {
             //dodanie oddzielnego pliku na dane dla tablicy             
             var doPliku = "{\"nazwaTablicy\": \"" + request.payload.boardName + "\",\"kolumny\": []}"
             var fs2 = require('fs');
-            fs2.writeFile(dataBaseFolder + a.name + '/' + request.payload.boardName + ".json", doPliku, function(err) {
+            fs2.writeFile(dataBaseFolder + a.name + '/' + request.payload.boardName + ".json", doPliku, function (err) {
                 if (err) {
                     console.log(err);
                 }
@@ -94,7 +87,7 @@ const handlers = {
             return ("Dodano tablice: " + request.payload.boardName);
         }
     },
-    chooseBoard: function(request, reply) {
+    chooseBoard: function (request, reply) {
         var a = verifyToken(request.query.token);
         var fs = require("fs");
         var content = fs.readFileSync(dataBaseFolder + a.name + '/boardsList.json');
@@ -116,7 +109,7 @@ const handlers = {
             return ("Podana tablica nie istnieje: " + request.payload.boardName);
         }
     },
-    editBoardName: function(request, reply) {
+    editBoardName: function (request, reply) {
         var a = verifyToken(request.query.token);
         var fs = require("fs");
         var content = fs.readFileSync(dataBaseFolder + a.name + '/boardsList.json');
@@ -142,7 +135,7 @@ const handlers = {
                 as2.nazwaTablicy = request.payload.newBoardName;
                 const jsonString2 = JSON.stringify(as2)
                 var fs3 = require('fs');
-                fs3.writeFile(dataBaseFolder + a.name + '/' + request.payload.newBoardName + ".json", jsonString2, function(err) {
+                fs3.writeFile(dataBaseFolder + a.name + '/' + request.payload.newBoardName + ".json", jsonString2, function (err) {
                     if (err) {
                         console.log(err);
                     }
@@ -150,7 +143,7 @@ const handlers = {
                 //usuń stary plik
                 try {
                     fs2.unlinkSync(dataBaseFolder + a.name + '/' + request.payload.oldBoardName + ".json")
-                        //file removed
+                    //file removed
                 } catch (err) {
                     console.error(err)
                 }
@@ -163,7 +156,7 @@ const handlers = {
             return ("Tablica nie istnieje: " + request.payload.oldBoardName + "\nCzyli nie zmienisz nazwy");
         }
     },
-    addColumn: function(request, reply) {
+    addColumn: function (request, reply) {
         var a = verifyToken(request.query.token);
         var fs = require("fs");
         var content = fs.readFileSync(dataBaseFolder + a.name + '/boardsList.json');
@@ -188,12 +181,12 @@ const handlers = {
             return ("Podana tablica nie istnieje");
         }
     },
-    restricted: function(request, reply) {
+    restricted: function (request, reply) {
         const response = reply.response({ message: 'You used a Valid JWT Token to access /restricted endpoint!' });
         response.header("Authorization", request.headers.authorization);
         return response;
     },
-    login: function(request, reply) {
+    login: function (request, reply) {
         var fs = require("fs");
         var content = fs.readFileSync(peopleDataFile);
         var as = JSON.parse(content);
@@ -234,7 +227,7 @@ const handlers = {
         return a;
 
     },
-    register: function(request, reply) {
+    register: function (request, reply) {
         var fs = require("fs");
         var content = fs.readFileSync(peopleDataFile);
         var as = JSON.parse(content);
@@ -255,10 +248,10 @@ const handlers = {
             const jsonString = JSON.stringify(as)
             fs.writeFileSync(peopleDataFile, jsonString);
             // //dodanie oddzielnego katolgu na plik użytkownika  
-            fs.mkdir(__dirname + '/ourDatabase/' + request.payload.email, err => {})
+            fs.mkdir(__dirname + '/ourDatabase/' + request.payload.email, err => { })
             var doPliku = "[]"
             var fs2 = require('fs');
-            fs2.writeFile(dataBaseFolder + request.payload.email + "/boardsList.json", doPliku, function(err) {
+            fs2.writeFile(dataBaseFolder + request.payload.email + "/boardsList.json", doPliku, function (err) {
                 if (err) {
                     console.log(err);
                 }
@@ -268,7 +261,7 @@ const handlers = {
     }
 }
 
-const init = async() => {
+const init = async () => {
 
 
     const server = new Hapi.Server({

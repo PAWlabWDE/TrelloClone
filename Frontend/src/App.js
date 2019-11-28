@@ -6,6 +6,19 @@ import BoardList from "./BoardList";
 import Board from './Board';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: ""
+
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+   handleChange(name)
+  {
+      this.setState({name: name});
+  }
+
   render() {
     return (
       <Router>
@@ -18,7 +31,7 @@ class App extends Component {
               <BoardList />
             </nav>
             <section className="col-md-9">
-              <Board name="pierwsza"/>
+              <Board name={this.state.name} onBoardClick={this.handleChange} />
             </section>
           </div>
         </container>

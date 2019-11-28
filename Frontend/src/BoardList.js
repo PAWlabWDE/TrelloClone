@@ -16,6 +16,7 @@ export default class BoardList extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.chooseBoard = this.chooseBoard.bind(this);
+    this.handleClick =this.handleClick.bind(this);
   }
   componentDidMount() {
     console.log("wywyoalja siie TODO");
@@ -58,7 +59,9 @@ export default class BoardList extends Component {
   chooseBoard(index) {
     console.log("chooseBoard");
   }
-
+   handleClick(event) {
+    onBoardClick(event.target.name); // pass any argument to the callback
+  }
   render() {
     return (
       <div className="center">
@@ -74,7 +77,7 @@ export default class BoardList extends Component {
                   <p>
                     {/* <a href={"/" + item}> */}
                     <Link to={"/" + item}>
-                      <Button bsStyle="primary"> {item} </Button>
+                      <Button bsStyle="primary" onClick={handleClick(item)}> {item} </Button>
                     </Link>
                     {/* </a> */}
                   </p>

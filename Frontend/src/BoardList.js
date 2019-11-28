@@ -3,6 +3,7 @@ import "./Todo.css";
 import { Button } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Cookie from "js-cookie";
+import App from "./App"
 
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/getAllBoards";
@@ -60,7 +61,8 @@ export default class BoardList extends Component {
     console.log("chooseBoard");
   }
    handleClick(event) {
-    onBoardClick(event.target.name); // pass any argument to the callback
+     //App.props.name=event.name;
+   // App.onBoardClick(event.name); // pass any argument to the callback
   }
   render() {
     return (
@@ -77,7 +79,7 @@ export default class BoardList extends Component {
                   <p>
                     {/* <a href={"/" + item}> */}
                     <Link to={"/" + item}>
-                      <Button bsStyle="primary" onClick={handleClick(item)}> {item} </Button>
+                      <Button bsStyle="primary" onAction={this.handleClick(item)}> {item} </Button>
                     </Link>
                     {/* </a> */}
                   </p>

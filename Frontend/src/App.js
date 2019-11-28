@@ -39,5 +39,7 @@ class App extends Component {
     );
   }
 }
-
+function cos(){
+  
+}
 export default App;

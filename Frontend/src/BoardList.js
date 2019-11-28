@@ -61,6 +61,7 @@ export default class BoardList extends Component {
     console.log("chooseBoard");
   }
    handleClick(event) {
+    this.props.onBoardClick(event.name);
      //App.props.name=event.name;
    // App.onBoardClick(event.name); // pass any argument to the callback
   }

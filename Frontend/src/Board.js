@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import EdiText from "react-editext";
 import { Button } from "react-bootstrap";
-import Column from "./Column";
+import ColumnV2 from "./ColumnV2";
 import Cookie from "js-cookie";
 
 const API = "http://localhost:3001";
@@ -136,10 +136,11 @@ class Board extends Component {
               />
             </Button>
           </div>
-          {this.state.columnList.map((item, index) => {
-            return <div class="text-center text-white">sdsa</div>;
-            // return <Column boardName={this.state.name} columnName={item}/>
-          })}
+          {/* {this.state.columnList.map((item, index) => { */}
+            {/* //return <div class="text-center text-white">sdsa</div>; */}
+            return <ColumnV2 name={"komletny fejk"} tasks={"sdads","asd"}/>
+            {/* // return <Column boardName={this.state.name} columnName={item}/>
+          })} */}
           {/* {this.state.columnList.map((item, index) => {
                       var linkAdddres = "/";
                       console.log(linkAdddres);

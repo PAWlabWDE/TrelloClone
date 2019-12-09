@@ -135,7 +135,7 @@ class Board extends Component {
           </div>
           {this.state.columnList.map((item, index) => {
             return (
-              <ColumnV2 name={item["nazwaKolumny"]} tasks={item["listaZadan"]} />
+              <ColumnV2 name={item["nazwaKolumny"]} tasks={item["listZadan"]} />
             );
           })}
 

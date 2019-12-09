@@ -27,7 +27,6 @@ class Board extends Component {
   }
 
   componentDidMount() {
-    //console.log("BOARD WITA");
     if (this.props.name !== "") {
       fetch(API + DEFAULT_QUERY + "?token=" + Cookie.get("token"), {
         method: "POST",
@@ -41,24 +40,24 @@ class Board extends Component {
       })
         .then(response => response.json())
         .then(data => {
-          console.log(JSON.stringify(data));
+
           var obj = JSON.stringify(data);
           var parsedJSON = JSON.parse(obj);
-          console.log("Nazawa " + parsedJSON["nazwaTablicy"]);
+
           this.setState({ name: parsedJSON["nazwaTablicy"] });
           parsedJSON["kolumny"].map(el => {
-            // this.setState({ this.props.columnList.push(id2); });
+
             this.setState(state => {
               const list = state.columnList.push(el);
               return {
                 list
               };
             });
-            //console.log(el['nazwaKolumny']);
           });
-          //console.log(this.props.name)
-          //console.log(this.state.columnList)
+
         });
+
+
     }
   }
   addColumnHandler() {
@@ -94,7 +93,6 @@ class Board extends Component {
         if ("Zmieniono nazwe tablicy" === Object.values(data)) {
           this.setState({ name: val });
         } else {
-          console.log("nie powiodło się"); //przydałoby się jakieś wykakujące okienko
           alert("no nie pykła zmiana nazwy");
         }
       });
@@ -103,8 +101,7 @@ class Board extends Component {
     this.setState({ textFieldValue: event.target.value });
   }
   render() {
-    // console.log(this.props.columnList);
-    // this.setState({columnList:["adsadsad","asdasdasd","adasdasd","dsadasdas","asdasdas"], name:""});
+
     if (this.props.name !== "") {
       return (
         <div style={divStyle}>
@@ -136,20 +133,12 @@ class Board extends Component {
               />
             </Button>
           </div>
-          {/* {this.state.columnList.map((item, index) => { */}
-            {/* //return <div class="text-center text-white">sdsa</div>; */}
-            return <ColumnV2 name={"komletny fejk"} tasks={"sdads","asd"}/>
-            {/* // return <Column boardName={this.state.name} columnName={item}/>
-          })} */}
-          {/* {this.state.columnList.map((item, index) => {
-                      var linkAdddres = "/";
-                      console.log(linkAdddres);
-                      return (
-                        <div>sdfsdf
-                          </div>
-  
-                      )
-                  })} */}
+          {this.state.columnList.map((item, index) => {
+            return (
+              <ColumnV2 name={item["nazwaKolumny"]} tasks={item["listaZadan"]} />
+            );
+          })}
+
         </div>
       );
     } else {

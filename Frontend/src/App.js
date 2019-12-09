@@ -29,7 +29,7 @@ class App extends Component {
               <BoardList />
             </nav>
             <section className="col-md-9">
-              <Board name={this.state.name} onBoardClick={this.handleChange2} />
+              <Board name="pierwsza"  />
             </section>
           </div>
         </container>

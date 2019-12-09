@@ -10,7 +10,6 @@ const DEFAULT_QUERY = "/getAllBoards";
 export default class BoardList extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
     this.state = {
       list: [],
       text: ""
@@ -21,17 +20,14 @@ export default class BoardList extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
-    console.log("wywyoalja siie TODO");
     fetch(API + DEFAULT_QUERY + "?token=" + Cookie.get("token"))
       .then(response => response.json())
       .then(data => {
         this.setState({ list: data });
-        console.log(data);
       });
   }
   handleSubmit(e) {
     e.preventDefault();
-    console.log("handleSubmit");
     if (this.state.text !== "") {
       this.setState(prevState => ({
         list: prevState.list.concat(this.state.text),
@@ -59,45 +55,45 @@ export default class BoardList extends Component {
   }
 
   chooseBoard(index) {
-    console.log("chooseBoard");
+    //console.log("chooseBoard");
   }
-  handleClick(event) {
+
+  handleClick(e) {
     //this.props.onBoardClick(event.name);
-    console.log(this.props.name);
+    console.log(e.target.value);
     //App.props.name=event.name;
     // App.onBoardClick(event.name); // pass any argument to the callback
   }
   render() {
     return (
       <div className="center">
-        <h4 className="text-white"> BOARD LIST </h4>{" "}
+        <h4 className="text-white"> BOARD LIST </h4>
         <form onSubmit={this.handleSubmit}>
-          <input value={this.state.text} onChange={e => this.handleChange(e)} />{" "}
+          <input value={this.state.text} onChange={e => this.handleChange(e)} />
           <p />
-          <button className="btn btn-success"> Add Board </button> <p /> <p />{" "}
+          <button className="btn btn-success"> Add Board </button> <p /> <p />
           {this.state.list.map((item, index) => {
             return (
               <div className="center" class="p">
                 <div className="center">
                   <p>
-                    {" "}
-                    {/* <a href={"/" + item}> */}{" "}
-                    <Link to={"/" + item}>
-                      <Button
-                        bsStyle="primary"
-                        onAction={this.handleClick(item)}
-                      >
-                        {" "}
-                        {item}{" "}
-                      </Button>{" "}
-                    </Link>{" "}
-                    {/* </a> */}{" "}
-                  </p>{" "}
-                </div>{" "}
+                    {/* <a href={"/" + item}> */}
+                    {/* <Link to={"/" + item}> */}
+                    <Button
+                      bsStyle="primary"
+                      onClick={this.handleClick}
+                      value={item}
+                    >
+                      {item}
+                    </Button>
+                    {/* </Link> */}
+                    {/* </a> */}
+                  </p>
+                </div>
               </div>
             );
-          })}{" "}
-        </form>{" "}
+          })}
+        </form>
       </div>
     );
   }

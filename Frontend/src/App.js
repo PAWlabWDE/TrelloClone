@@ -3,26 +3,24 @@ import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import Switcher from "./Switcher";
 import BoardList from "./BoardList";
-import Board from './Board';
+import Board from "./Board";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: ""
-
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChange2 = this.handleChange2.bind(this);
   }
-   handleChange(name)
-  {
-      this.setState({name: name});
-  }
+  handleChange2 = name => {
+    this.setState({ name: name });
+  };
 
   render() {
     return (
       <Router>
-       <container className="container" role="main">
+        <container className="container" role="main">
           <div className="row">
             <header className="col-md-12 text-center text-white">
               <h1> Trello clone </h1>
@@ -31,7 +29,7 @@ class App extends Component {
               <BoardList />
             </nav>
             <section className="col-md-9">
-              <Board name={this.state.name} onBoardClick={this.handleChange} />
+              <Board name={this.state.name} onBoardClick={this.handleChange2} />
             </section>
           </div>
         </container>
@@ -39,7 +37,5 @@ class App extends Component {
     );
   }
 }
-function cos(){
-  
-}
+function cos() {}
 export default App;

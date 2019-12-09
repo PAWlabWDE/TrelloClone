@@ -3,13 +3,14 @@ import "./Todo.css";
 import { Button } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Cookie from "js-cookie";
-import App from "./App"
+import App from "./App";
 
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/getAllBoards";
 export default class BoardList extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props);
     this.state = {
       list: [],
       text: ""
@@ -17,7 +18,7 @@ export default class BoardList extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.chooseBoard = this.chooseBoard.bind(this);
-    this.handleClick =this.handleClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
     console.log("wywyoalja siie TODO");
@@ -60,35 +61,43 @@ export default class BoardList extends Component {
   chooseBoard(index) {
     console.log("chooseBoard");
   }
-   handleClick(event) {
-    this.props.onBoardClick(event.name);
-     //App.props.name=event.name;
-   // App.onBoardClick(event.name); // pass any argument to the callback
+  handleClick(event) {
+    //this.props.onBoardClick(event.name);
+    console.log(this.props.name);
+    //App.props.name=event.name;
+    // App.onBoardClick(event.name); // pass any argument to the callback
   }
   render() {
     return (
       <div className="center">
-        <h4 className="text-white"> BOARD LIST </h4>
+        <h4 className="text-white"> BOARD LIST </h4>{" "}
         <form onSubmit={this.handleSubmit}>
-          <input value={this.state.text} onChange={e => this.handleChange(e)} />
+          <input value={this.state.text} onChange={e => this.handleChange(e)} />{" "}
           <p />
-          <button className="btn btn-success"> Add Board </button> <p /> <p />
+          <button className="btn btn-success"> Add Board </button> <p /> <p />{" "}
           {this.state.list.map((item, index) => {
             return (
               <div className="center" class="p">
                 <div className="center">
                   <p>
-                    {/* <a href={"/" + item}> */}
+                    {" "}
+                    {/* <a href={"/" + item}> */}{" "}
                     <Link to={"/" + item}>
-                      <Button bsStyle="primary" onAction={this.handleClick(item)}> {item} </Button>
-                    </Link>
-                    {/* </a> */}
-                  </p>
-                </div>
+                      <Button
+                        bsStyle="primary"
+                        onAction={this.handleClick(item)}
+                      >
+                        {" "}
+                        {item}{" "}
+                      </Button>{" "}
+                    </Link>{" "}
+                    {/* </a> */}{" "}
+                  </p>{" "}
+                </div>{" "}
               </div>
             );
-          })}
-        </form>
+          })}{" "}
+        </form>{" "}
       </div>
     );
   }

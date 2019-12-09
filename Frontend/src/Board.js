@@ -77,7 +77,7 @@ class Board extends Component {
   }
   onSave = val => {
     console.log("Edited Value -> ", val);
-    fetch(API + "/editBoardName", {
+    fetch(API + "/editBoardName" + "?token=" + Cookie.get("token"), {
       method: "POST",
       headers: {
         Accept: "application/json",

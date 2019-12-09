@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import EdiText from "react-editext";
 import { Button } from "react-bootstrap";
 import ColumnV2 from "./ColumnV2";
+import Column from "./Column";
 import Cookie from "js-cookie";
 
 const API = "http://localhost:3001";
@@ -134,8 +135,11 @@ class Board extends Component {
             </Button>
           </div>
           {this.state.columnList.map((item, index) => {
+            console.log("tescik: "+item["nazwaKolumny"])
+         ;
             return (
-              <ColumnV2 name={item["nazwaKolumny"]} tasks={item["listZadan"]} />
+             // <ColumnV2 name={item["nazwaKolumny"]} tasks={item["listZadan"]} />
+              <Column boardName={this.props.name} name={item["nazwaKolumny"]} tasks={item["listZadan"]}/>
             );
           })}
 

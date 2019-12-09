@@ -14,8 +14,9 @@ export default class Column extends Component {
     };
     this.props = {
       columnName: props.name,
-      taks: props.tasks
+      tasks: props.tasks
     };
+    console.log("props.name: "+props.name+" this.props.columnNAem: "+this.props.columnName);
   }
   initialMeasurements = {};
   state = {};
@@ -71,19 +72,21 @@ handleUpdate = ({ scrollbarHeight, scrollbarWidth }) => {
     //         </p>
     //     </div>
     // );
+    console.log("ASDASDASDASDASD "+this.props.columnName);
      return( <div>
-  <h2 class="text-center text-white">{this.props.columnName}</h2>
-       {this.state.tasks.map((item, index) => {
-            return (
+      <h2 class="text-center text-white">"TEST" +{this.props.columnName}</h2>
+      {this.props.tasks.map((item, index) => {
+          return (
               <div className="center">
-                <div className="p">
-                  {item}
-                  
-                </div>
+                  <div className="p">
+                      <div class="text-center text-white">
+                          {item["nazwaZadania"]} + {index}
+                      </div>
+                  </div>
               </div>
-            );
-          })}
-      </div>
+          );
+      })}
+  </div>
     );
   }
 }

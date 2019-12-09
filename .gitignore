@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+#Pliki do testów, będzie łątwiej
+/Backend/ourDatabase
+
 # dependencies
 /node_modules
 /.pnp

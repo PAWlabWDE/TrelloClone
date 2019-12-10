@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Switcher from "./Switcher";
 import BoardList from "./BoardList";
 import Board from "./Board";
+import { Container, Row, Col } from "react-bootstrap";
 
 class App extends Component {
   constructor(props) {
@@ -21,17 +22,19 @@ class App extends Component {
     return (
       <Router>
         <container className="container" role="main">
-          <div className="row">
+          <Row>
             <header className="col-md-12 text-center text-white">
               <h1> Trello clone </h1>
             </header>
-            <nav className="col-md-3">
+          </Row>
+          <Row>
+            <Col>
               <BoardList />
-            </nav>
-            <section className="col-md-9">
-              <Board name="pierwsza"  />
-            </section>
-          </div>
+            </Col>
+            <Col>
+              <Board name="pierwsza" />
+            </Col>
+          </Row>
         </container>
       </Router>
     );

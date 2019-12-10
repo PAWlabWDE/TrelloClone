@@ -4,6 +4,8 @@ import { Button } from "react-bootstrap";
 import ColumnV2 from "./ColumnV2";
 import Column from "./Column";
 import Cookie from "js-cookie";
+// import { useDrag } from 'react-dnd'
+// import { ItemTypes } from './Constants'
 
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/chooseBoard";
@@ -135,11 +137,9 @@ class Board extends Component {
             </Button>
           </div>
           {this.state.columnList.map((item, index) => {
-            console.log("tescik: "+item["nazwaKolumny"])
-         ;
             return (
-             // <ColumnV2 name={item["nazwaKolumny"]} tasks={item["listZadan"]} />
-              <Column boardName={this.props.name} name={item["nazwaKolumny"]} tasks={item["listZadan"]}/>
+              <ColumnV2 name={item["nazwaKolumny"]} tasks={item["listZadan"]} />
+              //<Column boardName={this.props.name} name={item["nazwaKolumny"]} tasks={item["listZadan"]}/>
             );
           })}
 

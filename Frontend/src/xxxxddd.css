@@ -1,11 +1,13 @@
 .lista {
-  width: auto;
+  min-width: 200px;
+  max-width: 300px;
   height: max-content;
   background-color: khaki;
   border-left-style: dashed;
   border-right-style: dashed;
   margin: 10px;
   vertical-align: super;
+  padding-bottom: 20px;
 }
 .karta {
   width: auto;

@@ -9,14 +9,11 @@ import Cookie from "js-cookie";
 import { DndProvider } from "react-dnd";
 import Backend from "react-dnd-html5-backend";
 import { Container, Row, Col } from "react-bootstrap";
-
+import "./xxxxddd.css";
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/chooseBoard";
 
-const divStyle = {
-  display: "flex",
-  alignItems: "center"
-};
+
 
 class Board extends Component {
   constructor(props) {
@@ -135,56 +132,20 @@ class Board extends Component {
             <Col>
             </Col>
           </Row>
+          <section class="card">
           <Row>
+          
            {this.state.columnList.map((item, index) => {
             return (
               <Column name={item["nazwaKolumny"]} tasks={item["listZadan"]} />
               //<Column boardName={this.props.name} name={item["nazwaKolumny"]} tasks={item["listZadan"]}/>
             );
           })}
-            
+           
           </Row>
+          </section>
         </Container>
-        {/* <div class="row">
-        <div style={divStyle}>
-          <div className="col-md-1">
-            <input
-              type="text"
-              value={this.state.textFieldValue}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="col-md-5">
-            <Button
-              variant="info"
-              alignItems="left"
-              onClick={this.addColumnHandler}
-            >
-              Dodaj kolumnę
-            </Button>
-          </div>
-          <div className="col-md-8">
-            <Button bsStyle="primary">
-              <EdiText
-                text-center
-                text-white
-                type="text"
-                value={this.props.name}
-                onSave={this.onSave}
-                editOnViewClick="true"
-              />
-            </Button>
-          </div>
-          </div>
-          <div class="row">
-          {this.state.columnList.map((item, index) => {
-            return (
-              <Column name={item["nazwaKolumny"]} tasks={item["listZadan"]} />
-              //<Column boardName={this.props.name} name={item["nazwaKolumny"]} tasks={item["listZadan"]}/>
-            );
-          })}
-</div>
-        </div> */}
+      
       </DndProvider>
     );
   }

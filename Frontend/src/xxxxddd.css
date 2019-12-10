@@ -19,4 +19,11 @@
   margin: 10px;
   vertical-align: super;
 }
+.card{
+  background-color:blueviolet;
+  min-width: 100%;
+  min-height: 200px;
+  display: flex;
+  overflow-x: auto;
+}
 

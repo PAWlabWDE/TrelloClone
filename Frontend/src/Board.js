@@ -2,15 +2,12 @@ import React, { Component } from "react";
 import EdiText from "react-editext";
 import { Button } from "react-bootstrap";
 import Column from "./ColumnV2";
-//mport Column from "./Column";
 import Cookie from "js-cookie";
-// import { useDrag } from 'react-dnd'
-// import { ItemTypes } from './Constants'
 import { DndProvider } from "react-dnd";
 import Backend from "react-dnd-html5-backend";
 import { Container, Row, Col } from "react-bootstrap";
 
-import { StickyTable, Row as RowTable, Cell as ColTable } from 'react-sticky-table';
+import { StickyTable } from 'react-sticky-table';
 import "./xxxxddd.css";
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/chooseBoard";
@@ -101,6 +98,7 @@ class Board extends Component {
     this.setState({ textFieldValue: event.target.value });
   }
   render() {
+    if(this.props.name !== ""){
     return (
       <DndProvider backend={Backend}>
         <Container>
@@ -152,6 +150,7 @@ class Board extends Component {
       
       </DndProvider>
     );
+  }else return(<div></div>)
   }
 }
 

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as  Link } from "react-router-dom";
 import Cookie from "js-cookie"
-import App from "./App";
 const API = "http://localhost:3001";
 const LOGIN_QUERY = "/login";
 

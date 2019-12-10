@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Loginn from "./LogIn";
 import Register from "./Register";
-import App from "./App";
+import Main from "./Main"
 
 class Start extends Component {
   render() {
@@ -15,7 +15,7 @@ class Start extends Component {
           <Register />
         </Route>
         <Route exact path="/home">
-            <App/>
+            <Main/>
         </Route>
       </Router>
     );

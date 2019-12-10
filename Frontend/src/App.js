@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
-import Switcher from "./Switcher";
 import BoardList from "./BoardList";
 import Board from "./Board";
-import { Container, Row, Col } from "react-bootstrap";
+import {  Row, Col } from "react-bootstrap";
 
 class App extends Component {
   constructor(props) {

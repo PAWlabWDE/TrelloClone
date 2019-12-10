@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import "./Todo.css";
 import { Button } from "react-bootstrap";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Cookie from "js-cookie";
-import App from "./App";
 
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/getAllBoards";

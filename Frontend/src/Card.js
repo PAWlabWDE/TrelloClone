@@ -10,7 +10,6 @@
 
 import React from 'react'
 import { DragSource } from 'react-dnd'
-import { useDrop } from 'react-dnd'
 import { useDrag } from 'react-dnd'
 
 // Drag sources and drop targets only interact

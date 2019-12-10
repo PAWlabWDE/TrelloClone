@@ -9,6 +9,8 @@ import Cookie from "js-cookie";
 import { DndProvider } from "react-dnd";
 import Backend from "react-dnd-html5-backend";
 import { Container, Row, Col } from "react-bootstrap";
+
+import { StickyTable, Row as RowTable, Cell as ColTable } from 'react-sticky-table';
 import "./xxxxddd.css";
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/chooseBoard";
@@ -132,8 +134,9 @@ class Board extends Component {
             <Col>
             </Col>
           </Row>
-          <section class="card">
-          <Row>
+          {/* <section class="card"> */}
+          <StickyTable>
+          
           
            {this.state.columnList.map((item, index) => {
             return (
@@ -142,8 +145,9 @@ class Board extends Component {
             );
           })}
            
-          </Row>
-          </section>
+        
+          </StickyTable>
+           {/* </section> */}
         </Container>
       
       </DndProvider>

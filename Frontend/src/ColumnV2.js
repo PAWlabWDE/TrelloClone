@@ -5,6 +5,7 @@ import { DragSource } from 'react-dnd'
 import { useDrop } from 'react-dnd'
 import { useDrag } from 'react-dnd'
 import { Container, Row, Col } from "react-bootstrap";
+import { StickyTable, Row as RowTable, Cell as ColTable } from 'react-sticky-table';
 
 const Types = {
     COLUMN: 'column',
@@ -46,7 +47,7 @@ function Column  ({ name, tasks })  {
         }),
       })
 return(
-  
+  <ColTable>
   <div className="lista" ref={dragRef} style={{ opacity }} >
       <div>
     <h2 class="text-center text-white">{name}</h2>
@@ -64,7 +65,7 @@ return(
       );
     })}
   </div>
-
+  </ColTable>
 )
 }
 export default DragSource(Types.COLUMN, cardSource, collect)(Column);

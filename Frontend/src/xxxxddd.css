@@ -1,5 +1,5 @@
 .lista {
-  min-width: 200px;
+  min-width: 300px;
   max-width: 300px;
   height: max-content;
   background-color: khaki;
@@ -25,5 +25,8 @@
   min-height: 200px;
   display: flex;
   overflow-x: auto;
+  
+display: block;
+table-layout: auto;
 }
 

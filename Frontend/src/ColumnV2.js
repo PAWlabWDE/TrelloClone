@@ -46,7 +46,7 @@ function Column  ({ name, tasks })  {
         }),
       })
 return(
-    <Col>
+  
   <div className="lista" ref={dragRef} style={{ opacity }} >
       <div>
     <h2 class="text-center text-white">{name}</h2>
@@ -64,7 +64,7 @@ return(
       );
     })}
   </div>
-  </Col>
+
 )
 }
 export default DragSource(Types.COLUMN, cardSource, collect)(Column);

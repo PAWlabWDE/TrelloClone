@@ -28,10 +28,10 @@ class App extends Component {
             </header>
           </Row>
           <Row>
-            <Col>
+            <Col md={{ span: 3 }}>
               <BoardList />
             </Col>
-            <Col>
+            <Col >
               <Board name="pierwsza" />
             </Col>
           </Row>

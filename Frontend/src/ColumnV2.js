@@ -4,6 +4,7 @@ import Card from "./Card.js"
 import { DragSource } from 'react-dnd'
 import { useDrop } from 'react-dnd'
 import { useDrag } from 'react-dnd'
+import { Container, Row, Col } from "react-bootstrap";
 
 const Types = {
     COLUMN: 'column',
@@ -45,6 +46,7 @@ function Column  ({ name, tasks })  {
         }),
       })
 return(
+    <Col>
   <div className="lista" ref={dragRef} style={{ opacity }} >
       <div>
     <h2 class="text-center text-white">{name}</h2>
@@ -62,6 +64,7 @@ return(
       );
     })}
   </div>
+  </Col>
 )
 }
 export default DragSource(Types.COLUMN, cardSource, collect)(Column);

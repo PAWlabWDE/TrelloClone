@@ -6,8 +6,9 @@ import Column from "./ColumnV2";
 import Cookie from "js-cookie";
 // import { useDrag } from 'react-dnd'
 // import { ItemTypes } from './Constants'
-import { DndProvider } from 'react-dnd'
-import Backend from 'react-dnd-html5-backend'
+import { DndProvider } from "react-dnd";
+import Backend from "react-dnd-html5-backend";
+import { Container, Row, Col } from "react-bootstrap";
 
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/chooseBoard";
@@ -45,13 +46,11 @@ class Board extends Component {
       })
         .then(response => response.json())
         .then(data => {
-
           var obj = JSON.stringify(data);
           var parsedJSON = JSON.parse(obj);
 
           this.setState({ name: parsedJSON["nazwaTablicy"] });
           parsedJSON["kolumny"].map(el => {
-
             this.setState(state => {
               const list = state.columnList.push(el);
               return {
@@ -59,10 +58,7 @@ class Board extends Component {
               };
             });
           });
-
         });
-
-
     }
   }
   addColumnHandler() {
@@ -106,10 +102,50 @@ class Board extends Component {
     this.setState({ textFieldValue: event.target.value });
   }
   render() {
-
-    if (this.props.name !== "") {
-      return (
-        <DndProvider backend={Backend}>
+    return (
+      <DndProvider backend={Backend}>
+        <Container>
+          <Row>
+            <Col>
+              <input
+                type="text"
+                value={this.state.textFieldValue}
+                onChange={this.handleChange}
+              />
+            </Col>
+            <Col>
+              <Button
+                variant="info"
+                alignItems="left"
+                onClick={this.addColumnHandler}
+              >
+                Dodaj kolumnę
+              </Button>
+            </Col>
+            <Button bsStyle="primary">
+              <EdiText
+                text-center
+                text-white
+                type="text"
+                value={this.props.name}
+                onSave={this.onSave}
+                editOnViewClick="true"
+              />
+            </Button>
+            <Col>
+            </Col>
+          </Row>
+          <Row>
+           {this.state.columnList.map((item, index) => {
+            return (
+              <Column name={item["nazwaKolumny"]} tasks={item["listZadan"]} />
+              //<Column boardName={this.props.name} name={item["nazwaKolumny"]} tasks={item["listZadan"]}/>
+            );
+          })}
+            
+          </Row>
+        </Container>
+        {/* <div class="row">
         <div style={divStyle}>
           <div className="col-md-1">
             <input
@@ -139,19 +175,18 @@ class Board extends Component {
               />
             </Button>
           </div>
+          </div>
+          <div class="row">
           {this.state.columnList.map((item, index) => {
             return (
               <Column name={item["nazwaKolumny"]} tasks={item["listZadan"]} />
               //<Column boardName={this.props.name} name={item["nazwaKolumny"]} tasks={item["listZadan"]}/>
             );
           })}
-
-        </div>
-        </DndProvider>
-      );
-    } else {
-      return <div style={divStyle}></div>;
-    }
+</div>
+        </div> */}
+      </DndProvider>
+    );
   }
 }
 

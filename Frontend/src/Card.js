@@ -7,21 +7,11 @@
 // /**
 //  * Your Component
 //  */
-// export default function Card({ isDragging, text }) {
-//   const [{ opacity }, dragRef] = useDrag({
-//     item: { type: ItemTypes.CARD, text },
-//     collect: monitor => ({
-//       opacity: monitor.isDragging() ? 0.5 : 1,
-//     }),
-//   })
-//   return (
-//     <div ref={dragRef} style={{ opacity }}>
-//       {text}
-//     </div>
-//   )
-// }
+
 import React from 'react'
 import { DragSource } from 'react-dnd'
+import { useDrop } from 'react-dnd'
+import { useDrag } from 'react-dnd'
 
 // Drag sources and drop targets only interact
 // if they have the same string type.
@@ -67,21 +57,34 @@ function collect(connect, monitor) {
   }
 }
 
-function Card(props) {
-  // Your component receives its own props as usual
-  const { id } = props
+// function Card(props,text) {
+//   // Your component receives its own props as usual
+//   const { id } = props
 
-  // These two props are injected by React DnD,
-  // as defined by your `collect` function above:
-  const { isDragging, connectDragSource } = props
+//   // These two props are injected by React DnD,
+//   // as defined by your `collect` function above:
+//   const { isDragging, connectDragSource } = props
 
-  return connectDragSource(
-    <div>
-      I am a draggable card number {id}
-      {isDragging && ' (and I am being dragged now)'}
-    </div>,
-  )
-}
+//   return connectDragSource(
+//     <div>
+//       {text}
+//       {isDragging && ' (and I am being dragged now)'}
+//     </div>,
+//   )
+// }
+ function Card({ isDragging, text }) {
+    const [{ opacity }, dragRef] = useDrag({
+      item: { type: Types.CARD, text },
+      collect: monitor => ({
+        opacity: monitor.isDragging() ? 0.5 : 1,
+      }),
+    })
+    return (
+      <div ref={dragRef} style={{ opacity }}>
+        {text}
+      </div>
+    )
+  }
 
 // Export the wrapped version
 export default DragSource(Types.CARD, cardSource, collect)(Card)

@@ -26,39 +26,41 @@ class Board extends Component {
     };
     this.addColumnHandler = this.addColumnHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
+   // this.download = this.download.bind(this);
   }
 
   componentDidMount() {
-    if (this.props.name !== "") {
-      fetch(API + DEFAULT_QUERY + "?token=" + Cookie.get("token"), {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          boardName: this.props.name
-        })
-      })
-        .then(response => response.json())
-        .then(data => {
-          var obj = JSON.stringify(data);
-          var parsedJSON = JSON.parse(obj);
+    // console.log("TEST: "+this.props.name)
+    // if (this.props.name !== "") {
+    //   fetch(API + DEFAULT_QUERY + "?token=" + Cookie.get("token"), {
+    //     method: "POST",
+    //     headers: {
+    //       Accept: "application/json",
+    //       "Content-Type": "application/json"
+    //     },
+    //     body: JSON.stringify({
+    //       boardName: this.props.name
+    //     })
+    //   })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       var obj = JSON.stringify(data);
+    //       var parsedJSON = JSON.parse(obj);
 
-          this.setState({ name: parsedJSON["nazwaTablicy"] });
-          parsedJSON["kolumny"].map(el => {
-            this.setState(state => {
-              const list = state.columnList.push(el);
-              return {
-                list
-              };
-            });
-          });
-        });
-    }
+    //       this.setState({ name: parsedJSON["nazwaTablicy"] });
+    //       parsedJSON["kolumny"].map(el => {
+    //         this.setState(state => {
+    //           const list = state.columnList.push(el);
+    //           return {
+    //             list
+    //           };
+    //         });
+    //       });
+    //     });
+    // }
   }
   addColumnHandler() {
-    //console.log("Dodaj kolumne " + this.state.textFieldValue);
+    console.log("Dodaj kolumne " + this.state.textFieldValue);
     fetch(API + "/addColumn" + "?token=" + Cookie.get("token"), {
       method: "POST",
       headers: {
@@ -97,7 +99,41 @@ class Board extends Component {
   handleChange(event) {
     this.setState({ textFieldValue: event.target.value });
   }
+  // download()
+  // {
+    
+
+  // }
   render() {
+    console.log("TEST: "+this.props.name)
+    if (this.props.name !== "") {
+      fetch(API + DEFAULT_QUERY + "?token=" + Cookie.get("token"), {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          boardName: this.props.name
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          var obj = JSON.stringify(data);
+          var parsedJSON = JSON.parse(obj);
+
+          this.setState({ name: parsedJSON["nazwaTablicy"] });
+          parsedJSON["kolumny"].map(el => {
+            this.setState(state => {
+              const list = state.columnList.push(el);
+              return {
+                list
+              };
+            });
+          });
+        });
+    }
+    console.log(this.state.columnList)
     if(this.props.name !== ""){
     return (
       <DndProvider backend={Backend}>

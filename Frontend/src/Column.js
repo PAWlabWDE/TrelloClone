@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Card from "./Card"
 
 export default class Column extends Component {
   constructor(props) {
@@ -22,7 +23,8 @@ export default class Column extends Component {
             <div className="center">
               <div className="p">
                 <div class="text-center text-white">
-                  {item["nazwaZadania"]} + {index}
+<Card text={item["nazwaZadania"]}/>                
+                  {/* {item["nazwaZadania"]} + {index} */}
                 </div>
               </div>
             </div>

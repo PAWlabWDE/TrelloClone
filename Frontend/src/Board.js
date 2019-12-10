@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import EdiText from "react-editext";
 import { Button } from "react-bootstrap";
-import ColumnV2 from "./ColumnV2";
-import Column from "./Column";
+import Column from "./ColumnV2";
+//mport Column from "./Column";
 import Cookie from "js-cookie";
 // import { useDrag } from 'react-dnd'
 // import { ItemTypes } from './Constants'
+import { DndProvider } from 'react-dnd'
+import Backend from 'react-dnd-html5-backend'
 
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/chooseBoard";
@@ -107,6 +109,7 @@ class Board extends Component {
 
     if (this.props.name !== "") {
       return (
+        <DndProvider backend={Backend}>
         <div style={divStyle}>
           <div className="col-md-1">
             <input
@@ -138,12 +141,13 @@ class Board extends Component {
           </div>
           {this.state.columnList.map((item, index) => {
             return (
-              <ColumnV2 name={item["nazwaKolumny"]} tasks={item["listZadan"]} />
+              <Column name={item["nazwaKolumny"]} tasks={item["listZadan"]} />
               //<Column boardName={this.props.name} name={item["nazwaKolumny"]} tasks={item["listZadan"]}/>
             );
           })}
 
         </div>
+        </DndProvider>
       );
     } else {
       return <div style={divStyle}></div>;

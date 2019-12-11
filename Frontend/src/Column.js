@@ -35,6 +35,7 @@ export default class Column extends Component{
      this.state.textFieldValue
 
     );
+   if(this.state.textFieldValue!==""){ 
     fetch(API + ADD_COLUMN_QUERY + "?token=" + Cookie.get("token"), {
       method: "POST",
       headers: {
@@ -47,7 +48,7 @@ export default class Column extends Component{
         newTask: this.state.textFieldValue
       })
     });
-  }
+  }}
   handleChange(event) {
     this.setState({ textFieldValue: event.target.value });
   }

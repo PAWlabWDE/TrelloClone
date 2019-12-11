@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import Popup from "reactjs-popup";
 import { Button } from "react-bootstrap";
 import Cookie from "js-cookie";
-import InputFileButton from "./InputFileButton"
+import InputFileButton from "./InputFileButton";
 
 const API = "http://localhost:3001";
 const ADD_COMMENT_QUERY = "/addComment";
 
-export default class Card extends Component{
+export default class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,19 +32,21 @@ export default class Card extends Component{
         " \ncomment: " +
         this.state.textFieldValue
     );
-    fetch(API + ADD_COMMENT_QUERY + "?token=" + Cookie.get("token"), {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        boardName: this.props.boardName,
-        columnName: this.state.columnName,
-        taskName: this.state.taskName,
-        comment:this.state.textFieldValue
-      })
-    });
+    if (this.state.textFieldValue !== "") {
+      fetch(API + ADD_COMMENT_QUERY + "?token=" + Cookie.get("token"), {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          boardName: this.props.boardName,
+          columnName: this.state.columnName,
+          taskName: this.state.taskName,
+          comment: this.state.textFieldValue
+        })
+      });
+    }
   }
   handleChange(event) {
     this.setState({ textFieldValue: event.target.value });
@@ -64,10 +66,7 @@ export default class Card extends Component{
           />
           <p />
           <Button onClick={this.addCommentHandler}>Add Comment</Button>
-          <InputFileButton
-            buttonClass="outline-info"
-            
-          />
+          <InputFileButton buttonClass="outline-info" />
         </Popup>
         }
       </div>

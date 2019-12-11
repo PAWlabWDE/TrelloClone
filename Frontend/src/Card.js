@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Popup from "reactjs-popup";
 import { Button } from "react-bootstrap";
 import Cookie from "js-cookie";
+import InputFileButton from "./InputFileButton"
 
 const API = "http://localhost:3001";
 const ADD_COMMENT_QUERY = "/addComment";
@@ -63,6 +64,10 @@ export default class Card extends Component{
           />
           <p />
           <Button onClick={this.addCommentHandler}>Add Comment</Button>
+          <InputFileButton
+            buttonClass="outline-info"
+            
+          />
         </Popup>
         }
       </div>

@@ -18,7 +18,7 @@ export default class Column extends Component{
       textFieldValue: "",
       boardName: props.boardName,
       tasks: props.tasks,
-      name:props.name
+      name:props.name      
     };
 
     this.addCardHandler = this.addCardHandler.bind(this);
@@ -72,7 +72,7 @@ export default class Column extends Component{
                       position="top center"
                       closeOnDocumentClick
                     >
-                      <Card taskName={item["nazwaZadania"]} boardName={this.state.boardName} columnName={this.state.name} />
+                      <Card taskName={item["nazwaZadania"]} boardName={this.state.boardName} columnName={this.state.name} taskComment={item.komentarze} />
                     </Popup>
                   </div>
                 </div>

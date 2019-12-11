@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Text } from "react";
 import Popup from "reactjs-popup";
 import { Button } from "react-bootstrap";
 import Cookie from "js-cookie";
 import InputFileButton from "./InputFileButton";
+//import { Text, StyleSheet } from 'react-native';
 
 const API = "http://localhost:3001";
 const ADD_COMMENT_QUERY = "/addComment";
@@ -14,7 +15,8 @@ export default class Card extends Component {
       textFieldValue: "",
       boardName: props.boardName,
       taskName: props.taskName,
-      columnName: props.columnName
+      columnName: props.columnName,
+      comments: props.taskComment
     };
 
     this.addCommentHandler = this.addCommentHandler.bind(this);
@@ -54,17 +56,25 @@ export default class Card extends Component {
   render() {
     return (
       <div>
-        {this.state.taskName}
         <Popup
           modal
           trigger={<Button variant="outline-primary">Details</Button>}
         >
+          <header className="col-md-12 text-center">
+            <h1 style={{ color: "red" }}> {this.state.taskName} //Details </h1>
+          </header>
+          <h2 style={{ color: "blue" }}> Komentarze: </h2>
+          {this.state.comments.map((item, index) => {
+            return <div className="center" class="p" key={index}>
+                <h2 style={{ color: "green" }}> {item.kto} :  {item.co} </h2>
+            </div>;
+          })}
           <input
             type="text"
             value={this.state.textFieldValue}
             onChange={this.handleChange}
           />
-          <p />
+
           <Button onClick={this.addCommentHandler}>Add Comment</Button>
           <InputFileButton buttonClass="outline-info" />
         </Popup>

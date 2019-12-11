@@ -60,7 +60,7 @@ return(
           <div className="p">
             <div class="text-center text-white">
             <Popup
-    trigger={<button className="button"> {item["nazwaZadania"]}</button>}
+    trigger={<Button variant="success"> {item["nazwaZadania"]}</Button>}
     position="top center"
     closeOnDocumentClick
   >

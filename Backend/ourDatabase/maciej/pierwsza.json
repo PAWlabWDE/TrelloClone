@@ -8,7 +8,13 @@
                     "nazwaZadania": "xDmcs ;)",
                     "komentarze": [],
                     "nrZadania": 1,
-                    "zalaczniki":[]
+                    "zalaczniki":[
+                        {
+                            "kto": "maciej",
+                            "co": "C:\\Users\\Mateusz\\Desktop\\trzecie.c",
+                            "nrKomentarza": 1
+                          }
+                    ]
                 },
                 {
                     "nazwaZadania": "xDkis",

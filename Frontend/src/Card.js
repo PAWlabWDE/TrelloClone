@@ -5,6 +5,7 @@ import Cookie from "js-cookie";
 import InputFileButton from "./InputFileButton";
 import { Container, Row, Col } from "react-bootstrap";
 //import { Text, StyleSheet } from 'react-native';
+import { BrowserRouter as  Link } from "react-router-dom";
 
 const API = "http://localhost:3001";
 const ADD_COMMENT_QUERY = "/addComment";
@@ -17,7 +18,8 @@ export default class Card extends Component {
       boardName: props.boardName,
       taskName: props.taskName,
       columnName: props.columnName,
-      comments: props.taskComment
+      comments: props.taskComment,
+      attachments:props.attachments      
     };
 
     this.addCommentHandler = this.addCommentHandler.bind(this);
@@ -51,6 +53,9 @@ export default class Card extends Component {
       });
     }
   }
+  addAttachmentHandler(){
+
+  }
   handleChange(event) {
     this.setState({ textFieldValue: event.target.value });
   }
@@ -66,6 +71,17 @@ export default class Card extends Component {
             <Col md={{ span:3 }}>
              
                 <h4 style={{ color: "orange" }}> Attachments: </h4>
+                {this.state.attachments.map((item, index) => {
+                return (
+                  <div className="center" class="p" key={index}>
+                                <h4 style={{ color: "green" }}>
+                      <div>
+                      {item.kto}: </div> </h4>
+                     <Link> {item.co}</Link>
+                    
+                  </div>
+                );
+              })}
               
             </Col>
             <Col md={{ span:9 }}>
@@ -79,6 +95,7 @@ export default class Card extends Component {
               {this.state.comments.map((item, index) => {
                 return (
                   <div className="center" class="p" key={index}>
+  
                     <h4 style={{ color: "green" }}>
                       {" "}
                       {item.kto} : {item.co}{" "}
@@ -93,7 +110,7 @@ export default class Card extends Component {
               />
 
               <Button onClick={this.addCommentHandler}>Add Comment</Button>
-              <InputFileButton buttonClass="outline-info" />
+              <InputFileButton buttonClass="outline-info" boardName={this.state.boardName} columnName={this.state.columnName} taskName={this.state.taskName} />
             </Col>
             </Row>
           </Container>

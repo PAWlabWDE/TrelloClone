@@ -1,14 +1,38 @@
 import React from "react";
-import { ButtonToolbar, Button } from "react-bootstrap";
+import {  Button } from "react-bootstrap";
+import Cookie from "js-cookie";
 
 
 export default class InputFileButton extends React.Component {
   constructor(props) {
     super(props);
-    this.fileUpload = React.createRef();
 
+    this.state ={
+      boardName: props.boardName,
+      taskName: props.taskName,
+      columnName: props.columnName
+    }
+
+    
+    this.fileUpload = React.createRef();
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleInputFileChange = this.handleInputFileChange.bind(this);
+    this.addAttachmentHandler = this.addAttachmentHandler.bind(this);
+  }
+  addAttachmentHandler(){
+    fetch("http://localhost:3001/addAttachment" + "?token=" + Cookie.get("token"), {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        boardName: this.props.boardName,
+        columnName: this.state.columnName,
+        taskName: this.state.taskName,
+        urlOrPath: ""//TUTAJ musimy dać chyab ścieżę do pliku
+      })
+    });
   }
 
   handleButtonClick(e) {
@@ -21,6 +45,8 @@ export default class InputFileButton extends React.Component {
     for (let i = 0, f = files[i]; i != files.length; ++i) {
       var reader = new FileReader();
       var name = f.name;
+      console.log("name: "+name);
+      console.log("f.path: "+f.path)
       reader.onload = function(e) {
         var data = e.target.result;
 

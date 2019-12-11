@@ -1,82 +1,86 @@
-import React from "react";
+import React, { Component } from "react";
 import "./xxxxddd.css";
-import Card from "./Card.js"
-import { DragSource } from 'react-dnd'
-import { useDrag } from 'react-dnd'
-import { Cell as ColTable } from 'react-sticky-table';
+import Card from "./Card.js";
+import { DragSource } from "react-dnd";
+import { useDrag } from "react-dnd";
+import { Cell as ColTable } from "react-sticky-table";
 import { Button } from "react-bootstrap";
 import Popup from "reactjs-popup";
 
-const Types = {
-    COLUMN: 'column',
+export default class Column extends Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      textFieldValue: "",
+      boardName: props.boardName,
+      tasks: props.tasks,
+      name:props.name
+    };
+
+    this.addCardHandler = this.addCardHandler.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  const cardSource = {
-    beginDrag(props) {
-      // Return the data describing the dragged item
-      const item = { id: props.id }
-      return item
-    },
-  
-    endDrag(props, monitor, component) {
-      if (!monitor.didDrop()) {
-        return
-      }
-  
-      // When dropped on a compatible target, do something
-      const item = monitor.getItem()
-      const dropResult = monitor.getDropResult()
-     // CardActions.moveCardToList(item.id, dropResult.listId)
-    },
+  addCardHandler() {
+    console.log(
+      "dodaje nową kartę do tablicy " +
+      this.state.boardName +
+        " do kolumny " +
+     this.state.name
+    );
   }
-  function collect(connect, monitor) {
-    return {
-      // Call this function inside render()
-      // to let React DnD handle the drag events:
-      connectDragSource: connect.dragSource(),
-      // You can ask the monitor about the current drag state:
-      isDragging: monitor.isDragging(),
-    }
+  handleChange(event) {
+    this.setState({ textFieldValue: event.target.value });
   }
-function addNewCard(){
-  console.log("dodaje nową kartę")
-}
-function Column  ({ name, tasks })  {
-    const [{ opacity }, dragRef] = useDrag({
-        item: { type: Types.COLUMN },
-        collect: monitor => ({
-          opacity: monitor.isDragging() ? 0.5 : 1,
-        }),
-      })
-return(
-  <ColTable>
-  <div className="lista" ref={dragRef} style={{ opacity }} >
-      <div>
-    <h2 class="text-center text-white">{name}</h2>
-    </div>
-    {tasks.map((item, index) => {
-      return (
-        <div  className="karta" >
-          <div className="p">
-            <div class="text-center text-white">
-            <Popup
-    trigger={<Button variant="success"> {item["nazwaZadania"]}</Button>}
-    position="top center"
-    closeOnDocumentClick
-  >
-                <Card text={item["nazwaZadania"]}/>
-                
-      </Popup>
-            </div>
+  render(){
+  
+    return (
+      <ColTable>
+        <div className="lista" >
+          <div>
+            <h2 class="text-center text-white">{this.state.name}</h2>
+          </div>
+          {this.state.tasks.map((item, index) => {
+            return (
+              <div className="karta">
+                <div className="p">
+                  <div class="text-center text-white">
+                    <Popup
+                      trigger={
+                        <Button variant="success"> {item["nazwaZadania"]}</Button>
+                      }
+                      position="top center"
+                      closeOnDocumentClick
+                    >
+                      <Card text={item["nazwaZadania"]} />
+                    </Popup>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+          <div>
+          <input
+                type="text"
+                value={this.state.textFieldValue}
+                onChange={this.handleChange}
+              />
+            <Button variant="secondary" size="sm" onClick={this.addCardHandler}>
+              New card
+            </Button>
           </div>
         </div>
-      );
-    })}
-    <div>
-      <Button value="New card" variant="secondary" size="sm" onClick={addNewCard}>New card</Button>
-    </div>
-  </div>
-  </ColTable>
-)
+      </ColTable>
+    );}
 }
-export default DragSource(Types.COLUMN, cardSource, collect)(Column);
+// function Column({ boardName, name, tasks }) {
+//   const [{ opacity }, dragRef] = useDrag({
+//     item: { type: Types.COLUMN },
+//     collect: monitor => ({
+//       opacity: monitor.isDragging() ? 0.5 : 1
+//     })
+//   });
+  
+ 
+// }
+// export default DragSource(Types.COLUMN, cardSource, collect)(Column);

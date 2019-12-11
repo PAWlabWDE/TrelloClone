@@ -140,7 +140,7 @@ class Board extends Component {
           
            {this.state.columnList.map((item, index) => {
             return (
-              <Column name={item["nazwaKolumny"]} tasks={item["listZadan"]} />
+              <Column boardName={this.props.name} name={item["nazwaKolumny"]} tasks={item["listZadan"]} />
               //<Column boardName={this.props.name} name={item["nazwaKolumny"]} tasks={item["listZadan"]}/>
             );
           })}

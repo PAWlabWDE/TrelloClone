@@ -5,6 +5,7 @@ import { DragSource } from 'react-dnd'
 import { useDrag } from 'react-dnd'
 import { Cell as ColTable } from 'react-sticky-table';
 import { Button } from "react-bootstrap";
+import Popup from "reactjs-popup";
 
 const Types = {
     COLUMN: 'column',
@@ -58,7 +59,14 @@ return(
         <div  className="karta" >
           <div className="p">
             <div class="text-center text-white">
+            <Popup
+    trigger={<button className="button"> {item["nazwaZadania"]}</button>}
+    position="top center"
+    closeOnDocumentClick
+  >
                 <Card text={item["nazwaZadania"]}/>
+                
+      </Popup>
             </div>
           </div>
         </div>

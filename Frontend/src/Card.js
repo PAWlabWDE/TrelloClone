@@ -72,6 +72,10 @@ function collect(connect, monitor) {
 //     </div>,
 //   )
 // }
+function moreInfo()
+{
+  console.log("more info");
+}
  function Card({ isDragging, text }) {
     const [{ opacity }, dragRef] = useDrag({
       item: { type: Types.CARD, text },
@@ -80,7 +84,7 @@ function collect(connect, monitor) {
       }),
     })
     return (
-      <div ref={dragRef} style={{ opacity }}>
+      <div ref={dragRef} style={{ opacity }} onClick={moreInfo}>
         {text}
       </div>
     )

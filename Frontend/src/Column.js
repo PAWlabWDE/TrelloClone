@@ -4,6 +4,7 @@ import Card from "./Card.js"
 import { DragSource } from 'react-dnd'
 import { useDrag } from 'react-dnd'
 import { Cell as ColTable } from 'react-sticky-table';
+import { Button } from "react-bootstrap";
 
 const Types = {
     COLUMN: 'column',
@@ -36,7 +37,9 @@ const Types = {
       isDragging: monitor.isDragging(),
     }
   }
-
+function addNewCard(){
+  console.log("dodaje nową kartę")
+}
 function Column  ({ name, tasks })  {
     const [{ opacity }, dragRef] = useDrag({
         item: { type: Types.COLUMN },
@@ -56,12 +59,14 @@ return(
           <div className="p">
             <div class="text-center text-white">
                 <Card text={item["nazwaZadania"]}/>
-              {/* {item["nazwaZadania"]} + {index} */}
             </div>
           </div>
         </div>
       );
     })}
+    <div>
+      <Button value="New card" variant="secondary" size="sm" onClick={addNewCard}>New card</Button>
+    </div>
   </div>
   </ColTable>
 )

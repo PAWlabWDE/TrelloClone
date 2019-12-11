@@ -11,7 +11,13 @@
                 },
                 {
                     "nazwaZadania": "xDkis",
-                    "komentarze": [],
+                    "komentarze": [
+                        {
+                            "kto": "maciej",
+                            "co": "no chyba Cię",
+                            "nrKomentarza": 1
+                        }
+                    ],
                     "nrZadania": 2
                 },
                 {

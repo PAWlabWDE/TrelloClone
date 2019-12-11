@@ -252,6 +252,11 @@ const handlers = {
     );
     return as2;
   },
+  addAttachment: function(request, reply) {
+//todo WRITE
+
+
+  },
   addCard: function(request, reply) {
     var a = verifyToken(request.query.token);
     var fs2 = require("fs");
@@ -268,7 +273,8 @@ const handlers = {
         element["listZadan"].push({
           nazwaZadania: request.payload.newTask,
           komentarze: [],
-          nrZadania: index
+          nrZadania: index,
+          zalaczniki:[]
         });
       }
     });
@@ -442,6 +448,12 @@ const init = async () => {
       method: "POST",
       config: { auth: "jwt" },
       handler: handlers.addComment
+    },
+    {
+      path: "/addAttachment",
+      method: "POST",
+      config: { auth: "jwt" },
+      handler: handlers.addAttachment
     },
     {
       path: "/restricted",

@@ -5,5 +5,12 @@ body {
     color: blanchedalmond;
     background-image: url("img/dark-honeycomb.png");
 }
-
+p {
+    padding-bottom: 3px;
+}
+.center {
+    text-align : center !important;
+    box-align:"center";
+   
+  }
 

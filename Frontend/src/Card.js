@@ -11,6 +11,8 @@
 import React from 'react'
 import { DragSource } from 'react-dnd'
 import { useDrag } from 'react-dnd'
+import Popup from "reactjs-popup";
+import { Button } from "react-bootstrap";
 
 // Drag sources and drop targets only interact
 // if they have the same string type.
@@ -72,11 +74,9 @@ function collect(connect, monitor) {
 //     </div>,
 //   )
 // }
-function moreInfo()
-{
-  console.log("more info");
-}
+
  function Card({ isDragging, text }) {
+ 
     const [{ opacity }, dragRef] = useDrag({
       item: { type: Types.CARD, text },
       collect: monitor => ({
@@ -84,8 +84,12 @@ function moreInfo()
       }),
     })
     return (
-      <div ref={dragRef} style={{ opacity }} onClick={moreInfo}>
+      <div ref={dragRef} style={{ opacity }} >
         {text}
+        <Popup modal trigger={<Button>asda</Button>}>
+       ghfgfh
+      </Popup>
+        }
       </div>
     )
   }

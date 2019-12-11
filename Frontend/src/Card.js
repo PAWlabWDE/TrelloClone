@@ -13,6 +13,7 @@ import { DragSource } from 'react-dnd'
 import { useDrag } from 'react-dnd'
 import Popup from "reactjs-popup";
 import { Button } from "react-bootstrap";
+import { func } from 'prop-types';
 
 // Drag sources and drop targets only interact
 // if they have the same string type.
@@ -74,6 +75,15 @@ function collect(connect, monitor) {
 //     </div>,
 //   )
 // }
+function addComment()
+{
+ console.log("add comment")
+}
+// function handleChange(e) {
+  
+//     nazwa.text= e.target.value
+ 
+// }
 
  function Card({ isDragging, text }) {
  
@@ -83,12 +93,25 @@ function collect(connect, monitor) {
         opacity: monitor.isDragging() ? 0.5 : 1,
       }),
     })
+    var nazwa ={
+      text:""
+    }
+
     return (
       <div ref={dragRef} style={{ opacity }}  >
         {text}
         <Popup modal trigger={<Button variant="outline-primary">Details</Button>}>
-    <h2 class="text-center text-white">{text}</h2>
-    <Button>FUCK THIS SHIT</Button>
+     
+                  <input
+                    value={nazwa.text}
+                     onChange={e => nazwa.text=e}
+                  />
+                  <p />
+                  <Button onClick={addComment}>
+                    
+                    Add Comment
+                  </Button>
+        
       </Popup>
         }
       </div>

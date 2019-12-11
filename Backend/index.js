@@ -173,7 +173,8 @@ const handlers = {
             var fs2 = require("fs");
             var dataBoard = fs2.readFileSync(dataBaseFolder + a.name + '/' + request.payload.boardName + ".json");
             var as2 = JSON.parse(dataBoard);
-            as2['kolumny'].push({ "nazwaKolumny": request.payload.columnName, "listZadan": [] })
+            var index=element['kolumny'].length+1;
+            as2['kolumny'].push({ "nazwaKolumny": request.payload.columnName, "listZadan": [], "nrKolumny": index })
             const jsonString = JSON.stringify(as2)
             fs.writeFileSync(dataBaseFolder + a.name + '/' + request.payload.boardName + ".json", jsonString);
             return (as2);
@@ -181,6 +182,27 @@ const handlers = {
 
             return ("Podana tablica nie istnieje");
         }
+    },
+    addCard: function(request,reply){
+        var a = verifyToken(request.query.token);
+        var fs2 = require("fs");
+        var dataBoard = fs2.readFileSync(dataBaseFolder + a.name + '/' + request.payload.boardName + ".json");
+        var as2 = JSON.parse(dataBoard);
+
+        as2['kolumny'].forEach(element =>{
+            if(element.nazwaKolumny === request.payload.columnName)
+            {
+                console.log(element['listZadan']);
+                console.log(element['listZadan'].length);
+                var index=element['listZadan'].length+1;
+                element['listZadan'].push({ nazwaZadania: request.payload.newTask, komentarze: [], nrZadania: index})
+            }
+        })
+
+
+        const jsonString = JSON.stringify(as2)
+        fs2.writeFileSync(dataBaseFolder + a.name + '/' + request.payload.boardName + ".json", jsonString);
+        return (as2);
     },
     restricted: function (request, reply) {
         const response = reply.response({ message: 'You used a Valid JWT Token to access /restricted endpoint!' });
@@ -289,6 +311,7 @@ const init = async () => {
         { path: '/chooseBoard', method: 'POST', config: { auth: 'jwt' }, handler: handlers.chooseBoard },
         { path: '/editBoardName', method: 'POST', config: { auth: 'jwt' }, handler: handlers.editBoardName },
         { path: '/addColumn', method: 'POST', config: { auth: 'jwt' }, handler: handlers.addColumn },
+        { path: '/addCard', method: 'POST', config: { auth: 'jwt' }, handler: handlers.addCard },
         { path: '/restricted', method: 'GET', config: { auth: 'jwt' }, handler: handlers.restricted }
     ]);
 

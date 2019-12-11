@@ -3,6 +3,7 @@ import Popup from "reactjs-popup";
 import { Button } from "react-bootstrap";
 import Cookie from "js-cookie";
 import InputFileButton from "./InputFileButton";
+import { Container, Row, Col } from "react-bootstrap";
 //import { Text, StyleSheet } from 'react-native';
 
 const API = "http://localhost:3001";
@@ -60,23 +61,42 @@ export default class Card extends Component {
           modal
           trigger={<Button variant="outline-primary">Details</Button>}
         >
-          <header className="col-md-12 text-center">
-            <h1 style={{ color: "red" }}> {this.state.taskName} //Details </h1>
-          </header>
-          <h2 style={{ color: "blue" }}> Komentarze: </h2>
-          {this.state.comments.map((item, index) => {
-            return <div className="center" class="p" key={index}>
-                <h2 style={{ color: "green" }}> {item.kto} :  {item.co} </h2>
-            </div>;
-          })}
-          <input
-            type="text"
-            value={this.state.textFieldValue}
-            onChange={this.handleChange}
-          />
+          <Container>
+            <Row>
+            <Col md={{ span:3 }}>
+             
+                <h4 style={{ color: "orange" }}> Attachments: </h4>
+              
+            </Col>
+            <Col md={{ span:9 }}>
+              <header className="col-md-12 text-center">
+                <h1 style={{ color: "red" }}>
+                  {" "}
+                  {this.state.taskName} //Details{" "}
+                </h1>
+              </header>
+              <h2 style={{ color: "blue" }}> Komentarze: </h2>
+              {this.state.comments.map((item, index) => {
+                return (
+                  <div className="center" class="p" key={index}>
+                    <h4 style={{ color: "green" }}>
+                      {" "}
+                      {item.kto} : {item.co}{" "}
+                    </h4>
+                  </div>
+                );
+              })}
+              <input
+                type="text"
+                value={this.state.textFieldValue}
+                onChange={this.handleChange}
+              />
 
-          <Button onClick={this.addCommentHandler}>Add Comment</Button>
-          <InputFileButton buttonClass="outline-info" />
+              <Button onClick={this.addCommentHandler}>Add Comment</Button>
+              <InputFileButton buttonClass="outline-info" />
+            </Col>
+            </Row>
+          </Container>
         </Popup>
         }
       </div>

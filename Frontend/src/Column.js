@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import "./xxxxddd.css";
 import Card from "./Card.js";
-import { DragSource } from "react-dnd";
-import { useDrag } from "react-dnd";
 import { Cell as ColTable } from "react-sticky-table";
 import { Button } from "react-bootstrap";
 import Popup from "reactjs-popup";
@@ -93,14 +91,4 @@ export default class Column extends Component{
       </ColTable>
     );}
 }
-// function Column({ boardName, name, tasks }) {
-//   const [{ opacity }, dragRef] = useDrag({
-//     item: { type: Types.COLUMN },
-//     collect: monitor => ({
-//       opacity: monitor.isDragging() ? 0.5 : 1
-//     })
-//   });
-  
- 
-// }
-// export default DragSource(Types.COLUMN, cardSource, collect)(Column);
+

@@ -37,7 +37,13 @@
                 },
                 {
                     "nazwaZadania": "xDlive ",
-                    "komentarze": [],
+                    "komentarze": [
+                        {
+                            "kto": "maciej",
+                            "co": "fsfsdf",
+                            "nrKomentarza": 1
+                        }
+                    ],
                     "nrZadania": 6
                 }
             ],

@@ -71,7 +71,7 @@ export default class Column extends Component{
                       position="top center"
                       closeOnDocumentClick
                     >
-                      <Card text={item["nazwaZadania"]} />
+                      <Card taskName={item["nazwaZadania"]} boardName={this.state.boardName} columnName={this.state.name} />
                     </Popup>
                   </div>
                 </div>

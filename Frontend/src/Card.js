@@ -1,122 +1,71 @@
-// // Let's make <Card text='Write the docs' /> draggable!
-
-// import React from 'react'
-// import { useDrag } from 'react-dnd'
-// import { ItemTypes } from './Constants'
-
-// /**
-//  * Your Component
-//  */
-
-import React from 'react'
-import { DragSource } from 'react-dnd'
-import { useDrag } from 'react-dnd'
+import React, { Component } from "react";
 import Popup from "reactjs-popup";
 import { Button } from "react-bootstrap";
-import { func } from 'prop-types';
+import Cookie from "js-cookie";
 
-// Drag sources and drop targets only interact
-// if they have the same string type.
-// You want to keep types in a separate file with
-// the rest of your app's constants.
-const Types = {
-  CARD: 'card',
-}
+const API = "http://localhost:3001";
+const ADD_COMMENT_QUERY = "/addComment";
 
-/**
- * Specifies the drag source contract.
- * Only `beginDrag` function is required.
- */
-const cardSource = {
-  beginDrag(props) {
-    // Return the data describing the dragged item
-    const item = { id: props.id }
-    return item
-  },
+export default class Card extends Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      textFieldValue: "",
+      boardName: props.boardName,
+      taskName: props.taskName,
+      columnName: props.columnName
+    };
 
-  endDrag(props, monitor, component) {
-    if (!monitor.didDrop()) {
-      return
-    }
-
-    // When dropped on a compatible target, do something
-    const item = monitor.getItem()
-    const dropResult = monitor.getDropResult()
-    console.log("drop REsult: "+item.id +"   "+ dropResult.listId)
-   // CardActions.moveCardToList(item.id, dropResult.listId)
-  },
-}
-
-/**
- * Specifies which props to inject into your component.
- */
-function collect(connect, monitor) {
-  return {
-    // Call this function inside render()
-    // to let React DnD handle the drag events:
-    connectDragSource: connect.dragSource(),
-    // You can ask the monitor about the current drag state:
-    isDragging: monitor.isDragging(),
+    this.addCommentHandler = this.addCommentHandler.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
-}
 
-// function Card(props,text) {
-//   // Your component receives its own props as usual
-//   const { id } = props
-
-//   // These two props are injected by React DnD,
-//   // as defined by your `collect` function above:
-//   const { isDragging, connectDragSource } = props
-
-//   return connectDragSource(
-//     <div>
-//       {text}
-//       {isDragging && ' (and I am being dragged now)'}
-//     </div>,
-//   )
-// }
-function addComment()
-{
- console.log("add comment")
-}
-// function handleChange(e) {
-  
-//     nazwa.text= e.target.value
- 
-// }
-
- function Card({ isDragging, text }) {
- 
-    const [{ opacity }, dragRef] = useDrag({
-      item: { type: Types.CARD, text },
-      collect: monitor => ({
-        opacity: monitor.isDragging() ? 0.5 : 1,
-      }),
-    })
-    var nazwa ={
-      text:""
-    }
-
+  addCommentHandler() {
+    console.log(
+      "board: " +
+        this.state.boardName +
+        " column: " +
+        this.state.columnName +
+        " task: " +
+        this.state.taskName +
+        " \ncomment: " +
+        this.state.textFieldValue
+    );
+    fetch(API + ADD_COMMENT_QUERY + "?token=" + Cookie.get("token"), {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        boardName: this.props.boardName,
+        columnName: this.state.columnName,
+        taskName: this.state.taskName,
+        comment:this.state.textFieldValue
+      })
+    });
+  }
+  handleChange(event) {
+    this.setState({ textFieldValue: event.target.value });
+  }
+  render() {
     return (
-      <div ref={dragRef} style={{ opacity }}  >
-        {text}
-        <Popup modal trigger={<Button variant="outline-primary">Details</Button>}>
-     
-                  <input
-                    value={nazwa.text}
-                     onChange={e => nazwa.text=e}
-                  />
-                  <p />
-                  <Button onClick={addComment}>
-                    
-                    Add Comment
-                  </Button>
-        
-      </Popup>
+      <div>
+        {this.state.taskName}
+        <Popup
+          modal
+          trigger={<Button variant="outline-primary">Details</Button>}
+        >
+          <input
+            type="text"
+            value={this.state.textFieldValue}
+            onChange={this.handleChange}
+          />
+          <p />
+          <Button onClick={this.addCommentHandler}>Add Comment</Button>
+        </Popup>
         }
       </div>
-    )
+    );
   }
-
-// Export the wrapped version
-export default DragSource(Types.CARD, cardSource, collect)(Card)
+}

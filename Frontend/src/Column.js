@@ -6,6 +6,10 @@ import { useDrag } from "react-dnd";
 import { Cell as ColTable } from "react-sticky-table";
 import { Button } from "react-bootstrap";
 import Popup from "reactjs-popup";
+import Cookie from "js-cookie";
+
+const API = "http://localhost:3001";
+const ADD_COLUMN_QUERY = "/addCard";
 
 export default class Column extends Component{
   constructor(props) {
@@ -23,11 +27,26 @@ export default class Column extends Component{
 
   addCardHandler() {
     console.log(
-      "dodaje nową kartę do tablicy " +
+      "dodaje nową kartę do tablicy: " +
       this.state.boardName +
-        " do kolumny " +
-     this.state.name
+        " do kolumny: " +
+     this.state.name +
+     " nazawa zadania: "+
+     this.state.textFieldValue
+
     );
+    fetch(API + ADD_COLUMN_QUERY + "?token=" + Cookie.get("token"), {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        boardName: this.props.boardName,
+        columnName: this.state.name,
+        newTask: this.state.textFieldValue
+      })
+    });
   }
   handleChange(event) {
     this.setState({ textFieldValue: event.target.value });

@@ -210,7 +210,7 @@ const handlers = {
         dataBaseFolder + a.name + "/" + request.payload.boardName + ".json"
       );
       var as2 = JSON.parse(dataBoard);
-      var index = element["kolumny"].length + 1;
+      var index = as2["kolumny"].length + 1;
       as2["kolumny"].push({
         nazwaKolumny: request.payload.columnName,
         listZadan: [],

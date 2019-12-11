@@ -26,7 +26,42 @@ class Board extends Component {
     this.addColumnHandler = this.addColumnHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
+  componentWillReceiveProps(nextProps){
+    console.log("componentWillReceiveProps: \n nextProps"+nextProps.name+"\n this.props.name: "+this.props.name)
+  
+     this.setState({
+       columnList:[]
+     })
+        fetch(API + DEFAULT_QUERY + "?token=" + Cookie.get("token"), {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            boardName: nextProps.name
+          })
+        })
+          .then(response => response.json())
+          .then(data => {
 
+            var obj = JSON.stringify(data);
+            var parsedJSON = JSON.parse(obj);
+  
+            this.setState({ name: parsedJSON["nazwaTablicy"] });
+            parsedJSON["kolumny"].map(el => {
+              this.setState(state => {
+                const list = state.columnList.push(el);
+                return {
+                  list
+                };
+              });
+            });
+          });
+          this.render();
+      
+    
+  }
   componentDidMount() {
     console.log("TEST: "+this.props.name)
     if (this.props.name !== "") {

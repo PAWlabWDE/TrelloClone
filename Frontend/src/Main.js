@@ -102,7 +102,7 @@ class Main extends Component {
             </Col>
             <Col md={{ span:9 }}>
             {console.log("przed XD x: "+this.state.choosenBoard)}
-            <Board name="pierwsza" />
+            <Board name={this.state.choosenBoard}/>
             </Col>
           </Row>
         </Container>

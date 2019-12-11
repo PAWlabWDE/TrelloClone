@@ -61,7 +61,7 @@ class Main extends Component {
     console.log(this.state.list);
     return (
       
-        <Container className="container" role="main">
+        <Container >
           <Row>
             <header className="col-md-12 text-center text-white">
               <h1> Trello clone </h1>
@@ -100,9 +100,9 @@ class Main extends Component {
                 </form>
               </div>
             </Col>
-            <Col>
+            <Col md={{ span:9 }}>
             {console.log("przed XD x: "+this.state.choosenBoard)}
-            <Board name={this.state.choosenBoard} />
+            <Board name="pierwsza" />
             </Col>
           </Row>
         </Container>

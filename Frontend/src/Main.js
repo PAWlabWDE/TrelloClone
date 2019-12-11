@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
 import Board from "./Board";
 import Cookie from "js-cookie";
 import { Button } from "react-bootstrap";
-import { BrowserRouter as Switch, Route, Link } from "react-router-dom";
-
 import { Container, Row, Col } from "react-bootstrap";
+
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/getAllBoards";
 
@@ -17,6 +15,9 @@ class Main extends Component {
       text: "",
       choosenBoard: ""
     };
+    this.props={
+      choosenBoard: ""
+    }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -85,12 +86,12 @@ class Main extends Component {
                       <div className="center" class="p" key={index}>
                         <div className="center">
                           <p>
-                            {/* <Link to={"/" + item}> */}
+                          
                               <Button bsStyle="primary" value={item} 
-                             onClick={(e) => {this.setState({ choosenBoard:e.target.value}); this.render()}}>
+                             onClick={(e) => this.setState({ choosenBoard:e.target.value})}>
                                 {item}
                               </Button>
-                            {/* </Link> */}
+                 
                           </p>
                         </div>
                       </div>
@@ -100,18 +101,8 @@ class Main extends Component {
               </div>
             </Col>
             <Col>
+            {console.log("przed XD x: "+this.state.choosenBoard)}
             <Board name={this.state.choosenBoard} />
-              {/* <Switch>
-                {this.state.list.map((item, index) => {
-                  var linkAdddres = "/".concat(item);
-
-                  return (
-                    <Route path={linkAdddres} key={index}>
-                      <Board name={item} />
-                    </Route>
-                  );
-                })}
-              </Switch> */}
             </Col>
           </Row>
         </Container>

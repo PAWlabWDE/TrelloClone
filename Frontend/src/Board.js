@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import EdiText from "react-editext";
 import { Button } from "react-bootstrap";
-import Column from "./ColumnV2";
+import Column from "./Column";
 import Cookie from "js-cookie";
 import { DndProvider } from "react-dnd";
 import Backend from "react-dnd-html5-backend";
@@ -12,11 +12,10 @@ import "./xxxxddd.css";
 const API = "http://localhost:3001";
 const DEFAULT_QUERY = "/chooseBoard";
 
-
-
 class Board extends Component {
   constructor(props) {
     super(props);
+    console.log("XD c: "+props.name);
     this.state = {
       textFieldValue: "",
       columnList: []

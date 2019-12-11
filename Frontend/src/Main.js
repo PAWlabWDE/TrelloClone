@@ -19,7 +19,6 @@ class Main extends Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-   // this.selectBoard = this.selectBoard.bind(this);
   }
   componentDidMount() {
     fetch(API + DEFAULT_QUERY + "?token=" + Cookie.get("token"))
@@ -56,13 +55,7 @@ class Main extends Component {
     });
   }
 
-  // selectBoard(name){
-  //   this.setState({
-  //     choosenBoard=name.target.value
-  //   });
-  //   console.log(this.state.choosenBoard);
-  //   this.render();
-  // }
+
   render() {
     console.log(this.state.list);
     return (

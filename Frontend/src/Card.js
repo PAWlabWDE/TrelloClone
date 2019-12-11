@@ -86,8 +86,9 @@ function collect(connect, monitor) {
     return (
       <div ref={dragRef} style={{ opacity }} >
         {text}
-        <Popup modal trigger={<Button>asda</Button>}>
-       ghfgfh
+        <Popup modal trigger={<Button>Details</Button>}>
+    <h2 class="text-center text-white">{text}</h2>
+    <Button>FUCK THIS SHIT</Button>
       </Popup>
         }
       </div>

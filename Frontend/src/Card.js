@@ -24,6 +24,7 @@ export default class Card extends Component {
 
     this.addCommentHandler = this.addCommentHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.openAttachemnt=this.openAttachemnt.bind(this);
   }
 
   addCommentHandler() {
@@ -53,8 +54,10 @@ export default class Card extends Component {
       });
     }
   }
-  addAttachmentHandler(){
-
+  openAttachemnt(e){
+    //console.log("OPEN: "+e.target.value);
+    alert(e.target.value)
+   // window.open(e.target.value)
   }
   handleChange(event) {
     this.setState({ textFieldValue: event.target.value });
@@ -77,7 +80,8 @@ export default class Card extends Component {
                                 <h4 style={{ color: "green" }}>
                       <div>
                       {item.kto}: </div> </h4>
-                     <Link> {item.co}</Link>
+                <Button value={item.co} onClick={this.openAttachemnt}>Attachment {index+1}</Button>
+                   
                     
                   </div>
                 );

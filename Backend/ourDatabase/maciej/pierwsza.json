@@ -6,14 +6,16 @@
             "listZadan": [
                 {
                     "nazwaZadania": "xDmcs ;)",
-                    "komentarze": [],
-                    "nrZadania": 1,
-                    "zalaczniki":[
+                    "komentarze": [
                         {
                             "kto": "maciej",
-                            "co": "C:\\Users\\Mateusz\\Desktop\\trzecie.c",
+                            "co": "sdfsdfs",
                             "nrKomentarza": 1
-                          }
+                        }
+                    ],
+                    "nrZadania": 1,
+                    "zalaczniki": [
+                        
                     ]
                 },
                 {
@@ -26,25 +28,27 @@
                         }
                     ],
                     "nrZadania": 2,
-                    "zalaczniki":[]
+                    "zalaczniki": [
+                      
+                    ]
                 },
                 {
                     "nazwaZadania": "xDstudia ;)",
                     "komentarze": [],
                     "nrZadania": 3,
-                    "zalaczniki":[]
+                    "zalaczniki": []
                 },
                 {
                     "nazwaZadania": "xDpł",
                     "komentarze": [],
                     "nrZadania": 4,
-                    "zalaczniki":[]
+                    "zalaczniki": []
                 },
                 {
                     "nazwaZadania": "xDpaw ;)",
                     "komentarze": [],
                     "nrZadania": 5,
-                    "zalaczniki":[]
+                    "zalaczniki": []
                 },
                 {
                     "nazwaZadania": "xDlive ",
@@ -56,7 +60,7 @@
                         }
                     ],
                     "nrZadania": 6,
-                    "zalaczniki":[]
+                    "zalaczniki": []
                 }
             ],
             "nrKolumny": 1
@@ -73,7 +77,7 @@
                     "nazwaZadania": "zaliczone ;)",
                     "komentarze": [],
                     "nrZadania": 1,
-                    "zalaczniki":[]
+                    "zalaczniki": []
                 }
             ],
             "nrKolumny": 3
@@ -85,7 +89,7 @@
                     "nazwaZadania": "nie mówić",
                     "komentarze": [],
                     "nrZadania": 1,
-                    "zalaczniki":[]
+                    "zalaczniki": []
                 }
             ],
             "nrKolumny": 4

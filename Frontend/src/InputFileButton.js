@@ -17,9 +17,11 @@ export default class InputFileButton extends React.Component {
     this.fileUpload = React.createRef();
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleInputFileChange = this.handleInputFileChange.bind(this);
-    this.addAttachmentHandler = this.addAttachmentHandler.bind(this);
   }
-  addAttachmentHandler(){
+
+
+  handleButtonClick(e) {
+    this.fileUpload.current.click();
     fetch("http://localhost:3001/addAttachment" + "?token=" + Cookie.get("token"), {
       method: "POST",
       headers: {
@@ -27,16 +29,12 @@ export default class InputFileButton extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        boardName: this.props.boardName,
+        boardName: this.state.boardName,
         columnName: this.state.columnName,
         taskName: this.state.taskName,
-        urlOrPath: ""//TUTAJ musimy dać chyab ścieżę do pliku
+        urlOrPath: ""//jak tu do choja dać te data z funkcji poniżej???
       })
     });
-  }
-
-  handleButtonClick(e) {
-    this.fileUpload.current.click();
   }
 
   handleInputFileChange(files) {
@@ -51,7 +49,7 @@ export default class InputFileButton extends React.Component {
         var data = e.target.result;
 
         console.log(data);
-
+      
         /* DO SOMETHING WITH workbook HERE */
       };
       reader.readAsBinaryString(f);

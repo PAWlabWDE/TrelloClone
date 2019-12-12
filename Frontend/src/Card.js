@@ -10,6 +10,10 @@ import { BrowserRouter as  Link } from "react-router-dom";
 const API = "http://localhost:3001";
 const ADD_COMMENT_QUERY = "/addComment";
 
+const boardName = Cookie.get("boardName") ? Cookie.get("boardName") : null;
+const columnName = Cookie.get("columnName") ? Cookie.get("columnName") : null;
+const taskName = Cookie.get("taskName") ? Cookie.get("taskName") : null;
+
 export default class Card extends Component {
   constructor(props) {
     super(props);

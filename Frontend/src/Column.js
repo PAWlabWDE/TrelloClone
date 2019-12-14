@@ -70,7 +70,7 @@ export default class Column extends Component{
                       position="top center"
                       closeOnDocumentClick
                     >
-                      <Card taskName={item["nazwaZadania"]} boardName={this.state.boardName} columnName={this.state.name} taskComment={item.komentarze} attachments={item.zalaczniki} />
+                      <Card taskName={item["nazwaZadania"]} boardName={this.state.boardName} columnName={this.state.name} taskComment={item.komentarze} attachments={item.zalaczniki} labels={item.label} history={item.history} />
                     </Popup>
                   </div>
                 </div>

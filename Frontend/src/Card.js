@@ -23,7 +23,10 @@ export default class Card extends Component {
       taskName: props.taskName,
       columnName: props.columnName,
       comments: props.taskComment,
-      attachments: props.attachments
+      attachments: props.attachments,
+      label:props.label,
+      history:props.history
+
     };
 
     this.addCommentHandler = this.addCommentHandler.bind(this);
@@ -124,6 +127,17 @@ export default class Card extends Component {
                     {this.state.taskName} //Details
                   </h1>
                 </header>
+                <h2 style={{ color: "blue" }}> Historia: </h2>
+                {this.state.history.map((item, index) => {
+                  return (
+                    <div className="center" class="p" key={index}>
+                      <h4 style={{ color: "green" }}>
+                        {item.data} 
+                             {item.what}
+                      </h4>
+                    </div>
+                  );
+                })}
                 <h2 style={{ color: "blue" }}> Komentarze: </h2>
                 {this.state.comments.map((item, index) => {
                   return (

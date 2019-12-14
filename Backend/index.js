@@ -270,13 +270,23 @@ const handlers = {
           if (zadanie.nazwaZadania === request.payload.taskName) {
 
             var tempRemoved = zadanie["zalaczniki"].pop();
-            zadanie["zalaczniki"].push(tempRemoved);
-            var index = tempRemoved.nrZalocznika + 1;
-            zadanie["zalaczniki"].push({
-              kto: a.name,
-              co: request.payload.urlOrPath,
-              nrZalocznika: index
-            });
+            if(tempRemoved===undefined){
+              zadanie["zalaczniki"].push({
+                kto: a.name,
+                co: request.payload.urlOrPath,
+                nrZalocznika:1
+              });
+            }
+            else{
+              zadanie["zalaczniki"].push(tempRemoved);
+              var index = tempRemoved.nrZalocznika + 1;
+              zadanie["zalaczniki"].push({
+                kto: a.name,
+                co: request.payload.urlOrPath,
+                nrZalocznika: parseInt(index)
+              });
+            }
+
           }
         });
       }
@@ -468,35 +478,17 @@ const handlers = {
     as2["kolumny"].forEach(element => {
       if (element.nazwaKolumny === request.payload.columnName) {
         element["listZadan"].forEach(zadanie => {
-          if (zadanie.nazwaZadania === request.payload.taskName) {
-            console.log("request.payload.labelName: " + request.payload.labelName);
-            zadanie["label"].push(request.payload.labelName);
-          }
-        });
-      }
-    });
-    //  //add all attachmetn to temp list without deleted attachment
-    var mySetLabel;
-    as2["kolumny"].forEach(element => {
-      if (element.nazwaKolumny === request.payload.columnName) {
-        element["listZadan"].forEach(zadanie => {
-          if (zadanie.nazwaZadania === request.payload.taskName) {
-            zadanie["zalaczniki"].forEach(e => {
-              if (e.nrZalocznika != parseInt(request.payload.attachmentNumber)) {
-                mySetLabel.push(e);
-              }
-            })
-          }
-        });
-      }
-    });
-    //replace label's list in file
-    as2["kolumny"].forEach(element => {
-      if (element.nazwaKolumny === request.payload.columnName) {
-        element["listZadan"].forEach(zadanie => {
-          if (zadanie.nazwaZadania === request.payload.taskName) {
-            clearArray(zadanie["label"]);
-            mySetLabel.forEach(e => zadanie["label"].push(e));
+          if (parseInt(zadanie.nrZadania) === parseInt(request.payload.taskID)) {
+            var tempLabel= zadanie["label"].pop();
+            if(tempLabel===undefined){
+              zadanie["label"].push({labalName:request.payload.labalName, labalColor:request.payload.labalColor,nrLabal:1});
+            }
+            else{
+              zadanie["label"].push(tempLabel);
+              var index=tempLabel.nrLabal+1;
+              zadanie["label"].push({labalName:request.payload.labalName, labalColor:request.payload.labalColor,nrLabal:parseInt(index)});
+            }
+           
           }
         });
       }
@@ -517,34 +509,33 @@ const handlers = {
     );
     var as2 = JSON.parse(dataBoard);
 
-    //add all label to set
-    var mySetLabel = new Set();
-    as2["kolumny"].forEach(element => {
-      if (element.nazwaKolumny === request.payload.columnName) {
-        element["listZadan"].forEach(zadanie => {
-          if (zadanie.nazwaZadania === request.payload.taskName) {
-            zadanie["label"].forEach(l => mySetLabel.add(l))
-          }
-        });
-      }
-    });
-    //check if given label is in set if is then remove
-    if (mySetLabel.has(request.payload.labelName)) {
-      mySetLabel.delete(request.payload.labelName)
-    }
-
-    //replace label's list in file
-    as2["kolumny"].forEach(element => {
-      if (element.nazwaKolumny === request.payload.columnName) {
-        element["listZadan"].forEach(zadanie => {
-          if (zadanie.nazwaZadania === request.payload.taskName) {
-            clearArray(zadanie["label"]);
-            mySetLabel.forEach(e => zadanie["label"].push(e));
-          }
-        });
-      }
-    });
-
+       //add all label to set
+       var mySetLabel = [];
+       as2["kolumny"].forEach(element => {
+         if (element.nazwaKolumny === request.payload.columnName) {
+           element["listZadan"].forEach(zadanie => {
+             if (zadanie.nazwaZadania === request.payload.taskName) {
+               zadanie["label"].forEach(e => {
+                 if (parseInt(e.nrLabal) != parseInt(request.payload.labelID)) {
+                   mySetLabel.push(e);
+                 }
+               })
+             }
+           });
+         }
+       });
+   
+       //replace zalacznik's list in file
+       as2["kolumny"].forEach(element => {
+         if (element.nazwaKolumny === request.payload.columnName) {
+           element["listZadan"].forEach(zadanie => {
+             if (zadanie.nazwaZadania === request.payload.taskName) {
+               clearArray(zadanie["label"]);
+               mySetLabel.forEach(e => zadanie["label"].push(e));
+             }
+           });
+         }
+       });
     const jsonString = JSON.stringify(as2);
     fs2.writeFileSync(
       dataBaseFolder + a.name + "/" + request.payload.boardName + ".json",

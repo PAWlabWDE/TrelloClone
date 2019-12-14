@@ -257,7 +257,7 @@ const handlers = {
     return as2;
   },
   addAttachment: function (request, reply) {
-    
+
     var a = verifyToken(request.query.token);
     var fs2 = require("fs");
     var dataBoard = fs2.readFileSync(
@@ -417,7 +417,7 @@ const handlers = {
       if (element.nazwaKolumny === request.payload.columnName) {
         element["listZadan"].forEach(zadanie => {
           if (zadanie.nazwaZadania === request.payload.taskName) {
-            console.log("request.payload.labelName: "+request.payload.labelName);
+            console.log("request.payload.labelName: " + request.payload.labelName);
             zadanie["label"].push(request.payload.labelName);
           }
         });
@@ -429,7 +429,7 @@ const handlers = {
       if (element.nazwaKolumny === request.payload.columnName) {
         element["listZadan"].forEach(zadanie => {
           if (zadanie.nazwaZadania === request.payload.taskName) {
-            zadanie["label"].forEach(l=>mySetLabel.add(l))
+            zadanie["label"].forEach(l => mySetLabel.add(l))
           }
         });
       }
@@ -440,7 +440,7 @@ const handlers = {
         element["listZadan"].forEach(zadanie => {
           if (zadanie.nazwaZadania === request.payload.taskName) {
             clearArray(zadanie["label"]);
-            mySetLabel.forEach(e=>zadanie["label"].push(e)); 
+            mySetLabel.forEach(e => zadanie["label"].push(e));
           }
         });
       }
@@ -454,7 +454,47 @@ const handlers = {
     return as2;
   },
   deleteLabel: function (request, reply) {
+    var a = verifyToken(request.query.token);
+    var fs2 = require("fs");
+    var dataBoard = fs2.readFileSync(
+      dataBaseFolder + a.name + "/" + request.payload.boardName + ".json"
+    );
+    var as2 = JSON.parse(dataBoard);
 
+    //add all label to set
+    var mySetLabel = new Set();
+    as2["kolumny"].forEach(element => {
+      if (element.nazwaKolumny === request.payload.columnName) {
+        element["listZadan"].forEach(zadanie => {
+          if (zadanie.nazwaZadania === request.payload.taskName) {
+            zadanie["label"].forEach(l => mySetLabel.add(l))
+          }
+        });
+      }
+    });
+    //check if given label is in set if is then remove
+    if (mySetLabel.has(request.payload.labelName)) {
+      mySetLabel.delete(request.payload.labelName)
+    }
+
+    //replace label's list in file
+    as2["kolumny"].forEach(element => {
+      if (element.nazwaKolumny === request.payload.columnName) {
+        element["listZadan"].forEach(zadanie => {
+          if (zadanie.nazwaZadania === request.payload.taskName) {
+            clearArray(zadanie["label"]);
+            mySetLabel.forEach(e => zadanie["label"].push(e));
+          }
+        });
+      }
+    });
+
+    const jsonString = JSON.stringify(as2);
+    fs2.writeFileSync(
+      dataBaseFolder + a.name + "/" + request.payload.boardName + ".json",
+      jsonString
+    );
+    return as2;
   },
   addHistory: function (request, reply) {
 

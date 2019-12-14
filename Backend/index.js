@@ -18,7 +18,7 @@ var people = {
 };
 var idFake = 3;
 
-const validate = async function(decoded, request, h) {
+const validate = async function (decoded, request, h) {
   console.log(" - - - - - - - decoded token:");
   console.log(decoded);
   console.log(" - - - - - - - request info:");
@@ -48,11 +48,11 @@ const verifyToken = jwtToken => {
 };
 
 const handlers = {
-  post: function(request, reply) {
+  post: function (request, reply) {
     return "It is wokring";
   },
 
-  getAllBoards: function(request, reply) {
+  getAllBoards: function (request, reply) {
     console.log(request.query);
     console.log(verifyToken(request.query.token));
     var a = verifyToken(request.query.token);
@@ -60,7 +60,7 @@ const handlers = {
     var content = fs.readFileSync(dataBaseFolder + a.name + "/boardsList.json");
     return content;
   },
-  addBoard: function(request, reply) {
+  addBoard: function (request, reply) {
     var a = verifyToken(request.query.token);
     var fs = require("fs");
     var content = fs.readFileSync(dataBaseFolder + a.name + "/boardsList.json");
@@ -85,7 +85,7 @@ const handlers = {
       fs2.writeFile(
         dataBaseFolder + a.name + "/" + request.payload.boardName + ".json",
         doPliku,
-        function(err) {
+        function (err) {
           if (err) {
             console.log(err);
           }
@@ -94,7 +94,7 @@ const handlers = {
       return "Dodano tablice: " + request.payload.boardName;
     }
   },
-  chooseBoard: function(request, reply) {
+  chooseBoard: function (request, reply) {
     var a = verifyToken(request.query.token);
     var fs = require("fs");
     var content = fs.readFileSync(dataBaseFolder + a.name + "/boardsList.json");
@@ -117,7 +117,7 @@ const handlers = {
       return "Podana tablica nie istnieje: " + request.payload.boardName;
     }
   },
-  editBoardName: function(request, reply) {
+  editBoardName: function (request, reply) {
     var a = verifyToken(request.query.token);
     var fs = require("fs");
     var content = fs.readFileSync(dataBaseFolder + a.name + "/boardsList.json");
@@ -150,12 +150,12 @@ const handlers = {
         var fs3 = require("fs");
         fs3.writeFile(
           dataBaseFolder +
-            a.name +
-            "/" +
-            request.payload.newBoardName +
-            ".json",
+          a.name +
+          "/" +
+          request.payload.newBoardName +
+          ".json",
           jsonString2,
-          function(err) {
+          function (err) {
             if (err) {
               console.log(err);
             }
@@ -165,10 +165,10 @@ const handlers = {
         try {
           fs2.unlinkSync(
             dataBaseFolder +
-              a.name +
-              "/" +
-              request.payload.oldBoardName +
-              ".json"
+            a.name +
+            "/" +
+            request.payload.oldBoardName +
+            ".json"
           );
           //file removed
         } catch (err) {
@@ -185,7 +185,7 @@ const handlers = {
       );
     }
   },
-  addColumn: function(request, reply) {
+  addColumn: function (request, reply) {
     var a = verifyToken(request.query.token);
     var fs = require("fs");
     var content = fs.readFileSync(dataBaseFolder + a.name + "/boardsList.json");
@@ -197,10 +197,10 @@ const handlers = {
     });
     console.log(
       a.name +
-        " " +
-        request.payload.boardName +
-        " " +
-        request.payload.columnName
+      " " +
+      request.payload.boardName +
+      " " +
+      request.payload.columnName
     );
     if (set.has(request.payload.boardName)) {
       //tablica istnieje czyli zwracamy jej kolumny
@@ -226,7 +226,7 @@ const handlers = {
       return "Podana tablica nie istnieje";
     }
   },
-  addComment: function(request, reply) {
+  addComment: function (request, reply) {
     var a = verifyToken(request.query.token);
     var fs2 = require("fs");
     var dataBoard = fs2.readFileSync(
@@ -256,7 +256,7 @@ const handlers = {
     );
     return as2;
   },
-  addAttachment: function(request, reply) {
+  addAttachment: function (request, reply) {
     //todo WRITE
     var a = verifyToken(request.query.token);
     var fs2 = require("fs");
@@ -287,7 +287,7 @@ const handlers = {
     );
     return as2;
   },
-  addCard: function(request, reply) {
+  addCard: function (request, reply) {
     var a = verifyToken(request.query.token);
     var fs2 = require("fs");
     var dataBoard = fs2.readFileSync(
@@ -306,7 +306,7 @@ const handlers = {
           nrZadania: index,
           zalaczniki: [],
           label: [],
-          history:[]
+          history: []
         });
       }
     });
@@ -318,14 +318,14 @@ const handlers = {
     );
     return as2;
   },
-  restricted: function(request, reply) {
+  restricted: function (request, reply) {
     const response = reply.response({
       message: "You used a Valid JWT Token to access /restricted endpoint!"
     });
     response.header("Authorization", request.headers.authorization);
     return response;
   },
-  login: function(request, reply) {
+  login: function (request, reply) {
     var fs = require("fs");
     var content = fs.readFileSync(peopleDataFile);
     var as = JSON.parse(content);
@@ -366,7 +366,7 @@ const handlers = {
     }
     return a;
   },
-  register: function(request, reply) {
+  register: function (request, reply) {
     var fs = require("fs");
     var content = fs.readFileSync(peopleDataFile);
     var as = JSON.parse(content);
@@ -387,13 +387,13 @@ const handlers = {
       const jsonString = JSON.stringify(as);
       fs.writeFileSync(peopleDataFile, jsonString);
       // //dodanie oddzielnego katolgu na plik użytkownika
-      fs.mkdir(__dirname + "/ourDatabase/" + request.payload.email, err => {});
+      fs.mkdir(__dirname + "/ourDatabase/" + request.payload.email, err => { });
       var doPliku = "[]";
       var fs2 = require("fs");
       fs2.writeFile(
         dataBaseFolder + request.payload.email + "/boardsList.json",
         doPliku,
-        function(err) {
+        function (err) {
           if (err) {
             console.log(err);
           }
@@ -401,6 +401,21 @@ const handlers = {
       );
       return "Adding User";
     }
+  },
+  deleteAttachment: function(request,reply){
+
+  },
+  addLabel: function(request,reply){
+    
+  },
+  deleteLabel: function(request,reply){
+    
+  },
+  addHistory : function(request,reply){
+
+  },
+  moveCard : function(request,reply){
+    
   }
 };
 
@@ -492,6 +507,38 @@ const init = async () => {
       method: "GET",
       config: { auth: "jwt" },
       handler: handlers.restricted
+    },
+    {
+      path: "/attachment",
+      method: "DELETE",
+      config: { auth: "jwt" },
+      handler: handlers.deleteAttachment
+    }
+    ,
+    {
+      path: "/label",
+      method: "POST",
+      config: { auth: "jwt" },
+      handler: handlers.addLabel
+    }
+    ,
+    {
+      path: "/label",
+      method: "DELETE",
+      config: { auth: "jwt" },
+      handler: handlers.deleteLabel
+    }    ,
+    {
+      path: "/moveCard",
+      method: "POST",
+      config: { auth: "jwt" },
+      handler: handlers.moveCard
+    }    ,
+    {
+      path: "/addHistory",
+      method: "POST",
+      config: { auth: "jwt" },
+      handler: handlers.addHistory
     }
   ]);
 

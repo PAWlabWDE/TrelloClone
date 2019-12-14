@@ -67,7 +67,7 @@ export default class Card extends Component {
   }
 
   deleteAttachment(e) {
-    if (this.state.textFieldValue !== "") {
+ // console.log("IN DELETE: "+e.target.value)
       fetch(API + "/attachment" + "?token=" + Cookie.get("token"), {
         method: "DELETE",
         headers: {
@@ -78,10 +78,10 @@ export default class Card extends Component {
           boardName: this.props.boardName,
           columnName: this.state.columnName,
           taskName: this.state.taskName,
-          comment: this.state.attachments.nrZalocznika
+          attachmentNumber: e.target.value
         })
       });
-    }
+    
   }
 
   handleChange(event) {
@@ -108,7 +108,7 @@ export default class Card extends Component {
                         Attachment {index + 1}
                       </Button>
                       <Button
-                        value={item.nrZalczonika}
+                        value={item.nrZalocznika}
                         onClick={this.deleteAttachment}
                         className="m-2"
                       >

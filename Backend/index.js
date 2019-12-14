@@ -412,6 +412,7 @@ const handlers = {
     }
   },
   deleteAttachment: function (request, reply) {
+    console.log("DELETE: \n"+request.payload.boardName +"\n"+request.payload.attachmentNumber)
     var a = verifyToken(request.query.token);
     var fs2 = require("fs");
     var dataBoard = fs2.readFileSync(
@@ -426,7 +427,7 @@ const handlers = {
         element["listZadan"].forEach(zadanie => {
           if (zadanie.nazwaZadania === request.payload.taskName) {
             zadanie["zalaczniki"].forEach(e => {
-              if (e.nrZalocznika != parseInt(request.payload.attachmentNumber)) {
+              if (parseInt(e.nrZalocznika) != parseInt(request.payload.attachmentNumber)) {
                 mySetLabel.push(e);
               }
             })

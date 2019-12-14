@@ -304,7 +304,9 @@ const handlers = {
           nazwaZadania: request.payload.newTask,
           komentarze: [],
           nrZadania: index,
-          zalaczniki: []
+          zalaczniki: [],
+          label: [],
+          history:[]
         });
       }
     });

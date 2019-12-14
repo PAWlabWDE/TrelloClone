@@ -6,7 +6,7 @@ import InputFileButton from "./InputFileButton";
 import { Container, Row, Col } from "react-bootstrap";
 //import { Text, StyleSheet } from 'react-native';
 import { BrowserRouter as Link } from "react-router-dom";
-import { Twitter  } from 'react-color';
+import { TwitterPicker   } from 'react-color';
 
 const API = "http://localhost:3001";
 const ADD_COMMENT_QUERY = "/addComment";
@@ -101,7 +101,7 @@ export default class Card extends Component {
           <Container>
             <Row>
               <Col md={{ span: 3 }}>
-            
+              <TwitterPicker />
                 <h4 style={{ color: "orange" }}> Attachments: </h4>
                 {this.state.attachments.map((item, index) => {
                   return (

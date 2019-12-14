@@ -31,8 +31,11 @@
                             "nrZalocznika": 3
                         }
                     ],
-                    "label":[],
-                    "history":[]
+                    "label": [
+                        "czerwony",
+                        "niebieski"
+                    ],
+                    "history": []
                 },
                 {
                     "nazwaZadania": "xDkis",
@@ -45,8 +48,8 @@
                     ],
                     "nrZadania": 2,
                     "zalaczniki": [],
-                    "label":[],
-                    "history":[]
+                    "label": [],
+                    "history": []
                 },
                 {
                     "nazwaZadania": "xDstudia ;)",
@@ -59,24 +62,24 @@
                             "nrZalocznika": 1
                         }
                     ],
-                    "label":[],
-                    "history":[]
+                    "label": [],
+                    "history": []
                 },
                 {
                     "nazwaZadania": "xDpł",
                     "komentarze": [],
                     "nrZadania": 4,
                     "zalaczniki": [],
-                    "label":[],
-                    "history":[]
+                    "label": [],
+                    "history": []
                 },
                 {
                     "nazwaZadania": "xDpaw ;)",
                     "komentarze": [],
                     "nrZadania": 5,
                     "zalaczniki": [],
-                    "label":[],
-                    "history":[]
+                    "label": [],
+                    "history": []
                 },
                 {
                     "nazwaZadania": "xDlive ",
@@ -89,8 +92,8 @@
                     ],
                     "nrZadania": 6,
                     "zalaczniki": [],
-                    "label":[],
-                    "history":[]
+                    "label": [],
+                    "history": []
                 }
             ],
             "nrKolumny": 1
@@ -108,8 +111,8 @@
                     "komentarze": [],
                     "nrZadania": 1,
                     "zalaczniki": [],
-                    "label":[],
-                    "history":[]
+                    "label": [],
+                    "history": []
                 }
             ],
             "nrKolumny": 3
@@ -122,8 +125,8 @@
                     "komentarze": [],
                     "nrZadania": 1,
                     "zalaczniki": [],
-                    "label":[],
-                    "history":[]
+                    "label": [],
+                    "history": []
                 }
             ],
             "nrKolumny": 4

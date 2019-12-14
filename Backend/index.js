@@ -269,8 +269,8 @@ const handlers = {
       if (element.nazwaKolumny === request.payload.columnName) {
         element["listZadan"].forEach(zadanie => {
           if (zadanie.nazwaZadania === request.payload.taskName) {
-     
-            var tempRemoved=zadanie["zalaczniki"].pop();
+
+            var tempRemoved = zadanie["zalaczniki"].pop();
             zadanie["zalaczniki"].push(tempRemoved);
             var index = tempRemoved.nrZalocznika + 1;
             zadanie["zalaczniki"].push({
@@ -303,13 +303,20 @@ const handlers = {
         console.log(element["listZadan"]);
         console.log(element["listZadan"].length);
         var index = element["listZadan"].length + 1;
+        var history = a.name + " added this card to " + request.payload.columnName
+
+        var today = new Date();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date + ' ' + time;
+
         element["listZadan"].push({
           nazwaZadania: request.payload.newTask,
           komentarze: [],
           nrZadania: index,
           zalaczniki: [],
           label: [],
-          history: []
+          history: [{ what: history, data: dateTime }]
         });
       }
     });
@@ -414,14 +421,14 @@ const handlers = {
     var as2 = JSON.parse(dataBoard);
 
     //add all label to set
-    var mySetLabel =[] ;
+    var mySetLabel = [];
     as2["kolumny"].forEach(element => {
       if (element.nazwaKolumny === request.payload.columnName) {
         element["listZadan"].forEach(zadanie => {
           if (zadanie.nazwaZadania === request.payload.taskName) {
-            zadanie["zalaczniki"].forEach(e=>{
-              if(e.nrZalocznika != parseInt(request.payload.attachmentNumber)){
-                  mySetLabel.push(e);
+            zadanie["zalaczniki"].forEach(e => {
+              if (e.nrZalocznika != parseInt(request.payload.attachmentNumber)) {
+                mySetLabel.push(e);
               }
             })
           }
@@ -441,7 +448,7 @@ const handlers = {
       }
     });
 
-   
+
 
     const jsonString = JSON.stringify(as2);
     fs2.writeFileSync(
@@ -474,9 +481,9 @@ const handlers = {
       if (element.nazwaKolumny === request.payload.columnName) {
         element["listZadan"].forEach(zadanie => {
           if (zadanie.nazwaZadania === request.payload.taskName) {
-            zadanie["zalaczniki"].forEach(e=>{
-              if(e.nrZalocznika != parseInt(request.payload.attachmentNumber)){
-                  mySetLabel.push(e);
+            zadanie["zalaczniki"].forEach(e => {
+              if (e.nrZalocznika != parseInt(request.payload.attachmentNumber)) {
+                mySetLabel.push(e);
               }
             })
           }
@@ -545,11 +552,43 @@ const handlers = {
     );
     return as2;
   },
-  addHistory: function (request, reply) {
+  moveAndHistoryCard: function (request, reply) {
+    var a = verifyToken(request.query.token);
+    var fs2 = require("fs");
+    var dataBoard = fs2.readFileSync(
+      dataBaseFolder + a.name + "/" + request.payload.boardName + ".json"
+    );
+    var as2 = JSON.parse(dataBoard);
+    //save to db if is from column to column
+    if (request.payload.prevColumnName !== request.payload.currColumnName) {
+      as2["kolumny"].forEach(element => {
+        if (element.nazwaKolumny === request.payload.prevColumnName) {             
+          var history = a.name + " moveded this card from " + request.payload.prevColumnName+" to "+request.payload.currColumnName
+          var today = new Date();
+          var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+          var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+          var dateTime = date + ' ' + time;
+          element["listZadan"].forEach(zadanie => {
+            if (zadanie.nazwaZadania === request.payload.taskName) {
+              zadanie["history"].push({what:history,data:dateTime});
+              break;               
+            }
+          });
+         
+        }
+      });
+    }
 
-  },
-  moveCard: function (request, reply) {
+    //zmień pliki, aby zobrazować prznieseienie karty(z kolumny do kolumny, w jednej kolumnie, eccetera)
 
+
+
+    const jsonString = JSON.stringify(as2);
+    fs2.writeFileSync(
+      dataBaseFolder + a.name + "/" + request.payload.boardName + ".json",
+      jsonString
+    );
+    return as2;
   }
 };
 
@@ -663,16 +702,10 @@ const init = async () => {
       handler: handlers.deleteLabel
     },
     {
-      path: "/moveCard",
+      path: "/moveAndHistoryCard",
       method: "POST",
       config: { auth: "jwt" },
-      handler: handlers.moveCard
-    },
-    {
-      path: "/addHistory",
-      method: "POST",
-      config: { auth: "jwt" },
-      handler: handlers.addHistory
+      handler: handlers.moveAndHistoryCard
     }
   ]);
 

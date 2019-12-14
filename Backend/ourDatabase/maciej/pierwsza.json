@@ -99,7 +99,21 @@
         },
         {
             "nazwaKolumny": "super",
-            "listZadan": [],
+            "listZadan": [
+                {
+                    "nazwaZadania": "qwerqwer",
+                    "komentarze": [],
+                    "nrZadania": 1,
+                    "zalaczniki": [],
+                    "label": [],
+                    "history": [
+                        {
+                            "what": "maciej added this card to super",
+                            "data": "2019-12-14 15:48:45"
+                        }
+                    ]
+                }
+            ],
             "nrKolumny": 2
         },
         {

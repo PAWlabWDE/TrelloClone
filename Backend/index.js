@@ -481,12 +481,12 @@ const handlers = {
           if (parseInt(zadanie.nrZadania) === parseInt(request.payload.taskID)) {
             var tempLabel= zadanie["label"].pop();
             if(tempLabel===undefined){
-              zadanie["label"].push({labalName:request.payload.labalName, labalColor:request.payload.labalColor,nrLabal:1});
+              zadanie["label"].push({labelName:request.payload.labelName, labelColor:request.payload.labelColor,nrLabel:1});
             }
             else{
               zadanie["label"].push(tempLabel);
-              var index=tempLabel.nrLabal+1;
-              zadanie["label"].push({labalName:request.payload.labalName, labalColor:request.payload.labalColor,nrLabal:parseInt(index)});
+              var index=tempLabel.nrLabel+1;
+              zadanie["label"].push({labelName:request.payload.labelName, labelColor:request.payload.labelColor,nrLabel:parseInt(index)});
             }
            
           }
@@ -514,9 +514,9 @@ const handlers = {
        as2["kolumny"].forEach(element => {
          if (element.nazwaKolumny === request.payload.columnName) {
            element["listZadan"].forEach(zadanie => {
-             if (zadanie.nazwaZadania === request.payload.taskName) {
+             if (parseInt(zadanie.nrZadania) === parseInt(request.payload.taskID)) {
                zadanie["label"].forEach(e => {
-                 if (parseInt(e.nrLabal) != parseInt(request.payload.labelID)) {
+                 if (parseInt(e.nrLabel) != parseInt(request.payload.labelID)) {
                    mySetLabel.push(e);
                  }
                })
@@ -529,7 +529,7 @@ const handlers = {
        as2["kolumny"].forEach(element => {
          if (element.nazwaKolumny === request.payload.columnName) {
            element["listZadan"].forEach(zadanie => {
-             if (zadanie.nazwaZadania === request.payload.taskName) {
+             if (parseInt(zadanie.nrZadania) === parseInt(request.payload.taskID)) {
                clearArray(zadanie["label"]);
                mySetLabel.forEach(e => zadanie["label"].push(e));
              }

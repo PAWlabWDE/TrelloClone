@@ -402,20 +402,20 @@ const handlers = {
       return "Adding User";
     }
   },
-  deleteAttachment: function(request,reply){
+  deleteAttachment: function (request, reply) {
 
   },
-  addLabel: function(request,reply){
-    
-  },
-  deleteLabel: function(request,reply){
-    
-  },
-  addHistory : function(request,reply){
+  addLabel: function (request, reply) {
 
   },
-  moveCard : function(request,reply){
-    
+  deleteLabel: function (request, reply) {
+
+  },
+  addHistory: function (request, reply) {
+
+  },
+  moveCard: function (request, reply) {
+
   }
 };
 
@@ -527,13 +527,13 @@ const init = async () => {
       method: "DELETE",
       config: { auth: "jwt" },
       handler: handlers.deleteLabel
-    }    ,
+    },
     {
       path: "/moveCard",
       method: "POST",
       config: { auth: "jwt" },
       handler: handlers.moveCard
-    }    ,
+    },
     {
       path: "/addHistory",
       method: "POST",

@@ -51,7 +51,6 @@ const handlers = {
   post: function (request, reply) {
     return "It is wokring";
   },
-
   getAllBoards: function (request, reply) {
     console.log(request.query);
     console.log(verifyToken(request.query.token));
@@ -562,25 +561,131 @@ const handlers = {
     //save to db if is from column to column
     if (request.payload.prevColumnName !== request.payload.currColumnName) {
       as2["kolumny"].forEach(element => {
-        if (element.nazwaKolumny === request.payload.prevColumnName) {             
-          var history = a.name + " moveded this card from " + request.payload.prevColumnName+" to "+request.payload.currColumnName
+        if (element.nazwaKolumny === request.payload.prevColumnName) {
+          var history = a.name + " moveded this card from " + request.payload.prevColumnName + " to " + request.payload.currColumnName
           var today = new Date();
           var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
           var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
           var dateTime = date + ' ' + time;
           element["listZadan"].forEach(zadanie => {
-            if (zadanie.nazwaZadania === request.payload.taskName) {
-              zadanie["history"].push({what:history,data:dateTime});
-              break;               
+            if (parseInt(zadanie.nrZadania) === parseInt(request.payload.nrZadania)) {
+              zadanie["history"].push({ what: history, data: dateTime });
             }
           });
-         
+
         }
       });
     }
 
     //zmień pliki, aby zobrazować prznieseienie karty(z kolumny do kolumny, w jednej kolumnie, eccetera)
+    var movingElement;
+    var flag = false;
+    var newPrevList = [];
+    as2["kolumny"].forEach(element => {
+      if (element.nazwaKolumny === request.payload.prevColumnName) {
+        element["listZadan"].forEach(zadanie => {
+          if (parseInt(zadanie.nrZadania) == parseInt(request.payload.nrZadania)) {
+            movingElement = zadanie;
+            flag = true;
+          }
+          else {
+            if (flag) {
+              var index = zadanie.nrZadania - 1;
+              newPrevList.push({
+                nazwaZadania: zadanie.nazwaZadania,
+                komentarze: zadanie.komentarze,
+                nrZadania: parseInt(index),
+                zalaczniki: zadanie.zalaczniki,
+                label: zadanie.label,
+                history: zadanie.history
+              });
+            }
+            else {
+              newPrevList.push(zadanie);
+            }
 
+          }
+        });
+      //  console.log("FIRST LIST:\n"+element['listZadan'])
+        //console.log("FIRST LIST(newPrevList):\n"+newPrevList)
+      }
+    });
+    console.log("movingElement: " + movingElement.nazwaZadania);
+    //zadanie zapisane w movingElement i stara tablica poprawiona
+    //update starej tablicy w pliku:
+    as2["kolumny"].forEach(element => {
+      if (element.nazwaKolumny === request.payload.prevColumnName) {
+
+        clearArray(element["listZadan"]);
+        newPrevList.forEach(e => element["listZadan"].push(e));
+
+      }
+    });
+    //
+    var currFlag = false;
+    var newCurrList = [];
+    as2["kolumny"].forEach(element => {
+      if (element.nazwaKolumny === request.payload.currColumnName) {
+        element["listZadan"].forEach(zadanie => {
+          if (parseInt(zadanie.nrZadania) == parseInt(request.payload.indexInNewColumn)) {
+            newCurrList.push({
+              nazwaZadania: movingElement.nazwaZadania,
+              komentarze: movingElement.komentarze,
+              nrZadania: parseInt(request.payload.indexInNewColumn),
+              zalaczniki: movingElement.zalaczniki,
+              label: movingElement.label,
+              history: movingElement.history
+            })
+            var index = zadanie.nrZadania + 1;
+            newCurrList.push({
+                nazwaZadania: zadanie.nazwaZadania,
+                komentarze: zadanie.komentarze,
+                nrZadania: parseInt(index),
+                zalaczniki: zadanie.zalaczniki,
+                label: zadanie.label,
+                history: zadanie.history
+              });
+            currFlag = true;
+          }
+          else {
+            if (currFlag) {
+              var index = zadanie.nrZadania + 1;
+              newCurrList.push({
+                nazwaZadania: zadanie.nazwaZadania,
+                komentarze: zadanie.komentarze,
+                nrZadania: parseInt(index),
+                zalaczniki: zadanie.zalaczniki,
+                label: zadanie.label,
+                history: zadanie.history
+              });
+
+            }
+            else {
+              newCurrList.push(zadanie);
+            }
+          }
+
+        })
+      }
+    });
+    console.log(" no chyb anie: "+newCurrList);
+    if (!currFlag) {
+      newCurrList.push({
+        nazwaZadania: movingElement.nazwaZadania,
+        komentarze: movingElement.komentarze,
+        nrZadania: parseInt(request.payload.indexInNewColumn),
+        zalaczniki: movingElement.zalaczniki,
+        label: movingElement.label,
+        history: movingElement.history
+      })
+    }
+    //update nowej tablicy w pliku:
+    as2["kolumny"].forEach(element => {
+      if (element.nazwaKolumny === request.payload.currColumnName) {
+        clearArray(element["listZadan"]);
+        newCurrList.forEach(e => element["listZadan"].push(e));
+      }
+    });
 
 
     const jsonString = JSON.stringify(as2);

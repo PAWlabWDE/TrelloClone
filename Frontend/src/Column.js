@@ -74,14 +74,15 @@ export default class Column extends Component {
                       {item["label"].map((item, index) => {
                         return (
                           <Row  >
+                             <a style={{ backgroundColor: "#808080", "width": "35px", "height": "20px"}}> </a>
                             <a style={{ backgroundColor: item.labelColor, "width": "50px", "height": "20px"}}> </a>
-                            <a style={{ backgroundColor: "#808080", "width": "50px", "height": "20px"}}> </a>
+                           
                           </Row>
                         );
                       })
                       }
                     </Row>
-                    <Row>
+                 
 
 
                       <div className="display-linebreak" class=" text-white">
@@ -93,7 +94,7 @@ export default class Column extends Component {
 
 
 
-                    </Row>
+                   
 
                   </div>
                 }

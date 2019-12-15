@@ -48,6 +48,20 @@ export default class Column extends Component {
           columnName: this.state.name,
           newTask: this.state.textFieldValue
         })
+      }).then(response => response.json())
+      .then(data => {
+        var obj = JSON.stringify(data);
+        var parsedJSON = JSON.parse(obj);
+       // this.setState({tasks :[]})
+       this.setState(state => {
+        const list = state.tasks.push(parsedJSON);
+        return {
+          list
+        };
+      });
+     
+        
+        
       });
     }
   }

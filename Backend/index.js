@@ -306,7 +306,7 @@ const handlers = {
       dataBaseFolder + a.name + "/" + request.payload.boardName + ".json"
     );
     var as2 = JSON.parse(dataBoard);
-
+      var returnObject;
     as2["kolumny"].forEach(element => {
       if (element.nazwaKolumny === request.payload.columnName) {
         console.log(element["listZadan"]);
@@ -318,7 +318,14 @@ const handlers = {
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         var dateTime = date + ' ' + time;
-
+        returnObject={
+          nazwaZadania: request.payload.newTask,
+          komentarze: [],
+          nrZadania: index,
+          zalaczniki: [],
+          label: [],
+          history: [{ what: history, data: dateTime }]
+        };
         element["listZadan"].push({
           nazwaZadania: request.payload.newTask,
           komentarze: [],
@@ -335,7 +342,7 @@ const handlers = {
       dataBaseFolder + a.name + "/" + request.payload.boardName + ".json",
       jsonString
     );
-    return as2;
+    return returnObject;
   },
   restricted: function (request, reply) {
     const response = reply.response({

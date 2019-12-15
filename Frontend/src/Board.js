@@ -15,7 +15,7 @@ const DEFAULT_QUERY = "/chooseBoard";
 class Board extends Component {
   constructor(props) {
     super(props);
-    console.log("XD c: "+props.name);
+    console.log("XD c: " + props.name);
     this.state = {
       textFieldValue: "",
       columnList: []
@@ -26,44 +26,44 @@ class Board extends Component {
     this.addColumnHandler = this.addColumnHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-  componentWillReceiveProps(nextProps){
-    console.log("componentWillReceiveProps: \n nextProps"+nextProps.name+"\n this.props.name: "+this.props.name)
-  
-     this.setState({
-       columnList:[]
-     })
-        fetch(API + DEFAULT_QUERY + "?token=" + Cookie.get("token"), {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            boardName: nextProps.name
-          })
-        })
-          .then(response => response.json())
-          .then(data => {
+  componentWillReceiveProps(nextProps) {
+    console.log("componentWillReceiveProps: \n nextProps" + nextProps.name + "\n this.props.name: " + this.props.name)
 
-            var obj = JSON.stringify(data);
-            var parsedJSON = JSON.parse(obj);
-  
-            this.setState({ name: parsedJSON["nazwaTablicy"] });
-            parsedJSON["kolumny"].map(el => {
-              this.setState(state => {
-                const list = state.columnList.push(el);
-                return {
-                  list
-                };
-              });
-            });
+    this.setState({
+      columnList: []
+    })
+    fetch(API + DEFAULT_QUERY + "?token=" + Cookie.get("token"), {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        boardName: nextProps.name
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+
+        var obj = JSON.stringify(data);
+        var parsedJSON = JSON.parse(obj);
+
+      //  this.setState({ name: parsedJSON["nazwaTablicy"] });
+        parsedJSON["kolumny"].map(el => {
+          this.setState(state => {
+            const list = state.columnList.push(el);
+            return {
+              list
+            };
           });
-          this.render();
-      
-    
+        });
+      });
+    this.render();
+
+
   }
   componentDidMount() {
-    console.log("TEST: "+this.props.name)
+    console.log("TEST: " + this.props.name)
     if (this.props.name !== "") {
       fetch(API + DEFAULT_QUERY + "?token=" + Cookie.get("token"), {
         method: "POST",
@@ -93,18 +93,35 @@ class Board extends Component {
     }
   }
   addColumnHandler() {
-    console.log("Dodaj kolumne " + this.state.textFieldValue);
-    fetch(API + "/addColumn" + "?token=" + Cookie.get("token"), {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        boardName: this.props.name,
-        columnName: this.state.textFieldValue
-      })
-    });
+    if (this.state.textFieldValue !== "") {
+  
+      console.log("Dodaj kolumne " + this.state.textFieldValue);
+      fetch(API + "/addColumn" + "?token=" + Cookie.get("token"), {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          boardName: this.props.name,
+          columnName: this.state.textFieldValue
+        })
+      }) .then(response => response.json())
+      .then(data => {
+        var obj = JSON.stringify(data);
+        var parsedJSON = JSON.parse(obj);
+        this.setState({columnList :[]})
+        this.setState({ name: parsedJSON["nazwaTablicy"] });
+        parsedJSON["kolumny"].map(el => {
+          this.setState(state => {
+            const list = state.columnList.push(el);
+            return {
+              list
+            };
+          });
+        });
+      });
+    }
   }
   onSave = val => {
     console.log("Edited Value -> ", val);
@@ -135,59 +152,59 @@ class Board extends Component {
 
   render() {
     console.log(this.state.columnList)
-    if(this.props.name !== ""){
-    return (
-      <DndProvider backend={Backend}>
-        <Container>
-          <Row>
-            <Col>
-              <input
-                type="text"
-                value={this.state.textFieldValue}
-                onChange={this.handleChange}
-              />
-            </Col>
-            <Col>
-              <Button
-                variant="info"
-                alignItems="left"
-                onClick={this.addColumnHandler}
-              >
-                Dodaj kolumnę
+    if (this.props.name !== "") {
+      return (
+        <DndProvider backend={Backend}>
+          <Container>
+            <Row>
+              <Col>
+                <input
+                  type="text"
+                  value={this.state.textFieldValue}
+                  onChange={this.handleChange}
+                />
+              </Col>
+              <Col>
+                <Button
+                  variant="info"
+                  alignItems="left"
+                  onClick={this.addColumnHandler}
+                >
+                  Dodaj kolumnę
               </Button>
-            </Col>
-            <Button bsStyle="primary">
-              <EdiText
-                text-center
-                text-white
-                type="text"
-                value={this.props.name}
-                onSave={this.onSave}
-                editOnViewClick="true"
-              />
-            </Button>
-            <Col>
-            </Col>
-          </Row>
-          {/* <section class="card"> */}
-          <StickyTable>
-          
-          
-           {this.state.columnList.map((item, index) => {
-            return (
-              <Column boardName={this.props.name} name={item["nazwaKolumny"]} tasks={item["listZadan"]}  />
-              //<Column boardName={this.props.name} name={item["nazwaKolumny"]} tasks={item["listZadan"]}/>
-            );
-          })}
-           
-        
-          </StickyTable>
-           {/* </section> */}
-        </Container>
-      
-      </DndProvider>
-    );
-  }else return(<div></div>)
+              </Col>
+              <Button bsStyle="primary">
+                <EdiText
+                  text-center
+                  text-white
+                  type="text"
+                  value={this.props.name}
+                  onSave={this.onSave}
+                  editOnViewClick="true"
+                />
+              </Button>
+              <Col>
+              </Col>
+            </Row>
+            {/* <section class="card"> */}
+            <StickyTable>
+
+
+              {this.state.columnList.map((item, index) => {
+                return (
+                  <Column boardName={this.props.name} name={item["nazwaKolumny"]} tasks={item["listZadan"]} />
+                  //<Column boardName={this.props.name} name={item["nazwaKolumny"]} tasks={item["listZadan"]}/>
+                );
+              })}
+
+
+            </StickyTable>
+            {/* </section> */}
+          </Container>
+
+        </DndProvider>
+      );
+    } else return (<div></div>)
   }
 }
 

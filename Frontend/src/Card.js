@@ -25,11 +25,11 @@ export default class Card extends Component {
       columnName: props.columnName,
       comments: props.taskComment,
       attachments: props.attachments,
-      label: props.label,
+      label: props.labels,
       history: props.history,
       taskID: props.taskID,
-      labelName: '',
-      labelColor: ''
+      labelName: ' ',
+      labelColor: ' '
 
     };
 
@@ -37,7 +37,10 @@ export default class Card extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.openAttachemnt = this.openAttachemnt.bind(this);
     this.deleteAttachment = this.deleteAttachment.bind(this);
+    this.deleteLabel=this.deleteLabel.bind(this);
     this.handleChangeColor = this.handleChangeColor.bind(this);
+    this.handleChangeLabelName = this.handleChangeLabelName.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   addCommentHandler() {
@@ -87,6 +90,58 @@ export default class Card extends Component {
     console.log("color: " + color.hex)
     this.setState({ labelColor: color.hex })
   }
+  handleChangeLabelName(event) {
+    this.setState({labelName: event.target.value});
+  }
+//dodawnie label
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.labelName + ' Color:'+this.state.labelColor);
+    if(this.state.labelName!=='' && this.state.labelColor!==''){
+      fetch(API+"/label" + "?token=" + Cookie.get("token"), {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          boardName: this.state.boardName,
+          columnName: this.state.columnName,
+          taskID: this.state.taskID,
+          labelColor: this.state.labelColor,
+          labelName:this.state.labelName
+        })
+      });
+      // if(this.state.labelName===''){
+      //   //add only label with color
+      // }
+      // else if(this.state.labelColor===''){
+      //   //add only label with text
+      // }
+      // else{
+  
+      // }
+    }
+
+    
+    this.setState({labelColor:' ',labelName:' '})
+    event.preventDefault();
+  }
+  deleteLabel(e){
+    fetch(API+"/label" + "?token=" + Cookie.get("token"), {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        boardName: this.state.boardName,
+        columnName: this.state.columnName,
+        taskID: this.state.taskID,
+        labelID:e.target.value
+      })
+    });
+  }
+
   render() {
     return (
       <div>
@@ -104,14 +159,66 @@ export default class Card extends Component {
                   <Row>
                     <Col>
                     <div>
-                  <label style={{background: 'white', color: 'black',float:'top-left'}}>Colors:</label>
+                  <label style={{background: 'white', color: 'black',alignSelf: 'flex-start'}}>Label's color:</label>
                   </div>
                   <div>
                   <CirclePicker onChange={this.handleChangeColor} />
                   </div>
+                  <form onSubmit={this.handleSubmit}>
+        <label>
+        <label style={{background: 'white', color: 'black',alignSelf: 'flex-start'}}>Label's name:</label>
+          <input type="text" value={this.state.value} onChange={this.handleChangeLabelName} />
+        </label>
+        <input type="submit" value="Add label" />
+      </form>
+                  </Col>
+                  <Col md={{ span: 3 }}>
+                  <h3 style={{background: 'white', color: 'grey',alignSelf: 'flex-start'}}>Current labels:</h3>
+                  {
+                    this.state.label.map((item,index)=>{
+                      return(
+                        <Row  >
+                         <div className="center" class="p" key={index}>
+                      <h4 style={{ color: "green" }}>
+                        <div style={{backgroundColor: item.labelColor}}>
+                        {item.labelName}   <Button
+                        value={item.nrLabel}
+                        onClick={this.deleteLabel}
+                        variant="outline-secondary"
+                      >
+                        Delete 
+                      </Button>
+                      </div>
+                      </h4>
+                  
+
+                    
+                    </div>
+                    </Row>
+                     );
+                    })
+                  }
                   </Col>
                   </Row>
                 </Popup>
+                <h3 style={{background: 'white', color: 'grey',alignSelf: 'flex-start'}}>Current labels:</h3>
+                  {
+                    this.state.label.map((item,index)=>{
+                      return(
+                        <Row  >
+                         {/* <div className="center" class="p" key={index}>
+                      <h4 style={{ color: "green" }}>
+                        {item.labelName}: {item.labelColor}   
+                      </h4>
+                  
+
+                    
+                    </div> */}
+                    <a style={{backgroundColor: item.labelColor, color: "black","width" : "100px" }}>{item.labelName}`{' '} </a>
+                    </Row>
+                     );
+                    })
+                  }
                 <h4 style={{ color: "orange" }}> Attachments: </h4>
                 {this.state.attachments.map((item, index) => {
                   return (

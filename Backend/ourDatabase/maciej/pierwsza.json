@@ -32,7 +32,26 @@
                         }
                     ],
                     "label": [
-                        "czerwony"
+                        {
+                            "labelName": "as",
+                            "labelColor": "#8bc34a",
+                            "nrLabel": 1
+                        },
+                        {
+                            "labelName": " ",
+                            "labelColor": "#673ab7",
+                            "nrLabel": 5
+                        },
+                        {
+                            "labelName": " ",
+                            "labelColor": "#ff5722",
+                            "nrLabel": 6
+                        },
+                        {
+                            "labelName": "asdas",
+                            "labelColor": "#ff5722",
+                            "nrLabel": 7
+                        }
                     ],
                     "history": []
                 },

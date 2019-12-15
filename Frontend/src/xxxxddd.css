@@ -11,13 +11,17 @@
 }
 .karta {
   width: auto;
-  height: max-content;
-  background-color: magenta;
+   height: auto; 
+  background-color: grey;
   /* border-left-style: dotted;
   border-right-style: dotted; */
   border-style: dotted;
+ 
   margin: 10px;
+
   vertical-align: super;
+  overflow-y: auto;
+  /* overflow: hidden; */
 }
 .card{
   background-color:blueviolet;
@@ -25,6 +29,9 @@
   min-height: 200px;
   display: flex;
   overflow-x: auto;
+}
+.display-linebreak {
+  white-space: pre-line;
 }
 
 

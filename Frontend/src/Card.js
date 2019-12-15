@@ -6,7 +6,7 @@ import InputFileButton from "./InputFileButton";
 import { Container, Row, Col } from "react-bootstrap";
 //import { Text, StyleSheet } from 'react-native';
 import { BrowserRouter as Link } from "react-router-dom";
-import { TwitterPicker   } from 'react-color';
+import { CirclePicker } from 'react-color';
 
 const API = "http://localhost:3001";
 const ADD_COMMENT_QUERY = "/addComment";
@@ -25,8 +25,11 @@ export default class Card extends Component {
       columnName: props.columnName,
       comments: props.taskComment,
       attachments: props.attachments,
-      label:props.label,
-      history:props.history
+      label: props.label,
+      history: props.history,
+      taskID: props.taskID,
+      labelName: '',
+      labelColor: ''
 
     };
 
@@ -34,19 +37,11 @@ export default class Card extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.openAttachemnt = this.openAttachemnt.bind(this);
     this.deleteAttachment = this.deleteAttachment.bind(this);
+    this.handleChangeColor = this.handleChangeColor.bind(this);
   }
 
   addCommentHandler() {
-    console.log(
-      "board: " +
-        this.state.boardName +
-        " column: " +
-        this.state.columnName +
-        " task: " +
-        this.state.taskName +
-        " \ncomment: " +
-        this.state.textFieldValue
-    );
+
     if (this.state.textFieldValue !== "") {
       fetch(API + ADD_COMMENT_QUERY + "?token=" + Cookie.get("token"), {
         method: "POST",
@@ -65,31 +60,32 @@ export default class Card extends Component {
   }
 
   openAttachemnt(e) {
-    //console.log("OPEN: "+e.target.value);
     alert(e.target.value);
-    // window.open(e.target.value)
   }
 
   deleteAttachment(e) {
- // console.log("IN DELETE: "+e.target.value)
-      fetch(API + "/attachment" + "?token=" + Cookie.get("token"), {
-        method: "DELETE",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          boardName: this.props.boardName,
-          columnName: this.state.columnName,
-          taskName: this.state.taskName,
-          attachmentNumber: e.target.value
-        })
-      });
-    
+    fetch(API + "/attachment" + "?token=" + Cookie.get("token"), {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        boardName: this.props.boardName,
+        columnName: this.state.columnName,
+        taskName: this.state.taskName,
+        attachmentNumber: e.target.value
+      })
+    });
+
   }
 
   handleChange(event) {
     this.setState({ textFieldValue: event.target.value });
+  }
+  handleChangeColor(color, event) {
+    console.log("color: " + color.hex)
+    this.setState({ labelColor: color.hex })
   }
   render() {
     return (
@@ -101,7 +97,21 @@ export default class Card extends Component {
           <Container>
             <Row>
               <Col md={{ span: 3 }}>
-              <TwitterPicker />
+                <Popup
+                  modal
+                  trigger={<Button variant="outline-primary">Labels</Button>}
+                >
+                  <Row>
+                    <Col>
+                    <div>
+                  <label style={{background: 'white', color: 'black',float:'top-left'}}>Colors:</label>
+                  </div>
+                  <div>
+                  <CirclePicker onChange={this.handleChangeColor} />
+                  </div>
+                  </Col>
+                  </Row>
+                </Popup>
                 <h4 style={{ color: "orange" }}> Attachments: </h4>
                 {this.state.attachments.map((item, index) => {
                   return (
@@ -134,8 +144,8 @@ export default class Card extends Component {
                   return (
                     <div className="center" class="p" key={index}>
                       <h4 style={{ color: "green" }}>
-                        {item.data} 
-                             {item.what}
+                        {item.data}
+                        {item.what}
                       </h4>
                     </div>
                   );

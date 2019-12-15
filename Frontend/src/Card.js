@@ -46,6 +46,30 @@ export default class Card extends Component {
   obslugaPlikow(files) {
     console.log(files);
     //here feching and other
+    fetch("http://localhost:3001/addAttachment" + "?token=" + Cookie.get("token"), {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        boardName: this.props.boardName,
+          columnName: this.state.columnName,
+          taskName: this.state.taskName,
+          urlOrPath: files[0].binaryData                    ///JAK TU DOBRZE SIE ODWOŁAMY TO JEST GIT
+      })
+    }).then(response => response.json())
+      .then(data => {
+        var obj = JSON.stringify(data);
+        var parsedJSON = JSON.parse(obj);
+
+        this.setState(state => {            //w parsed JSON jest dodany plik, ale trzeba by go jeszce doddać do najsze listy co jest w card(to co zakomnetowane)
+          const list = state.attachments.push(parsedJSON);
+          return {
+            list
+          };
+        });
+      });
   }
 
   addCommentHandler() {

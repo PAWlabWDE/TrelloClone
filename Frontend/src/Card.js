@@ -58,6 +58,17 @@ export default class Card extends Component {
           taskName: this.state.taskName,
           comment: this.state.textFieldValue
         })
+      }).then(response => response.json())
+      .then(data => {
+        var obj = JSON.stringify(data);
+        var parsedJSON = JSON.parse(obj);
+       // this.setState({tasks :[]})
+       this.setState(state => {
+        const list = state.comments.push(parsedJSON);
+        return {
+          list
+        };
+      });   
       });
     }
   }
@@ -110,6 +121,17 @@ export default class Card extends Component {
           labelColor: this.state.labelColor,
           labelName:this.state.labelName
         })
+      }).then(response => response.json())
+      .then(data => {
+        var obj = JSON.stringify(data);
+        var parsedJSON = JSON.parse(obj);
+       // this.setState({tasks :[]})
+       this.setState(state => {
+        const list = state.label.push(parsedJSON);
+        return {
+          list
+        };
+      });   
       });
       // if(this.state.labelName===''){
       //   //add only label with color

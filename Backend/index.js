@@ -232,12 +232,17 @@ const handlers = {
       dataBaseFolder + a.name + "/" + request.payload.boardName + ".json"
     );
     var as2 = JSON.parse(dataBoard);
-
+      var addedComment;
     as2["kolumny"].forEach(element => {
       if (element.nazwaKolumny === request.payload.columnName) {
         element["listZadan"].forEach(zadanie => {
           if (zadanie.nazwaZadania === request.payload.taskName) {
             var index = zadanie["komentarze"].length + 1;
+            addedComment={
+              kto: a.name,
+              co: request.payload.comment,
+              nrKomentarza: index
+            }
             zadanie["komentarze"].push({
               kto: a.name,
               co: request.payload.comment,
@@ -253,7 +258,7 @@ const handlers = {
       dataBaseFolder + a.name + "/" + request.payload.boardName + ".json",
       jsonString
     );
-    return as2;
+    return addedComment;
   },
   addAttachment: function (request, reply) {
 
@@ -263,7 +268,7 @@ const handlers = {
       dataBaseFolder + a.name + "/" + request.payload.boardName + ".json"
     );
     var as2 = JSON.parse(dataBoard);
-
+var ret;
     as2["kolumny"].forEach(element => {
       if (element.nazwaKolumny === request.payload.columnName) {
         element["listZadan"].forEach(zadanie => {
@@ -271,6 +276,11 @@ const handlers = {
 
             var tempRemoved = zadanie["zalaczniki"].pop();
             if(tempRemoved===undefined){
+              ret={
+                kto: a.name,
+                co: request.payload.urlOrPath,
+                nrZalocznika:1
+              }
               zadanie["zalaczniki"].push({
                 kto: a.name,
                 co: request.payload.urlOrPath,
@@ -280,6 +290,11 @@ const handlers = {
             else{
               zadanie["zalaczniki"].push(tempRemoved);
               var index = tempRemoved.nrZalocznika + 1;
+              ret={
+                kto: a.name,
+                co: request.payload.urlOrPath,
+                nrZalocznika: parseInt(index)
+              }
               zadanie["zalaczniki"].push({
                 kto: a.name,
                 co: request.payload.urlOrPath,
@@ -297,7 +312,7 @@ const handlers = {
       dataBaseFolder + a.name + "/" + request.payload.boardName + ".json",
       jsonString
     );
-    return as2;
+    return ret;
   },
   addCard: function (request, reply) {
     var a = verifyToken(request.query.token);
@@ -481,18 +496,20 @@ const handlers = {
       dataBaseFolder + a.name + "/" + request.payload.boardName + ".json"
     );
     var as2 = JSON.parse(dataBoard);
-
+ var ret;
     as2["kolumny"].forEach(element => {
       if (element.nazwaKolumny === request.payload.columnName) {
         element["listZadan"].forEach(zadanie => {
           if (parseInt(zadanie.nrZadania) === parseInt(request.payload.taskID)) {
             var tempLabel= zadanie["label"].pop();
             if(tempLabel===undefined){
+              ret={labelName:request.payload.labelName, labelColor:request.payload.labelColor,nrLabel:1}
               zadanie["label"].push({labelName:request.payload.labelName, labelColor:request.payload.labelColor,nrLabel:1});
             }
             else{
               zadanie["label"].push(tempLabel);
               var index=tempLabel.nrLabel+1;
+              ret={labelName:request.payload.labelName, labelColor:request.payload.labelColor,nrLabel:parseInt(index)}
               zadanie["label"].push({labelName:request.payload.labelName, labelColor:request.payload.labelColor,nrLabel:parseInt(index)});
             }
            
@@ -506,7 +523,7 @@ const handlers = {
       dataBaseFolder + a.name + "/" + request.payload.boardName + ".json",
       jsonString
     );
-    return as2;
+    return ret;
   },
   deleteLabel: function (request, reply) {
     var a = verifyToken(request.query.token);

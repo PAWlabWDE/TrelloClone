@@ -6,7 +6,7 @@ import InputFileButton from "./InputFileButton";
 import { Container, Row, Col } from "react-bootstrap";
 //import { Text, StyleSheet } from 'react-native';
 import { BrowserRouter as Link } from "react-router-dom";
-import { CirclePicker } from 'react-color';
+import { CirclePicker } from "react-color";
 
 const API = "http://localhost:3001";
 const ADD_COMMENT_QUERY = "/addComment";
@@ -28,23 +28,27 @@ export default class Card extends Component {
       label: props.labels,
       history: props.history,
       taskID: props.taskID,
-      labelName: ' ',
-      labelColor: ' '
-
+      labelName: " ",
+      labelColor: " "
     };
 
     this.addCommentHandler = this.addCommentHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.openAttachemnt = this.openAttachemnt.bind(this);
     this.deleteAttachment = this.deleteAttachment.bind(this);
-    this.deleteLabel=this.deleteLabel.bind(this);
+    this.deleteLabel = this.deleteLabel.bind(this);
     this.handleChangeColor = this.handleChangeColor.bind(this);
     this.handleChangeLabelName = this.handleChangeLabelName.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.obslugaPlikow = this.obslugaPlikow.bind(this);
+  }
+
+  obslugaPlikow(files) {
+    console.log(files);
+    //here feching and other
   }
 
   addCommentHandler() {
-
     if (this.state.textFieldValue !== "") {
       fetch(API + ADD_COMMENT_QUERY + "?token=" + Cookie.get("token"), {
         method: "POST",
@@ -58,18 +62,19 @@ export default class Card extends Component {
           taskName: this.state.taskName,
           comment: this.state.textFieldValue
         })
-      }).then(response => response.json())
-      .then(data => {
-        var obj = JSON.stringify(data);
-        var parsedJSON = JSON.parse(obj);
-       // this.setState({tasks :[]})
-       this.setState(state => {
-        const list = state.comments.push(parsedJSON);
-        return {
-          list
-        };
-      });   
-      });
+      })
+        .then(response => response.json())
+        .then(data => {
+          var obj = JSON.stringify(data);
+          var parsedJSON = JSON.parse(obj);
+          // this.setState({tasks :[]})
+          this.setState(state => {
+            const list = state.comments.push(parsedJSON);
+            return {
+              list
+            };
+          });
+        });
     }
   }
 
@@ -91,24 +96,28 @@ export default class Card extends Component {
         attachmentNumber: e.target.value
       })
     });
-
   }
 
   handleChange(event) {
     this.setState({ textFieldValue: event.target.value });
   }
   handleChangeColor(color, event) {
-    console.log("color: " + color.hex)
-    this.setState({ labelColor: color.hex })
+    console.log("color: " + color.hex);
+    this.setState({ labelColor: color.hex });
   }
   handleChangeLabelName(event) {
-    this.setState({labelName: event.target.value});
+    this.setState({ labelName: event.target.value });
   }
-//dodawnie label
+  //dodawnie label
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.labelName + ' Color:'+this.state.labelColor);
-    if(this.state.labelName!=='' && this.state.labelColor!==''){
-      fetch(API+"/label" + "?token=" + Cookie.get("token"), {
+    alert(
+      "A name was submitted: " +
+        this.state.labelName +
+        " Color:" +
+        this.state.labelColor
+    );
+    if (this.state.labelName !== "" && this.state.labelColor !== "") {
+      fetch(API + "/label" + "?token=" + Cookie.get("token"), {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -119,20 +128,21 @@ export default class Card extends Component {
           columnName: this.state.columnName,
           taskID: this.state.taskID,
           labelColor: this.state.labelColor,
-          labelName:this.state.labelName
+          labelName: this.state.labelName
         })
-      }).then(response => response.json())
-      .then(data => {
-        var obj = JSON.stringify(data);
-        var parsedJSON = JSON.parse(obj);
-       // this.setState({tasks :[]})
-       this.setState(state => {
-        const list = state.label.push(parsedJSON);
-        return {
-          list
-        };
-      });   
-      });
+      })
+        .then(response => response.json())
+        .then(data => {
+          var obj = JSON.stringify(data);
+          var parsedJSON = JSON.parse(obj);
+          // this.setState({tasks :[]})
+          this.setState(state => {
+            const list = state.label.push(parsedJSON);
+            return {
+              list
+            };
+          });
+        });
       // if(this.state.labelName===''){
       //   //add only label with color
       // }
@@ -140,16 +150,15 @@ export default class Card extends Component {
       //   //add only label with text
       // }
       // else{
-  
+
       // }
     }
 
-    
-    this.setState({labelColor:' ',labelName:' '})
+    this.setState({ labelColor: " ", labelName: " " });
     event.preventDefault();
   }
-  deleteLabel(e){
-    fetch(API+"/label" + "?token=" + Cookie.get("token"), {
+  deleteLabel(e) {
+    fetch(API + "/label" + "?token=" + Cookie.get("token"), {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -159,7 +168,7 @@ export default class Card extends Component {
         boardName: this.state.boardName,
         columnName: this.state.columnName,
         taskID: this.state.taskID,
-        labelID:e.target.value
+        labelID: e.target.value
       })
     });
   }
@@ -180,55 +189,88 @@ export default class Card extends Component {
                 >
                   <Row>
                     <Col>
-                    <div>
-                  <label style={{background: 'white', color: 'black',alignSelf: 'flex-start'}}>Label's color:</label>
-                  </div>
-                  <div>
-                  <CirclePicker onChange={this.handleChangeColor} />
-                  </div>
-                  <form onSubmit={this.handleSubmit}>
-        <label>
-        <label style={{background: 'white', color: 'black',alignSelf: 'flex-start'}}>Label's name:</label>
-          <input type="text" value={this.state.value} onChange={this.handleChangeLabelName} />
-        </label>
-        <input type="submit" value="Add label" />
-      </form>
-                  </Col>
-                  <Col md={{ span: 3 }}>
-                  <h3 style={{background: 'white', color: 'grey',alignSelf: 'flex-start'}}>Current labels:</h3>
-                  {
-                    this.state.label.map((item,index)=>{
-                      return(
-                        <Row  >
-                         <div className="center" class="p" key={index}>
-                      <h4 style={{ color: "green" }}>
-                        <div style={{backgroundColor: item.labelColor}}>
-                        {item.labelName}   <Button
-                        value={item.nrLabel}
-                        onClick={this.deleteLabel}
-                        variant="outline-secondary"
-                      >
-                        Delete 
-                      </Button>
+                      <div>
+                        <label
+                          style={{
+                            background: "white",
+                            color: "black",
+                            alignSelf: "flex-start"
+                          }}
+                        >
+                          Label's color:
+                        </label>
                       </div>
-                      </h4>
-                  
-
-                    
-                    </div>
-                    </Row>
-                     );
-                    })
-                  }
-                  </Col>
+                      <div>
+                        <CirclePicker onChange={this.handleChangeColor} />
+                      </div>
+                      <form onSubmit={this.handleSubmit}>
+                        <label>
+                          <label
+                            style={{
+                              background: "white",
+                              color: "black",
+                              alignSelf: "flex-start"
+                            }}
+                          >
+                            Label's name:
+                          </label>
+                          <input
+                            type="text"
+                            value={this.state.value}
+                            onChange={this.handleChangeLabelName}
+                          />
+                        </label>
+                        <input type="submit" value="Add label" />
+                      </form>
+                    </Col>
+                    <Col md={{ span: 3 }}>
+                      <h3
+                        style={{
+                          background: "white",
+                          color: "grey",
+                          alignSelf: "flex-start"
+                        }}
+                      >
+                        Current labels:
+                      </h3>
+                      {this.state.label.map((item, index) => {
+                        return (
+                          <Row>
+                            <div className="center" class="p" key={index}>
+                              <h4 style={{ color: "green" }}>
+                                <div
+                                  style={{ backgroundColor: item.labelColor }}
+                                >
+                                  {item.labelName}{" "}
+                                  <Button
+                                    value={item.nrLabel}
+                                    onClick={this.deleteLabel}
+                                    variant="outline-secondary"
+                                  >
+                                    Delete
+                                  </Button>
+                                </div>
+                              </h4>
+                            </div>
+                          </Row>
+                        );
+                      })}
+                    </Col>
                   </Row>
                 </Popup>
-                <h3 style={{background: 'white', color: 'grey',alignSelf: 'flex-start'}}>Current labels:</h3>
-                  {
-                    this.state.label.map((item,index)=>{
-                      return(
-                        <Row  >
-                         {/* <div className="center" class="p" key={index}>
+                <h3
+                  style={{
+                    background: "white",
+                    color: "grey",
+                    alignSelf: "flex-start"
+                  }}
+                >
+                  Current labels:
+                </h3>
+                {this.state.label.map((item, index) => {
+                  return (
+                    <Row>
+                      {/* <div className="center" class="p" key={index}>
                       <h4 style={{ color: "green" }}>
                         {item.labelName}: {item.labelColor}   
                       </h4>
@@ -236,11 +278,18 @@ export default class Card extends Component {
 
                     
                     </div> */}
-                    <a style={{backgroundColor: item.labelColor, color: "black","width" : "100px" }}>{item.labelName}`{' '} </a>
+                      <a
+                        style={{
+                          backgroundColor: item.labelColor,
+                          color: "black",
+                          width: "100px"
+                        }}
+                      >
+                        {item.labelName}`{" "}
+                      </a>
                     </Row>
-                     );
-                    })
-                  }
+                  );
+                })}
                 <h4 style={{ color: "orange" }}> Attachments: </h4>
                 {this.state.attachments.map((item, index) => {
                   return (
@@ -298,9 +347,10 @@ export default class Card extends Component {
                 <Button onClick={this.addCommentHandler}>Add Comment</Button>
                 <InputFileButton
                   buttonClass="outline-info"
-                  boardName={this.state.boardName}
-                  columnName={this.state.columnName}
-                  taskName={this.state.taskName}
+                  // boardName={this.state.boardName}
+                  // columnName={this.state.columnName}
+                  // taskName={this.state.taskName}
+                  funkcjaObslugujacaPliki={this.obslugaPlikow}
                 />
               </Col>
             </Row>

@@ -76,6 +76,17 @@ export default class InputFileButton extends React.Component {
         taskName: t,
         urlOrPath: data
       })
+    }).then(response => response.json())
+    .then(data => {
+      var obj = JSON.stringify(data);
+      var parsedJSON = JSON.parse(obj);
+     // this.setState({tasks :[]})
+    //  this.setState(state => {            //w parsed JSON jest dodany plik, ale trzeba by go jeszce doddać do najsze listy co jest w card(to co zakomnetowane)
+    //   const list = state.attachments.push(parsedJSON);
+    //   return {
+    //     list
+    //   };
+    // });   
     });
         /* DO SOMETHING WITH workbook HERE */
       };

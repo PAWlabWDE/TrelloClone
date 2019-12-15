@@ -56,7 +56,7 @@ export default class Card extends Component {
         boardName: this.props.boardName,
           columnName: this.state.columnName,
           taskName: this.state.taskName,
-          urlOrPath: files[0].binaryData                    ///JAK TU DOBRZE SIE ODWOŁAMY TO JEST GIT
+          urlOrPath: files.binaryData                    ///JAK TU DOBRZE SIE ODWOŁAMY TO JEST GIT
       })
     }).then(response => response.json())
       .then(data => {

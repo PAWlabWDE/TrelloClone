@@ -7,6 +7,7 @@ import { Container, Row, Col } from "react-bootstrap";
 //import { Text, StyleSheet } from 'react-native';
 import { BrowserRouter as Link } from "react-router-dom";
 import { CirclePicker } from "react-color";
+import { DragSource } from 'react-dnd'
 
 const API = "http://localhost:3001";
 const ADD_COMMENT_QUERY = "/addComment";
@@ -14,8 +15,72 @@ const ADD_COMMENT_QUERY = "/addComment";
 const boardName = Cookie.get("boardName") ? Cookie.get("boardName") : null;
 const columnName = Cookie.get("columnName") ? Cookie.get("columnName") : null;
 const taskName = Cookie.get("taskName") ? Cookie.get("taskName") : null;
+// Drag sources and drop targets only interact
+// if they have the same string type.
+// You want to keep types in a separate file with
+// the rest of your app's constants.
+const Types = {
+  CARD: 'card',
+}
 
-export default class Card extends Component {
+/**
+ * Specifies the drag source contract.
+ * Only `beginDrag` function is required.
+ */
+const cardSource = {
+  canDrag(props) {
+    // You can disallow drag based on props
+    return props.isReady
+  },
+
+  isDragging(props, monitor) {
+    // If your component gets unmounted while dragged
+    // (like a card in Kanban board dragged between lists)
+    // you can implement something like this to keep its
+    // appearance dragged:
+    return monitor.getItem().id === props.id
+  },
+
+  beginDrag(props, monitor, component) {
+    // Return the data describing the dragged item
+    const item = { id: props.id }
+    return item
+  },
+
+  endDrag(props, monitor, component) {
+    if (!monitor.didDrop()) {
+      // You can check whether the drop was successful
+      // or if the drag ended but nobody handled the drop
+      return
+    }
+
+    // When dropped on a compatible target, do something.
+    // Read the original dragged item from getItem():
+    const item = monitor.getItem()
+
+    // You may also read the drop result from the drop target
+    // that handled the drop, if it returned an object from
+    // its drop() method.
+    const dropResult = monitor.getDropResult()
+
+    // This is a good place to call some Flux action
+    //  CardActions.moveCardToList(item.id, dropResult.listId)
+  },
+}
+
+/**
+ * Specifies which props to inject into your component.
+ */
+function collect(connect, monitor) {
+  return {
+    // Call this function inside render()
+    // to let React DnD handle the drag events:
+    connectDragSource: connect.dragSource(),
+    // You can ask the monitor about the current drag state:
+    isDragging: monitor.isDragging(),
+  }
+}
+ class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -198,6 +263,12 @@ export default class Card extends Component {
   }
 
   render() {
+      // Your component receives its own props as usual
+      const { id } = this.props
+
+      // These props are injected by React DnD,
+      // as defined by your `collect` function above:
+      const { isDragging, connectDragSource } = this.props
     return (
       <div>
         <Popup
@@ -380,8 +451,9 @@ export default class Card extends Component {
             </Row>
           </Container>
         </Popup>
-        }
+        
       </div>
     );
   }
 }
+export default DragSource(Types.CARD, cardSource, collect)(Card)
